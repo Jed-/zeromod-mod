@@ -297,6 +297,10 @@ barhi = [ // botcn clientcn
 	msg (concatword "^f3" (getclientcolorname $botcn) "^f7: Hey " (at (getclientcolorname $cn) 0) "!")
 ]
 barbeer = [ // botcn cn num
+	botcn = $arg1
+	cn = $arg2
+	num = $arg3
+	msg (concatword "^f3" (getclientcolorname $botcn) "^f7: Welcome " (? (>= $num 3) "on your server " "") (at (getclientcolorname $cn) 0) ", here " (? (!= $num 1) "are " "is ") (? (!= $num 1) $num "a") " beer" (? (!= $num 1) "s" "") " for you!")
 ]
 
 sendscores 1
