@@ -5373,6 +5373,26 @@ namespace server
         }
     }
 
+    void fakesay(int *cn, char *msg)
+    {
+        /*
+        clientinfo *ci = getinfo(*cn);
+        if(!ci) return;
+        */
+        flushserver(true);
+        uchar buf[MAXTRANS];
+        ucharbuf b(buf, sizeof(buf));
+        putint(b, N_TEXT);
+        sendstring(msg, b);
+        packetbuf p(MAXTRANS, ENET_PACKET_FLAG_RELIABLE);
+        putint(p, N_CLIENT);
+        putint(p, *cn);
+        putint(p, b.len);
+        p.put(buf, b.len);
+        sendpacket(-1, 1, p.finalize());
+    }
+    COMMAND(fakesay, "iC");
+
     void _rename(clientinfo *ci, const char *name, bool broadcast = true)
     {
         uchar buf[MAXSTRLEN];
