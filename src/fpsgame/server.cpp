@@ -4638,7 +4638,7 @@ namespace server
             sendf(ci->clientnum, 1, "ri3is", N_SPECTATOR, ci->clientnum, 1, N_SERVMSG, "\f0[\f7Spy\f0] \f7you \f0entered\f6 spy\f7 mode");
             defformatstring(msg)("\f0[\f7Spy\f0] \f7%s entered\f6 spy\f7 mode", colorname(ci));
             loopv(clients) {
-            	if(clients[i]->privilege>=PRIV_ADMIN && clients[i]!=ci) sendf(ci->clientnum, 1, "ris", N_SERVMSG, msg);
+            	if(clients[i]->privilege>=PRIV_ADMIN && clients[i]!=ci) sendf(clients[i]->clientnum, 1, "ris", N_SERVMSG, msg);
             }
         }
         else
@@ -4665,7 +4665,7 @@ namespace server
             sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f0[\f7Spy\f0] \f7you \f3left\f6 spy\f7 mode");
             defformatstring(msg)("\f0[\f7Spy\f0] \f7%s left\f6 spy\f7 mode", colorname(ci));
             loopv(clients) {
-            	if(clients[i]->privilege>=PRIV_ADMIN && clients[i]!=ci) sendf(ci->clientnum, 1, "ris", N_SERVMSG, msg);
+            	if(clients[i]->privilege>=PRIV_ADMIN && clients[i]!=ci) sendf(clients[i]->clientnum, 1, "ris", N_SERVMSG, msg);
             }
         }
     }
