@@ -3076,7 +3076,7 @@ namespace server
     		loopv(clients) {
     			if(clients[i]->state.aitype!=AI_NONE || clients[i]->state.state==CS_SPECTATOR) continue;
     			clientinfo *ci = clients[i];
-    			defformatstring(cmd)("%s \"%s?a=g&p=%s&n=%s&k=%d&d=%d&tots=%d&totd=%d&s=%d&t=%d&l=%d\"", dlcmd, scoreboardurl, scoreboardpass, ci->name, ci->state.frags, ci->state.deaths, ci->state.shotdamage, ci->state.damage, ci->state._suicides, ci->state.teamkills, ci->state.flags);
+    			defformatstring(cmd)("%s \"%s?a=g&p=%s&n=%s&k=%d&d=%d&tots=%d&totd=%d&s=%d&t=%d&l=%d\" &", dlcmd, scoreboardurl, scoreboardpass, ci->name, ci->state.frags, ci->state.deaths, ci->state.shotdamage, ci->state.damage, ci->state._suicides, ci->state.teamkills, ci->state.flags);
     			system(cmd);
     		}
     	}
