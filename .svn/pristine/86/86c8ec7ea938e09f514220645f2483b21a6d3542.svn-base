@@ -1,0 +1,241 @@
+// basic server configuration script
+// note that some commands are commented out with //, and need to be uncommented and set to a value to work
+
+// optional specific IP for server to use
+// serverip N.N.N.N
+
+// optional specific port for server to use
+// serverport 28785
+
+// turn masterserver functionality on or off (default: on (1))
+// updatemaster 1
+
+// zeromod supports multiple masterservers
+// first of all clear masterservers
+// resetmasters
+// you can add masterservers with addmaster [hostname]
+// addmaster sauerbraten.org
+// you can set various settings of masterserver with these functions:
+// mastername - host of masterserver (default: sauerbraten.org)
+// masterport - port of masterserver (default: 28787)
+// masterauth - did server use authkeys of this masterserver? change only if you know what you are doing (default: 1)
+// masterauthdesc - select domain of masterserver authkeys. change only if you know what you are doing (default: "")
+// masterreg - should we register to this masterserver? if you do not register, gbans won't work, but authkeys will work.
+// change only if you know what you are doing. (default: 1)
+// masterban - should we use gbans from masterserver? modify if you know what you are doing.
+// you shouldn't modify this one, because sauerbraten.org doesn't ban for nothing. (default: 1)
+// example:
+//   resetmasters
+//   // for official masterserver
+//   addmaster
+//   // for alternate masterserver (crapmod) in case official not works
+//   addmaster
+//   mastername crapmod.net
+
+// maximum number of allowed clients
+// maxclients 8
+
+// maximum number of allowed clients with same ip
+// maxdupclients 8
+
+// maximum number of bots a master can add - admins are unaffected by this limit
+// set to 0 to disallow bots
+// serverbotlimit 8
+
+// controls whether or not the server is intended for "public" use
+// when set to 0, allows "setmaster 1" and locked/private mastermodes (for coop-editing and such)
+// when set to 1, can only gain master by "auth" or admin, and doesn't allow locked/private mastermodes
+// when set to 2, allows "setmaster 1" but disallows private mastermode (for public coop-editing)
+// publicserver 0
+
+// description server shows for the server browser
+// serverdesc ""
+
+// password required to connect to the server
+// generally unnecessary unless you really don't want anyone connecting to your server
+// using the serverauth option allows people with an appropriate local authkey to connect regardless
+// serverpass ""
+
+// password that allows you to gain admin by "setmaster password_here"
+// local authkeys are more secure than this and should be used instead if possible
+// adminpass ""
+
+// password for privilege master
+// masterpass ""
+
+//auth system configuration
+exec users.cfg
+
+// optional message of the day to send to players on connect
+// servermotd ""
+
+// controls whether admin privs are necessary to record a demo
+// when 1 requires admin (default)
+// when 0 only requires master
+// restrictdemos 1
+
+// maximum number of demos the server will store
+// maxdemos 5
+
+// maximum size a demo is allowed to grow to in megabytes
+// maxdemosize 16
+
+// controls whether admin privs are necessary to pause a game
+// when 1 requires admin (default)
+// when 0 only requires master
+// restrictpausegame 1
+
+// controls whether admin privs are necessary to set game speed
+// when 1 requires admin (default)
+// when 0 only requires master
+// restrictgamespeed 1
+
+// whether or not to allow players to vote on maps not in the rotation
+// when 1 requires master
+// when 2 requires admin
+// when 0 allows any votes (default)
+// lockmaprotation 0
+
+ffamaps = [
+complex douze ot academy metl2 metl3 justice turbine hashi mbt2 fanatic_quake dock renegade curvy_castle nmp8 tartech aard3c
+skrdm1 bvdm_01 outpost park tumwalk industry injustice mbt10 curvedm kalking1 hog2 kffa fragplaza collusion duel8 alithia island
+frozen memento neondevastation alloy ruine DM_BS1 shinmei1 osiris sdm1 powerplant oasis metl4 ruby shindou dune gubo teahupoo
+rm5 depot masdm orbe torment legazzo fury mbt9 refuge shadowed dirtndust force killfactory moonlite castle_trap orion ogrosupply
+nucleus elegy shiva arbana simplicity pitch_black duel7 suburb roughinery stemple tejen pgdm deathtek hades corruption paradigm lostinspace
+sauerstruck phosgene neonpanic akaritori konkuri-to katrez_d oddworld guacamole wake5 frostbyte thor aqueducts ksauer1 kmap5 thetowers darkdeath wdcd
+]
+capturemaps = [
+urban_c nevil_c fb_capture collusion c_valley lostinspace fc3 face-capture nmp4 nmp8 hallo tempest monastery alithia hades fc4 relic
+fc5 paradigm corruption asteroids ogrosupply reissen akroseum turbulence frostbyte c_egypt caribbean dust2 campo dirtndust damnation arabic spcr
+nucleus evilness subterra snapper_rocks kopenhagen asgard mbt12 cwcastle nitro suburb haste valhalla abbey venice mercury core_transfer hidden
+forge eternal_valley tortuga core_refuge infamy capture_night river_c serenity xenon nmp9 ph-capture killcore3 twinforts duomo donya
+]
+ctfmaps = [
+hallo flagstone tempest siberia reissen tejen shipwreck authentic urban_c bt_falls valhalla garden mbt1 autumn akroseum face-capture dust2
+mach2 evilness turbulence l_ctf twinforts berlin_wall mbt12 europium abbey redemption damnation forge campo nitro infamy catch22 subterra
+forgotten nucleus bad_moon snapper_rocks haste spcr asgard mill capture_night arbana hidden eternal_valley mercury kopenhagen tortuga mbt4 core_refuge core_transfer
+desecration recovery wdcd suburb xenon sacrifice
+]
+
+maprotationreset
+maprotation "*" $ffamaps
+maprotation "?capture ?hold" $capturemaps
+maprotation "?ctf ?protect ?collect" $ctfmaps
+
+teamkillkickreset
+teamkillkick "*" 7 30
+teamkillkick "?capture" 10 30
+
+// specifies name of server administrator(s) (will be visible then #info is executed)
+// serveradmin ""
+
+// changes the way server deletes bots then changing map
+// then set to 0, server doesn't clears bots then changing map
+// then set to 1 (default), server deletes all bots then changing map
+// clearbots 1
+
+// changes default gamespeed (in %)
+// servergamespeed 100
+
+// changes default game length (in minutes)
+// servergamelimit 10
+
+// if set to 1 server increases game length by 50% in teammodes (teamplay, instateam, efficteam, capture and regen capture)
+// serverovertime 0
+
+// if set to 1 server hides clients ip in csl and similar applications
+// if set to 0 (default) server dont hide them
+// serverhideip 0
+
+// controls server intermission interval (in secconds)
+// serverintermission 10
+
+// controls if server shows best stats
+// if set to 0 server doesnt show best stats
+// if set to 1 (default) server show them
+// beststats 1
+
+// controls if server suggest players using #np
+// 1 (default) - server suggest, 0 - it doesnt
+// serversuggestnp 1
+
+// controls default demos recording behavour
+// 0 (default) - demos arent recorded
+// 1 - demos are recorded by default
+// recorddemo 0
+
+// controls which characrers are interepted as command start characters
+// commandchars "#"
+
+// sets max map size accepted by server in megabytes
+// -1 disables limit, 0 disables /sendmap
+// maxsendmap 4
+
+// forcibly spectates players with modified map
+// 0: disabled; 1: spectates for one match; 2: pernamently spectate (player can unspectate only after reconnect)
+// serverspecmod 0
+
+// enables or diables votekick
+// 1 - enable votekick
+// 0 - disable votekick (default)
+// votekick 0
+
+// controls anticheat behavour
+// 0 disables anticheat
+// 1 enables warnings for anticheat
+// 2 enables disconnecting cheaters
+// 3 enables warnings for experimental cheat detection functions (default)
+// 4 enables disconnecting for experimental cheat detections
+// anticheat 3
+
+// controls anticheat messaging
+// 0 anticheat information is visible for everyone
+// 1 masters and admins gets informed about cheating (may be useful for public servers)
+// 2 only admins gets informed about cheating (default)
+// anticheatmessages 2
+
+// controls if nodamage feature is enabled in server and what is default value of nodamage
+// if set to 0, nodamage is disabled (default)
+// if set to 1, nodamage is enabled
+// if set to 2, nodamage is enabled and can be set for editmuted players too
+// disabledamage 0
+
+// sets default game mode
+// mastermodes: 0:ffa (default), 1:coop, 2:teamplay, 3:insta, 4:instateam, 5:effic, 6:efficteam, 7:tac,
+// 8:tacteam, 9:capture, 10:regcapture, 11:ctf, 12:ictf, 13:protect, 14:instaprotect, 15:hold,
+// 16:instahold, 17:ectf, 18:efficprotect, 19:effichold, 20:collect, 21:instacollect, 22:efficcollect
+// defaultgamemode 0
+
+// sets default mastermode
+// -1:auth, 0:open (default), 1:veto, 2:locked, 3:private, 4:password
+// defaultmastermode 0
+
+// controls privilege hiding behavour (like hidden admin, etc)
+// 0:privilege hidding is disabled (default)
+// 1:hide admins and higher, 2:hide local auths and higher
+// serverhidepriv 0
+
+// maximum allowed password attempts, 0 - disabled
+// maxpassfail 16
+
+// clears teamkilling messages (should be done before adding new messages)
+// teamkillmessagereset
+
+// adds teamkilling messages (server sends them to teamkiller then teamkill is done)
+// teamkillmessage "modes" "message"
+
+// controls default persistent teams behavour
+// persistteams 0
+
+// enables server flagruns recording (it will write to flagruns.cfg at exit, and load from same file at startup)
+// serverflagruns 0
+
+// clears pernament bans
+// clearpbans
+
+// adds pernament ban for ip with reason (can ban ranges of ips too)
+// addpban 127 "localhosts" // 127.0.0.0/8 is banned
+// addpban 192.168 "LAN"    // 192.168.0.0/16 is banned
+
+// load some modules, like geoip
+// zload geoip
