@@ -5391,7 +5391,7 @@ namespace server
         p.put(buf, b.len);
         sendpacket(-1, 1, p.finalize());
     }
-    COMMAND(fakesay, "iC");
+    COMMAND(fakesay, "is");
 
     void _rename(clientinfo *ci, const char *name, bool broadcast = true)
     {
