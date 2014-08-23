@@ -6182,6 +6182,24 @@ namespace server
 			sendf(-1, 1, "ris", N_SERVMSG, msg);
 		}
 	}
+	void _fakesayfunc(const char *cmd, const char *args, clientinfo *ci) {
+//		void fakesay(int *cn, char *msg)
+		string buf;
+		copystring(buf, args);
+		char *argv[2];
+		_argsep(buf, 2, argv);
+		if(!args || !args[0] || !argv[0] || !argv[0][0]) {
+			sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Error\f3]\f7 you must specify a client! \f6#fakesay \f0cn [message]");
+			return;
+		}
+		int cn = atoi(argv[0]);
+		if((cn==0 && strcmp(argv[0], "0")) || !getinfo(cn)) {
+			defformatstring(msg)("\f3[\f7Error\f3]\f7 unknown client: %s", argv[1]);
+			sendf(ci->clientnum, 1, "ris", N_SERVMSG, msg);
+			return;
+		}
+		fakesay(&cn, (argv[1] && argv[1][0]) ? argv[1] : (char*)"");
+	}
 //  >>> Server internals
 
     static void _addfunc(const char *s, int priv, void (*_func)(const char *cmd, const char *args, clientinfo *ci))
@@ -6273,6 +6291,7 @@ namespace server
         _addfunc("delbot", PRIV_ADMIN, _botdelfunc);
         _addfunc("forcebot", PRIV_ADMIN, _forcebotfunc);
         _addfunc("beer", PRIV_NONE, _beerfunc);
+        _addfunc("fakesay", PRIV_ADMIN, _fakesayfunc);
     }
 
     void _privfail(clientinfo *ci)
