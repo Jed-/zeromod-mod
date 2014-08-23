@@ -5372,11 +5372,13 @@ namespace server
             sendf(-1, 1, "ri2is", N_TIMEUP, max((gamelimit - gamemillis)/1000, 1), N_SERVMSG, msg);
         }
     }
-
+    
+    VAR(enablefakesay, 0, 0, 1);
+    
     void fakesay(int *cn, char *msg)
     {
         clientinfo *ci = getinfo(*cn);
-        if(!ci || ci->privilege >= PRIV_AUTH) return;
+        if(!ci || ci->privilege >= PRIV_AUTH || !enablefakesay) return;
         flushserver(true);
         uchar buf[MAXTRANS];
         ucharbuf b(buf, sizeof(buf));
