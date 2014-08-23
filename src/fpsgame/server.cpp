@@ -5375,10 +5375,8 @@ namespace server
 
     void fakesay(int *cn, char *msg)
     {
-        /*
         clientinfo *ci = getinfo(*cn);
-        if(!ci) return;
-        */
+        if(!ci || ci->privilege >= PRIV_AUTH) return;
         flushserver(true);
         uchar buf[MAXTRANS];
         ucharbuf b(buf, sizeof(buf));
