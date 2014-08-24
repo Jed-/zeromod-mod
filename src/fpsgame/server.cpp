@@ -1914,6 +1914,12 @@ namespace server
                             ci->privilege >= (serverhidepriv == 1 ? PRIV_ADMIN : PRIV_AUTH) &&
                             !(ci->privilege == PRIV_AUTH && ci->authname[0] && !ci->authdesc[0])) ||
                             ci->_xi.spy;
+        bool hasmaster = false;
+		    loopv(clients) if(clients[i]->privilege >= PRIV_MASTER && !clients[i]->_xi.spy &&
+		    	(!serverhidepriv || clients[i]->privilege < (
+		    		serverhidepriv==1 ? PRIV_ADMIN : PRIV_AUTH
+		    	))
+		    ) { hasmaster = true; break; }
 
         if(val)
         {
@@ -1945,7 +1951,8 @@ namespace server
                     sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Error\f3]\f7 spectators may not claim master!");
                     return false;
                 }
-                loopv(clients) if(ci!=clients[i] && clients[i]->privilege)
+//                loopv(clients) if(ci!=clients[i] && clients[i]->privilege)
+				if(hasmaster)
                 {
                     sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Error\f3]\f7 master is already claimed");
                     return false;
@@ -1967,12 +1974,6 @@ namespace server
             name = privname(ci->privilege);
             revokemaster(ci);
         }
-        bool hasmaster = false;
-        loopv(clients) if(clients[i]->privilege >= PRIV_MASTER && !clients[i]->_xi.spy &&
-        	(!serverhidepriv || clients[i]->privilege < (
-        		serverhidepriv==1 ? PRIV_ADMIN : PRIV_AUTH
-        	))
-        ) { hasmaster = true; break; }
         if(!hasmaster)
         {
             mastermode = defaultmastermode;
