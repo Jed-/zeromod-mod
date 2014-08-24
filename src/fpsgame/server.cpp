@@ -1968,7 +1968,11 @@ namespace server
             revokemaster(ci);
         }
         bool hasmaster = false;
-        loopv(clients) if(clients[i]->privilege >= PRIV_MASTER) { hasmaster = true; break; }
+        loopv(clients) if(clients[i]->privilege >= PRIV_MASTER && !clients[i]->_xi.spy &&
+        	(!serverhidepriv || clients[i]->privilege >= (
+        		serverhidepriv==1 ? PRIV_ADMIN : PRIV_AUTH
+        	))
+        ) { hasmaster = true; break; }
         if(!hasmaster)
         {
             mastermode = defaultmastermode;
