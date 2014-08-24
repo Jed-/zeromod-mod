@@ -285,7 +285,7 @@ struct ctfclientmode : clientmode
         loopv(flags) if(flags[i].owner==ci->clientnum)
         {
             flag &f = flags[i];
-            if(_scored || (m_protect && insidebase(f, ci->state.o)))
+            if((_arena && _scored) || (m_protect && insidebase(f, ci->state.o)))
             {
                 returnflag(i);
                 sendf(-1, 1, "ri4", N_RETURNFLAG, ci->clientnum, i, ++f.version);
