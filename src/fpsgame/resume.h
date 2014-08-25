@@ -1,6 +1,3 @@
-/*	static bool _resuming = false;
-	static int _startresume = 0;
-	static int _resumemillis = 0; */
 void doresume(int secs) {
 	if(_resuming || !gamepaused) return;
 	secs = clamp(secs, 0, 10);
