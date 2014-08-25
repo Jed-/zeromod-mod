@@ -3456,6 +3456,7 @@ namespace server
     			break;
     		}
     	}
+    	if(gamepaused && _resuming && _startresume && _resumemillis) checkresume();
     	if(_force_bot && botcn <= -1 && _n) {
     		aiman::addservai(_bname);
     	}
@@ -6230,6 +6231,11 @@ namespace server
 		}
 		fakesay(&cn, (argv[1] && argv[1][0]) ? argv[1] : (char*)"");
 	}
+	void _resumefunc(const char *cmd, const char *args, clientinfo *ci) {
+		int secs = atoi(args);
+		if(secs==0 && strcmp(args, "0")) secs = 5;
+		doresume(secs);
+	}
 //  >>> Server internals
 
     static void _addfunc(const char *s, int priv, void (*_func)(const char *cmd, const char *args, clientinfo *ci))
@@ -6322,6 +6328,7 @@ namespace server
         _addfunc("forcebot", PRIV_ADMIN, _forcebotfunc);
         _addfunc("beer", PRIV_NONE, _beerfunc);
         _addfunc("fakesay", PRIV_ADMIN, _fakesayfunc);
+        _addfunc("resume", PRIV_MASTER, _resumefunc);
     }
 
     void _privfail(clientinfo *ci)
@@ -7570,5 +7577,6 @@ namespace server
     #include "match.h"
     #include "loadmap.h"
     #include "bar.h"
+    #include "resume.h"
 }
 

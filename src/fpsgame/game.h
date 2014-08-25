@@ -114,6 +114,11 @@ static bool _force_bot = false;
 
 static string _bname = "";
 
+static bool _resuming = false;
+static int _startresume = 0;
+static int _resumemillis = 0;
+static int _resumemsg = -1;
+
 static struct gamemodeinfo
 {
     const char *name;
@@ -878,6 +883,8 @@ namespace server
     extern void checkmatch();
     extern void updatematchclients();
     extern void parsebar(const char *m, int cn);
+    extern void doresume(int secs);
+    extern void checkresume();
 
     //zeromod functions
     extern bool _readsnvars(const char *name, char *out, size_t s);
