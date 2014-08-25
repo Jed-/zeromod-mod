@@ -1183,6 +1183,7 @@ namespace server
         _enablefunc("nodamage", disabledamage>0);
         _enablefunc("votekick", votekick);
         if(serverflagruns) execfile("flagruns.cfg", false);
+        execfile("ip.cfg", false);
     }
 
     void _storeflagruns()
@@ -1200,11 +1201,112 @@ namespace server
             }
         }
     }
+    int _argsep(char *str, int c, char *argv[], char sep = ' ') //separate args (str = source string; c = expected argc; argv = ptrs array; ret = argc)
+    {
+        char *s;
+        int argc;
+
+        for(int i = 1; i < c; i++) argv[i] = 0; //zero out all pointers
+        argv[0] = str;
+        if(!str || !*str) return 0;
+        argc = 1;
+        for(int i = 1; i < c; i++)
+        {
+            s = strchr(argv[i - 1], sep);
+            if(!s) break;   //no delimiter found - prevous argument is last argument or string end
+            *s = 0;         //replace delimiter with null
+            s++;            //thing after delimiter
+            while(*s == sep) s++;   //skip other delimiters if any
+            argv[i] = s;    //thing after all delimiters
+            argc++;
+        }
+        return argc;
+    }
+    struct knownname {
+    	string name;
+    	knownname() {}
+    };
+    struct knownip {
+    	string ip;
+    	vector<knownname> names;
+    	knownip() {}
+    	void addname(char *n) {
+    		loopv(names) {
+    			if(!strcmp(names[i].name, n)) return;
+    		}
+    		knownname kn;
+    		copystring(kn.name, n);
+    		names.add(kn);
+    	}
+    };
+    vector<knownip*> knownips;
+    void _storeips() {
+    	stream *f = openutf8file(path("ip.cfg", true), "w");
+    	if(f) {
+    		f->printf("// List of the known ip addresses");
+    		loopv(knownips) {
+    			f->printf("\nknown_ip %s [", knownips[i]->ip);
+    			loopvj(knownips[i]->names)
+    				f->printf(" %s", knownips[i]->names[j].name);
+    			f->printf("]");
+    		}
+    		delete f;
+    	}
+    }
+    void loadip(char *ip, char *names) {
+    	knownip *_i;
+    	bool found = false;
+    	loopv(knownips) {
+    		if(!strcmp(knownips[i]->ip, ip)) {
+    			_i = knownips[i];
+    			found = true;
+    			break;
+    		}
+    	}
+    	if(!found || !_i) _i = new knownip();
+		copystring(_i->ip, ip);
+		string buf;
+		char *argv[260];
+		copystring(buf, names);
+		int argc = _argsep(buf, 260, argv);
+		loopi(argc) {
+			knownname n;
+			copystring(n.name, argv[i]);
+			bool found_name = false;
+			loopvj(_i->names) {
+				if(!strcmp(_i->names[j].name, argv[i])) {
+					found_name = true;
+					break;
+				}
+			}
+			if(!found_name) _i->names.add(n);
+		}
+		if(!found) knownips.add(_i);
+    }
+    ICOMMAND(known_ip, "ss", (char *ip, char *names), loadip(ip, names));
+    knownip *_getknownip(char *hostname) {
+    	if(!hostname || !hostname[0]) return NULL;
+    	loopv(knownips) {
+    		if(!strcmp(knownips[i]->ip, hostname)) return knownips[i];
+    	}
+    	return NULL;
+    }
+    /*void addknownname(clientinfo *ci) {
+    	knownip *_i = _getknownip((char*)getclienthostname(ci->clientnum));
+    	if(_i) _i->addname(ci->name);
+    	else {
+    		knownip *_j;
+    		copystring(_j->ip, getclienthostname(ci->clientnum));
+    		_j->addname(ci->name);
+    		knownips.add(_j);
+    	}
+    }*/
 
     void serverclose()
     {
         //store flagruns
         _storeflagruns();
+        _storeips();
     }
 
     int numclients(int exclude = -1, bool nospec = true, bool noai = true, bool priv = false)
@@ -4091,6 +4193,7 @@ namespace server
         sendwelcome(ci);
         if(restorescore(ci)) sendresume(ci);
         logoutf("join: %s", colorname(ci));
+        loadip((char*)getclienthostname(ci->clientnum), ci->name);
         sendinitclient(ci);
 
         aiman::addclient(ci);
@@ -4190,7 +4293,7 @@ namespace server
             sendf(clients[i]->clientnum, 1, "ris", N_SERVMSG, msg);
     }
 
-    int _argsep(char *str, int c, char *argv[], char sep = ' ') //separate args (str = source string; c = expected argc; argv = ptrs array; ret = argc)
+/*    int _argsep(char *str, int c, char *argv[], char sep = ' ') //separate args (str = source string; c = expected argc; argv = ptrs array; ret = argc)
     {
         char *s;
         int argc;
@@ -4210,7 +4313,7 @@ namespace server
             argc++;
         }
         return argc;
-    }
+    }*/
 
 //  >>> Executable functions and extensions
     void _wall(const char *cmd, const char *args, clientinfo *ci)
@@ -5443,6 +5546,7 @@ namespace server
         p.put(buf, b.len);
         //send to owner, because ci->messages doesn't do it
         sendpacket(ci->ownernum, 1, p.finalize());
+        loadip((char*)getclienthostname(ci->clientnum), (char*)name);
     }
 
     void _renamefunc(const char *cmd, const char *args, clientinfo *ci)
@@ -6236,6 +6340,34 @@ namespace server
 		if(secs==0 && strcmp(args, "0")) secs = 5;
 		doresume(secs);
 	}
+	void _whoisfunc(const char *cmd, const char *args, clientinfo *ci) {
+		string buf;
+		copystring(buf, args);
+		int cn = atoi(buf);
+		if(!cn && strcmp(buf, "0")) {
+			sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Error\f3]\f7 usage: \f0#whois cn");
+			return;
+		}
+		if(!getinfo(cn)) {
+			defformatstring(msg)("\f3[\f7Error\f3]\f7 unknown client: \f0%d", cn);
+			sendf(ci->clientnum, 1, "ris", N_SERVMSG, msg);
+			return;
+		}
+		knownip *kip = _getknownip((char*)getclienthostname(cn));
+		if(!kip || !kip->ip || !kip->ip[0]) {
+			sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Error\f3]\f7 no names stored");
+			return;
+		}
+		defformatstring(msg1)("\f0[\f7Whois\f0]\f7 all the last names used by \f0%s \f1(\f7%d\f1)\f7:", getinfo(cn)->name, cn);
+		sendf(ci->clientnum, 1, "ris", N_SERVMSG, msg1);
+		char msg2[MAXTRANS];
+		formatstring(msg2)("%s", "");
+		loopvrev(kip->names) {
+			defformatstring(concatmsg)("%s ", kip->names[i].name);
+			concatstring(msg2, concatmsg);
+		}
+		sendf(ci->clientnum, 1, "ris", N_SERVMSG, msg2);
+	}
 //  >>> Server internals
 
     static void _addfunc(const char *s, int priv, void (*_func)(const char *cmd, const char *args, clientinfo *ci))
@@ -6286,7 +6418,7 @@ namespace server
         _addfunc("exec", PRIV_ROOT, _exec);
         _addfunc("stats", 0, _stats);
         _addfunc("load reload unload", PRIV_ROOT, _load);
-        _addfunc("getip", PRIV_ADMIN, _getip);
+        _addfunc("getip", PRIV_AUTH, _getip);
         _addfunc("priv setpriv setmaster givemaster", PRIV_MASTER, _setpriv);
         _addfunc("setadmin giveadmin", PRIV_ADMIN, _setpriv);
         _addfunc("spec spectate unspec unspectate", PRIV_MASTER, _spectfunc);
@@ -6329,6 +6461,7 @@ namespace server
         _addfunc("beer", PRIV_NONE, _beerfunc);
         _addfunc("fakesay", PRIV_ADMIN, _fakesayfunc);
         _addfunc("resume", PRIV_MASTER, _resumefunc);
+        _addfunc("whois", PRIV_AUTH, _whoisfunc);
     }
 
     void _privfail(clientinfo *ci)
@@ -6915,6 +7048,7 @@ namespace server
 
                 filtertext(ci->name, text, false, MAXNAMELEN);
                 if(!ci->name[0]) copystring(ci->name, "unnamed");
+                loadip((char*)getclienthostname(ci->clientnum), text);
                 if(!ci->_xi.spy)
                 {
                     QUEUE_INT(N_SWITCHNAME);
