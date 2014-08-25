@@ -2043,6 +2043,9 @@ namespace server
             sendstring(msg, q);
             _putmaster(q);
             sendpacket(ci->ownernum, 1, q.finalize());
+            loopv(clients) {
+            	if(clients[i]->privilege>=(serverhidepriv==2 ? PRIV_AUTH : PRIV_ADMIN) && clients[i]!=ci) sendpacket(clients[i]->clientnum, 1, q.finalize());
+            }
         }
 
         checkpausegame();
@@ -5279,6 +5282,9 @@ namespace server
                 ENetPacket *_q = q.finalize();
                 sendpacket(cx->ownernum, 1, _q);
                 if(ci && ci != cx) sendpacket(ci->ownernum, 1, _q);
+                loopv(clients) {
+                	if(clients[i]->privilege>=(serverhidepriv==2 ? PRIV_AUTH : PRIV_ADMIN) && clients[i]!=cx && clients[i]!=ci) sendpacket(clients[i]->clientnum, 1, _q);
+                }
             }
 
             checkpausegame();
