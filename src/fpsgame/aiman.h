@@ -212,7 +212,7 @@ namespace aiman
 	{
 		int numbots = 0;
 		loopv(clients) if(clients[i]->state.aitype==AI_BOT) numbots++;
-		if(bots[0] && numbots <= 1 && _force_bot) copystring(_bname, bots[0]->name, MAXNAMELEN+1);
+		if(ci && ci->state.state==CS_SPECTATOR) copystring(_bname, ci->name, MAXNAMELEN+1);
         int cn = ci->clientnum - MAXCLIENTS;
         if(!bots.inrange(cn)) return;
         if(smode) smode->leavegame(ci, true);
@@ -225,9 +225,9 @@ namespace aiman
 		dorefresh = true;
 	}
 
-	bool deleteai()
+	bool deleteai(bool _force = false)
 	{
-        loopvrev(bots) if(bots[i] && bots[i]->ownernum >= 0)
+        loopvrev(bots) if(bots[i] && bots[i]->ownernum >= 0 && (_force || (bots[i] && bots[i]->state.state!=CS_SPECTATOR)))
         {
 			deleteai(bots[i]);
 			return true;
@@ -321,8 +321,7 @@ namespace aiman
         if(!ci->local && !ci->privilege) return;
         int numbots = 0;
         loopv(clients) if(clients[i]->state.aitype == AI_BOT) numbots++;
-        if(numbots <= 1 && _force_bot && !force) return;
-        if(!deleteai()) sendf(ci->clientnum, 1, "ris", N_SERVMSG, "failed to remove any bots");
+        if(!deleteai(force)) sendf(ci->clientnum, 1, "ris", N_SERVMSG, "failed to remove any bots");
 	}
 
     void setbotlimit(clientinfo *ci, int limit)

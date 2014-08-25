@@ -1991,21 +1991,35 @@ namespace server
             if(authdesc && authdesc[0]) {
             	formatstring(msg)("\f0[\f7Priv\f0]\f1 %s\f7 claimed %s as '\fs\f6%s\fr' [\fs\f0%s\fr]%s",
                 colorname(ci), name, authname, authdesc, !(ishidden || (oldpriv && washidden)) ? "" : " \f0(\f7hidden\f0)");
-                if(_force_bot && bots.inrange(0)) {
-                	defformatstring(cmd)("barbeer 128 %d %d", ci->clientnum, ci->privilege>=PRIV_ADMIN ? 3 : 1);
+                int botcn = -1;
+                loopv(bots) {
+                	if(bots[i] && bots[i]->state.state==CS_SPECTATOR) {
+                		botcn = bots[i]->clientnum;
+                		break;
+                	}
+                }
+                if(botcn > -1 && getinfo(botcn)) {
+                	defformatstring(cmd)("barbeer %d %d %d", botcn, ci->clientnum, ci->privilege>=PRIV_ADMIN ? 3 : 1);
                 	execute(cmd);
                 	defformatstring(_a)("%d %d", ci->clientnum, ci->privilege>=PRIV_ADMIN ? 3 : 1);
-                	_beerfunc("beer", _a, getinfo(128));
+                	_beerfunc("beer", _a, getinfo(botcn));
                 }
             }
             else {
             	formatstring(msg)("\f0[\f7Priv\f0]\f1 %s\f7 claimed %s as '\fs\f6%s\fr'%s",
                 colorname(ci), name, authname, !(ishidden || (oldpriv && washidden)) ? "" : " \f0(\f7hidden\f0)");
-                if(_force_bot && bots.inrange(0)) {
-                	defformatstring(cmd)("barbeer 128 %d 2", ci->clientnum);
+                int botcn = -1;
+                loopv(bots) {
+                	if(bots[i] && bots[i]->state.state==CS_SPECTATOR) {
+                		botcn = bots[i]->clientnum;
+                		break;
+                	}
+                }
+                if(botcn > -1 && getinfo(botcn)) {
+                	defformatstring(cmd)("barbeer %d %d 2", botcn, ci->clientnum);
                 	execute(cmd);
                 	defformatstring(_a)("%d 2", ci->clientnum);
-                	_beerfunc("beer", _a, getinfo(128));
+                	_beerfunc("beer", _a, getinfo(botcn));
                 }
             }
         }
@@ -3435,10 +3449,15 @@ namespace server
     	if(_match) checkmatch();
     	int _n = 0;
     	loopv(clients) _n++;
-    	if(_force_bot) {
-    		int numbots = 0;
-    		loopv(clients) if(clients[i]->state.aitype==AI_BOT) numbots++;
-    		if(!numbots && _n) aiman::addservai(_bname);
+    	int botcn = -1;
+    	loopv(bots) {
+    		if(bots[i] && bots[i]->state.state==CS_SPECTATOR) {
+    			botcn = bots[i]->clientnum;
+    			break;
+    		}
+    	}
+    	if(_force_bot && botcn <= -1 && _n) {
+    		aiman::addservai(_bname);
     	}
     	if(!_n) {_wpmode = false; _arena = false; _match = false; if(gamepaused) pausegame(false);}
         if(shouldstep && !gamepaused)
