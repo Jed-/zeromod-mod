@@ -313,7 +313,7 @@ namespace aiman
 	void reqadd(clientinfo *ci, int skill)
 	{
         if(!ci->local && !ci->privilege) return;
-        if(!addai(skill, !ci->local && ci->privilege < PRIV_ADMIN ? botlimit : -1)) sendf(ci->clientnum, 1, "ris", N_SERVMSG, "failed to create or assign bot");
+        if(!addai(skill, !ci->local && ci->privilege < PRIV_ADMIN ? botlimit : -1)) sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Error\f3]\f7 failed to create or assign bot");
 	}
 
 	void reqdel(clientinfo *ci, bool force)
@@ -321,7 +321,7 @@ namespace aiman
         if(!ci->local && !ci->privilege) return;
         int numbots = 0;
         loopv(clients) if(clients[i]->state.aitype == AI_BOT) numbots++;
-        if(!deleteai(force)) sendf(ci->clientnum, 1, "ris", N_SERVMSG, "failed to remove any bots");
+        if(!deleteai(force)) sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Error\f3]\f7 failed to remove any bots");
 	}
 
     void setbotlimit(clientinfo *ci, int limit)
