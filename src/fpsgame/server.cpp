@@ -2017,6 +2017,18 @@ namespace server
         }
         putint(p, -1);
     }
+    
+    void _putrealmaster(packetbuf &p)
+    {
+        putint(p, N_CURRENTMASTER);
+        putint(p, mastermode);
+        loopv(clients) if(clients[i]->privilege >= PRIV_MASTER)
+        {
+            putint(p, clients[i]->clientnum);
+            putint(p, clamp(clients[i]->privilege, int(PRIV_NONE), int(PRIV_ADMIN)));
+        }
+        putint(p, -1);
+    }
 
     VAR(maxpassfail, 0, 16, 4096);  //maximum password attempts
     
@@ -2176,10 +2188,10 @@ namespace server
             packetbuf q(MAXTRANS, ENET_PACKET_FLAG_RELIABLE);
             putint(q, N_SERVMSG);
             sendstring(msg, q);
-            _putmaster(q);
+            _putrealmaster(q);
             sendpacket(ci->ownernum, 1, q.finalize());
             loopv(clients) {
-            	if(clients[i]->privilege>=(serverhidepriv==2 ? PRIV_AUTH : PRIV_ADMIN) && clients[i]!=ci) sendpacket(clients[i]->clientnum, 1, q.finalize());
+            	if(clients[i]->privilege>=(serverhidepriv==2 ? PRIV_AUTH : PRIV_ADMIN) && (serverhidepriv==2 ? !(clients[i]->authname && !clients[i]->authdesc) : 1) && clients[i]!=ci) sendpacket(clients[i]->clientnum, 1, q.finalize());
             }
         }
 
@@ -4779,7 +4791,7 @@ namespace server
                 sendpacket(-1, 1, p.finalize(), ci->clientnum);
                 //send out same privileges but without message to spyer
                 packetbuf q(MAXTRANS, ENET_PACKET_FLAG_RELIABLE);
-                _putmaster(q);
+                _putrealmaster(q);
                 sendpacket(ci->clientnum, 1, q.finalize());
             }
 
@@ -4811,6 +4823,12 @@ namespace server
             packetbuf p(MAXTRANS, ENET_PACKET_FLAG_RELIABLE);
             _putmaster(p);
             sendpacket(-1, 1, p.finalize());
+            packetbuf q(MAXTRANS, ENET_PACKET_FLAG_RELIABLE);
+            _putrealmaster(q);
+            sendpacket(ci->ownernum, 1, q.finalize());
+            loopv(clients) {
+            	if(clients[i]->privilege>=(serverhidepriv==2 ? PRIV_AUTH : PRIV_ADMIN) && (serverhidepriv==2 ? !(clients[i]->authname && !clients[i]->authdesc) : 1) && clients[i]!=ci) sendpacket(clients[i]->clientnum, 1, q.finalize());
+            }
 
             sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f0[\f7Spy\f0] \f7you \f3left\f6 spy\f7 mode");
             defformatstring(msg)("\f0[\f7Spy\f0] \f7%s left\f6 spy\f7 mode", colorname(ci));
@@ -5376,7 +5394,8 @@ namespace server
             cx->privilege = privilege;
 
             //if was gauther, unset authname, so it will be no longer identified as claimed as gauther
-            if(cx->authname[0] && !cx->authdesc[0]) cx->authname[0] = '\0';
+            // but only if set to more than auth
+            if(cx->privilege>PRIV_AUTH && cx->authname[0] && !cx->authdesc[0]) cx->authname[0] = '\0';
 
             logoutf("%s", msg);
 
@@ -5420,12 +5439,13 @@ namespace server
                 packetbuf q(MAXTRANS, ENET_PACKET_FLAG_RELIABLE);
                 putint(q, N_SERVMSG);
                 sendstring(msg, q);
-                _putmaster(q);
+                _putrealmaster(q);
+                _putrealmaster(q);
                 ENetPacket *_q = q.finalize();
                 sendpacket(cx->ownernum, 1, _q);
                 if(ci && ci != cx) sendpacket(ci->ownernum, 1, _q);
                 loopv(clients) {
-                	if(clients[i]->privilege>=(serverhidepriv==2 ? PRIV_AUTH : PRIV_ADMIN) && clients[i]!=cx && clients[i]!=ci) sendpacket(clients[i]->clientnum, 1, _q);
+                	if(clients[i]->privilege>=(serverhidepriv==2 ? PRIV_AUTH : PRIV_ADMIN) && (serverhidepriv==2 ? !(clients[i]->authname && !clients[i]->authdesc) : 1) && clients[i]!=cx && clients[i]!=ci) sendpacket(clients[i]->clientnum, 1, _q);
                 }
             }
 
