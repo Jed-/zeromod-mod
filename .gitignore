@@ -2,6 +2,7 @@
 *~
 .gitignore
 flagruns.cfg
+ip.cfg
 sauer_server
 src/sauer_server
 *.o

@@ -1240,14 +1240,32 @@ namespace server
     	}
     };
     vector<knownip*> knownips;
+    char *_replace(char *str, char f, char r) {
+    	loopk(strlen(str)) if(str[k]==f) str[k]=r;
+    	return str;
+    }
     void _storeips() {
     	stream *f = openutf8file(path("ip.cfg", true), "w");
     	if(f) {
     		f->printf("// List of the known ip addresses");
     		loopv(knownips) {
     			f->printf("\nknown_ip %s [", knownips[i]->ip);
-    			loopvj(knownips[i]->names)
-    				f->printf(" %s", knownips[i]->names[j].name);
+    			int numnames = knownips[i]->names.length();
+    			if(numnames<=16) loopvj(knownips[i]->names) {
+    				char *_name = _replace(knownips[i]->names[j].name, ']', '|');
+    				char *__name = _replace(_name, '[', '|');
+    				copystring(knownips[i]->names[j].name, __name);
+    				f->printf("%s", knownips[i]->names[j].name);
+    				if(j<(knownips[i]->names.length()-1)) f->printf("%s", " ");
+    			} else {
+    				loopj(16) {
+    					char *_name = _replace(knownips[i]->names[numnames-(15-j)].name, ']', '|');
+    					char *__name = _replace(_name, '[', '|');
+    					copystring(knownips[i]->names[numnames-(15-j)].name, __name);
+    					f->printf("%s", knownips[i]->names[numnames-(15-j)].name);
+    					if(j<15) f->printf("%s", " ");
+    				}
+    			}
     			f->printf("]");
     		}
     		delete f;
@@ -1266,20 +1284,19 @@ namespace server
     	if(!found || !_i) _i = new knownip();
 		copystring(_i->ip, ip);
 		string buf;
-		char *argv[260];
+		int len = listlen(names);
+		char *argv[len];
 		copystring(buf, names);
-		int argc = _argsep(buf, 260, argv);
+		int argc = _argsep(buf, len, argv);
 		loopi(argc) {
 			knownname n;
-			copystring(n.name, argv[i]);
-			bool found_name = false;
+			copystring(n.name, strreplace(argv[i], " ", ""));
 			loopvj(_i->names) {
 				if(!strcmp(_i->names[j].name, argv[i])) {
-					found_name = true;
-					break;
+					_i->names.remove(j);
 				}
 			}
-			if(!found_name) _i->names.add(n);
+			if(strcmp(n.name, "")) _i->names.add(n);
 		}
 		if(!found) knownips.add(_i);
     }
@@ -4439,7 +4456,7 @@ namespace server
         if(!args || !*args)
         {
             if(!ci) return;
-            copystring(msg, "\f0[\f7Help\f0]\f7 Available commands", MAXTRANS);
+            copystring(msg, "\f0[\f7Help\f0]\f7 available commands:", MAXTRANS);
             sendf(ci->ownernum, 1, "ris", N_SERVMSG, msg);
             for(int priv = 0; priv <= min(ci->privilege, int(PRIV_ROOT)); priv++)
             {
@@ -6358,12 +6375,16 @@ namespace server
 			sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Error\f3]\f7 no names stored");
 			return;
 		}
-		defformatstring(msg1)("\f0[\f7Whois\f0]\f7 all the last names used by \f0%s \f1(\f7%d\f1)\f7:", getinfo(cn)->name, cn);
+		defformatstring(msg1)("\f0[\f7Whois\f0]\f7 last names used by \f0%s \f1(\f7%d\f1)\f7:", getinfo(cn)->name, cn);
 		sendf(ci->clientnum, 1, "ris", N_SERVMSG, msg1);
 		char msg2[MAXTRANS];
 		formatstring(msg2)("%s", "");
-		loopvrev(kip->names) {
+		int len = kip->names.length();
+		if(len <= 16) loopvrev(kip->names) {
 			defformatstring(concatmsg)("%s ", kip->names[i].name);
+			concatstring(msg2, concatmsg);
+		} else loopi(16) {
+			defformatstring(concatmsg)("%s ", kip->names[len-i-1].name);
 			concatstring(msg2, concatmsg);
 		}
 		sendf(ci->clientnum, 1, "ris", N_SERVMSG, msg2);
