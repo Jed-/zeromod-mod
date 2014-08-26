@@ -2181,6 +2181,11 @@ namespace server
 
             _putmaster(p);
             sendpacket(-1, 1, p.finalize(), !(ishidden || (oldpriv && washidden)) ? -1 : ci->ownernum);
+            packetbuf q(MAXTRANS, ENET_PACKET_FLAG_RELIABLE);
+            _putrealmaster(q);
+            loopv(clients) {
+            	if(clients[i]->privilege>=(serverhidepriv==2 ? PRIV_AUTH : PRIV_ADMIN) && (serverhidepriv==2 ? !(clients[i]->authname && !clients[i]->authdesc) : 1) && clients[i]!=ci) sendpacket(clients[i]->clientnum, 1, q.finalize());
+            }
         }
 
         if(ishidden || (oldpriv && washidden))
