@@ -2093,7 +2093,9 @@ namespace server
             name = privname(ci->privilege);
             revokemaster(ci);
         }
-        if(!hasmaster)
+        bool hasrealmaster = false;
+        loopv(clients) if(clients[i]->privilege>=PRIV_MASTER) {hasrealmaster=true; break;}
+        if(!hasrealmaster)
         {
             mastermode = defaultmastermode;
             if(mastermode < MM_PRIVATE) allowedips.shrink(0);
