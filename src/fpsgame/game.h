@@ -119,6 +119,8 @@ static int _startresume = 0;
 static int _resumemillis = 0;
 static int _resumemsg = -1;
 
+static int _defend = 0; // -1/1: ffa, -2/2: insta, -3/3: effic
+
 static struct gamemodeinfo
 {
     const char *name;
@@ -479,69 +481,89 @@ struct fpsstate
     		baseammo(wp1);
     		baseammo(wp2);
     	} else {
-		    if(m_demo)
-		    {
-		        gunselect = GUN_FIST;
-		    }
-		    else if(m_insta)
-		    {
-		        armour = 0;
-		        health = 1;
-		        gunselect = GUN_RIFLE;
-		        ammo[GUN_RIFLE] = 100;
-		    }
-		    else if(m_regencapture)
-		    {
-		        armourtype = A_BLUE;
-		        armour = 25;
-		        gunselect = GUN_PISTOL;
-		        ammo[GUN_PISTOL] = 40;
-		        ammo[GUN_GL] = 1;
-		    }
-		    else if(m_tactics)
-		    {
-		        armourtype = A_GREEN;
-		        armour = 100;
-		        ammo[GUN_PISTOL] = 40;
-		        int spawngun1 = rnd(5)+1, spawngun2;
-		        gunselect = spawngun1;
-		        baseammo(spawngun1, m_noitems ? 2 : 1);
-		        do spawngun2 = rnd(5)+1; while(spawngun1==spawngun2);
-		        baseammo(spawngun2, m_noitems ? 2 : 1);
-		        if(m_noitems) ammo[GUN_GL] += 1;
-		    }
-		    else if(m_efficiency)
-		    {
-		        armourtype = A_GREEN;
-		        armour = 100;
-		        loopi(5) baseammo(i+1);
-		        gunselect = GUN_CG;
-		        ammo[GUN_CG] /= 2;
-		    }
-		    else if(m_ctf || m_collect)
-		    {
-		        armourtype = A_BLUE;
-		        armour = 50;
-		        ammo[GUN_PISTOL] = 40;
-		        ammo[GUN_GL] = 1;
-		    }
-		    else if(m_sp)
-		    {
-		        if(m_dmsp)
-		        {
-		            armourtype = A_BLUE;
-		            armour = 25;
-		        }
-		        ammo[GUN_PISTOL] = 80;
-		        ammo[GUN_GL] = 1;
-		    }
-		    else
-		    {
-		        armourtype = A_BLUE;
-		        armour = 25;
-		        ammo[GUN_PISTOL] = 40;
-		        ammo[GUN_GL] = 1;
-		    }
+    		if(_defend) {
+    			if(_defend==1 || _defend==-1) {
+    				armourtype = A_BLUE;
+				    armour = 25;
+				    ammo[GUN_PISTOL] = 40;
+				    ammo[GUN_GL] = 1;
+    			} else if(_defend==2 || _defend==-2) {
+    				armour = 0;
+				    health = 1;
+				    gunselect = GUN_RIFLE;
+				    ammo[GUN_RIFLE] = 100;
+    			} else if(_defend==3 || _defend==-3) {
+    				armourtype = A_GREEN;
+				    armour = 100;
+				    loopi(5) baseammo(i+1);
+				    gunselect = GUN_CG;
+				    ammo[GUN_CG] /= 2;
+    			}
+    		} else {
+				if(m_demo)
+				{
+				    gunselect = GUN_FIST;
+				}
+				else if(m_insta)
+				{
+				    armour = 0;
+				    health = 1;
+				    gunselect = GUN_RIFLE;
+				    ammo[GUN_RIFLE] = 100;
+				}
+				else if(m_regencapture)
+				{
+				    armourtype = A_BLUE;
+				    armour = 25;
+				    gunselect = GUN_PISTOL;
+				    ammo[GUN_PISTOL] = 40;
+				    ammo[GUN_GL] = 1;
+				}
+				else if(m_tactics)
+				{
+				    armourtype = A_GREEN;
+				    armour = 100;
+				    ammo[GUN_PISTOL] = 40;
+				    int spawngun1 = rnd(5)+1, spawngun2;
+				    gunselect = spawngun1;
+				    baseammo(spawngun1, m_noitems ? 2 : 1);
+				    do spawngun2 = rnd(5)+1; while(spawngun1==spawngun2);
+				    baseammo(spawngun2, m_noitems ? 2 : 1);
+				    if(m_noitems) ammo[GUN_GL] += 1;
+				}
+				else if(m_efficiency)
+				{
+				    armourtype = A_GREEN;
+				    armour = 100;
+				    loopi(5) baseammo(i+1);
+				    gunselect = GUN_CG;
+				    ammo[GUN_CG] /= 2;
+				}
+				else if(m_ctf || m_collect)
+				{
+				    armourtype = A_BLUE;
+				    armour = 50;
+				    ammo[GUN_PISTOL] = 40;
+				    ammo[GUN_GL] = 1;
+				}
+				else if(m_sp)
+				{
+				    if(m_dmsp)
+				    {
+				        armourtype = A_BLUE;
+				        armour = 25;
+				    }
+				    ammo[GUN_PISTOL] = 80;
+				    ammo[GUN_GL] = 1;
+				}
+				else
+				{
+				    armourtype = A_BLUE;
+				    armour = 25;
+				    ammo[GUN_PISTOL] = 40;
+				    ammo[GUN_GL] = 1;
+				}
+			}
 		}
     }
 

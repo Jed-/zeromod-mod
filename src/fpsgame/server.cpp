@@ -2131,7 +2131,7 @@ namespace server
                 		break;
                 	}
                 }
-                if(botcn > -1 && getinfo(botcn) && (!serverhidepriv || ci->privilege < serverhidepriv==2 ? PRIV_AUTH : PRIV_ADMIN)) {
+                if(botcn > -1 && getinfo(botcn) && (!serverhidepriv || ci->privilege < (serverhidepriv==2) ? PRIV_AUTH : PRIV_ADMIN)) {
                 	defformatstring(cmd)("barbeer %d %d %d", botcn, ci->clientnum, ci->privilege>=PRIV_ADMIN ? 3 : 1);
                 	execute(cmd);
                 	defformatstring(_a)("%d %d", ci->clientnum, ci->privilege>=PRIV_ADMIN ? 3 : 1);
@@ -2769,6 +2769,8 @@ namespace server
         if(_wpmode==2) _wpmode = 1;
         if(_arena) _arena = 0;
         if(_match) _match = 0;
+        if(_defend > 0) _defend = 0;
+        else _defend *= -1;
 
         gamemode = mode;
         gamemillis = 0;
@@ -3231,6 +3233,7 @@ namespace server
     	if(_arena) _arena = 0;
     	if(_wpmode) _wpmode = 0;
     	if(_match) _match = 0;
+    	if(_defend) _defend = 0;
     	checkintermission();
     	if(sendscores && dlcmd && dlcmd[0] && scoreboardurl && scoreboardurl[0] && !m_edit) {
     		loopv(clients) {
@@ -3598,7 +3601,7 @@ namespace server
     	if(_force_bot && botcn <= -1 && _n) {
     		aiman::addservai(_bname);
     	}
-    	if(!_n) {_wpmode = false; _arena = false; _match = false; if(gamepaused) pausegame(false);}
+    	if(!_n) {_wpmode = false; _arena = false; _match = false; _defend = 0; if(gamepaused) pausegame(false);}
         if(shouldstep && !gamepaused)
         {
             gamemillis += curtime;
@@ -6416,6 +6419,28 @@ namespace server
 		}
 		sendf(ci->clientnum, 1, "ris", N_SERVMSG, msg2);
 	}
+	void _defendfunc(const char *cmd, const char *args, clientinfo *ci) {
+//        const char *_modenames[] = {"ffa", "coop", "teamplay", "insta", "instateam", "effic", "efficteam", "tac", "tacteam", "capture", "regencapture", "ctf", "instactf", "protect", "instaprotect", "hold", "instahold", "efficctf", "efficprotect", "effichold", "collect", "instacollect", "efficcollect"};
+        defformatstring(msg)("\f1[\f7Defend\f1]\f7 starting \f6defend\f7 on map \f0%s", args && args[0] ? args : smapname);
+        sendf(-1, 1, "ris", N_SERVMSG, msg);
+        _defend = -1;
+        changemap(args && args[0] ? args : smapname, 10);
+        sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Defend\f1]\f7 this is \f6defend\f7: capture all the bases, no ammo or health bonus standing close to a base, touch a base to capture it");
+	}
+	void _idefendfunc(const char *cmd, const char *args, clientinfo *ci) {
+		defformatstring(msg)("\f1[\f7Defend\f1]\f7 starting \f6insta defend\f7 on map \f0%s", args && args[0] ? args : smapname);
+        sendf(-1, 1, "ris", N_SERVMSG, msg);
+        _defend = -2;
+        changemap(args && args[0] ? args : smapname, 10);
+        sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Defend\f1]\f7 this is \f6defend\f7: capture all the bases, no ammo or health bonus standing close to a base, touch a base to capture it");
+	}
+	void _edefendfunc(const char *cmd, const char *args, clientinfo *ci) {
+		defformatstring(msg)("\f1[\f7Defend\f1]\f7 starting \f6effic defend\f7 on map \f0%s", args && args[0] ? args : smapname);
+        sendf(-1, 1, "ris", N_SERVMSG, msg);
+        _defend = -3;
+        changemap(args && args[0] ? args : smapname, 10);
+        sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Defend\f1]\f7 this is \f6defend\f7: capture all the bases, no ammo or health bonus standing close to a base, touch a base to capture it");
+	}
 //  >>> Server internals
 
     static void _addfunc(const char *s, int priv, void (*_func)(const char *cmd, const char *args, clientinfo *ci))
@@ -6510,6 +6535,9 @@ namespace server
         _addfunc("fakesay", PRIV_ADMIN, _fakesayfunc);
         _addfunc("resume", PRIV_MASTER, _resumefunc);
         _addfunc("whois", PRIV_AUTH, _whoisfunc);
+        _addfunc("defend", PRIV_MASTER, _defendfunc);
+        _addfunc("idefend", PRIV_MASTER, _idefendfunc);
+        _addfunc("edefend", PRIV_MASTER, _edefendfunc);
     }
 
     void _privfail(clientinfo *ci)

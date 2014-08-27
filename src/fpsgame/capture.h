@@ -103,7 +103,9 @@ struct captureclientmode : clientmode
         int occupy(const char *team, int units)
         {
             if(strcmp(enemy, team)) return -1;
-            converted += units;
+            if(_defend) {
+            	converted = owner[0] ? int(OCCUPYENEMYLIMIT) : int(OCCUPYNEUTRALLIMIT);
+			} else converted += units;
             if(units<0)
             {
                 if(converted<=0) noenemy();
@@ -116,14 +118,14 @@ struct captureclientmode : clientmode
 
         bool addammo(int i)
         {
-            if(ammo>=MAXAMMO) return false;
+            if(ammo>=MAXAMMO || _defend) return false;
             ammo = min(ammo+i, int(MAXAMMO));
             return true;
         }
 
         bool takeammo(const char *team)
         {
-            if(strcmp(owner, team) || ammo<=0) return false;
+            if(strcmp(owner, team) || ammo<=0 || _defend) return false;
             ammo--;
             return true;
         }
@@ -245,6 +247,7 @@ struct captureclientmode : clientmode
     bool insidebase(const baseinfo &b, const vec &o)
     {
         float dx = (b.o.x-o.x), dy = (b.o.y-o.y), dz = (b.o.z-o.z);
+        if(_defend) return dx*dx+dy*dy <= 8*8 && fabs(dz) <= CAPTUREHEIGHT;
         return dx*dx + dy*dy <= CAPTURERADIUS*CAPTURERADIUS && fabs(dz) <= CAPTUREHEIGHT;
     }
 
@@ -876,6 +879,7 @@ ICOMMAND(insidebases, "", (),
 
     void regenowners(baseinfo &b, int ticks)
     {
+    	if(_defend) return;
         loopv(clients)
         {
             clientinfo *ci = clients[i];
@@ -917,7 +921,7 @@ ICOMMAND(insidebases, "", (),
         if(gamemillis>=gamelimit) return;
         endcheck();
         int t = gamemillis/1000 - (gamemillis-curtime)/1000;
-        if(t<1) return;
+        if(t<1 && !_defend) return;
         loopv(bases)
         {
             baseinfo &b = bases[i];
@@ -942,7 +946,7 @@ ICOMMAND(insidebases, "", (),
                 else
                 {
                     int ammo = b.capturetime/AMMOSECS - (b.capturetime-t)/AMMOSECS;
-                    if(ammo && b.addammo(ammo)) sendbaseinfo(i);
+                    if(!_defend && ammo && b.addammo(ammo)) sendbaseinfo(i);
                 }
             }
         }
