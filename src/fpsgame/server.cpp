@@ -7586,7 +7586,7 @@ namespace server
             {
                 int val = getint(p);
                 if(ci->privilege < (restrictpausegame ? PRIV_ADMIN : PRIV_MASTER)) break;
-                pausegame(val > 0, ci);
+                if(val) pausegame(val > 0, ci); else doresume(5);
                 break;
             }
 
