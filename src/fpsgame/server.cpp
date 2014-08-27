@@ -2131,7 +2131,7 @@ namespace server
                 		break;
                 	}
                 }
-                if(botcn > -1 && getinfo(botcn)) {
+                if(botcn > -1 && getinfo(botcn) && (!serverhidepriv || ci->privilege < serverhidepriv==2 ? PRIV_AUTH : PRIV_ADMIN)) {
                 	defformatstring(cmd)("barbeer %d %d %d", botcn, ci->clientnum, ci->privilege>=PRIV_ADMIN ? 3 : 1);
                 	execute(cmd);
                 	defformatstring(_a)("%d %d", ci->clientnum, ci->privilege>=PRIV_ADMIN ? 3 : 1);
