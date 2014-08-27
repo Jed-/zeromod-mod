@@ -5556,7 +5556,7 @@ namespace server
     void fakesay(int *cn, char *msg)
     {
         clientinfo *ci = getinfo(*cn);
-        if(!ci || ci->privilege >= PRIV_AUTH || !enablefakesay) return;
+        if(!ci || ci->privilege >= PRIV_AUTH || (!enablefakesay && ci->state.aitype==AI_NONE)) return;
         flushserver(true);
         uchar buf[MAXTRANS];
         ucharbuf b(buf, sizeof(buf));
