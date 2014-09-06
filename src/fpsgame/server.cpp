@@ -6302,6 +6302,11 @@ namespace server
     	packetbuf q(MAXTRANS, ENET_PACKET_FLAG_RELIABLE);
         _putmaster(q);
         sendpacket(-1, 1, q.finalize());
+        packetbuf r(MAXTRANS, ENET_PACKET_FLAG_RELIABLE);
+        _putrealmaster(r);
+        loopv(clients) {
+        	if(clients[i]->privilege>=(serverhidepriv==2 ? PRIV_AUTH : PRIV_ADMIN) && (serverhidepriv==2 ? !(clients[i]->authname && !clients[i]->authdesc) : 1) && clients[i]!=ci) sendpacket(clients[i]->clientnum, 1, r.finalize());
+        }
     	defformatstring(msg)("\f1[\f7Priv\f1]\f0 %s \f7shares \f0master\f7 with all the players!", ci->name);
     	sendf(-1, 1, "ris", N_SERVMSG, msg);
     }
