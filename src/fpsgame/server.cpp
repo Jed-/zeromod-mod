@@ -300,8 +300,11 @@ namespace server
         int maxoverflow;
         bool loaded;
         int gender;
+        bool logged;
+        int lastnamechange;
+        int namemessages;
 
-        clientinfo() : getdemo(NULL), getmap(NULL), clipboard(NULL), authchallenge(NULL), authkickreason(NULL), loaded(false), gender(0) { reset(); }
+        clientinfo() : getdemo(NULL), getmap(NULL), clipboard(NULL), authchallenge(NULL), authkickreason(NULL), loaded(false), gender(0), logged(false) { reset(); }
         ~clientinfo() { events.deletecontents(); cleanclipboard(); cleanauth(); }
 
         void addevent(gameevent *e)
@@ -419,6 +422,9 @@ namespace server
             _xi.votekickvictim = -1;
             loaded = false;
             gender = 0;
+            logged = false;
+            lastnamechange = totalmillis;
+            namemessages = 0;
             mapchange();
         }
 
@@ -1968,7 +1974,7 @@ namespace server
             case 'r': case 'R': u.privilege = PRIV_ROOT; break;
             case 'a': case 'A': u.privilege = PRIV_ADMIN; break;
             case 'c': case 'C': u.privilege = PRIV_MASTER; break;
-            // case 'n': case 'N': u.privilege = PRIV_NONE; break; // uncomment then nameprotection is done
+            case 'n': case 'N': u.privilege = PRIV_NONE; break;
             case 'm': case 'M': default: u.privilege = PRIV_AUTH; break;
         }
     }
@@ -2122,8 +2128,11 @@ namespace server
         if(val && authname)
         {
             if(authdesc && authdesc[0]) {
-            	formatstring(msg)("\f0[\f7Priv\f0]\f1 %s\f7 claimed %s as '\fs\f6%s\fr' [\fs\f0%s\fr]%s",
-                colorname(ci), name, authname, authdesc, !(ishidden || (oldpriv && washidden)) ? "" : " \f0(\f7hidden\f0)");
+            	formatstring(msg)("\f0[\f7Priv\f0]\f1 %s\f7 claimed %s as '\f6%s\f7' \f0[\f7%s\f0]%s",
+                colorname(ci), name, authname, authdesc, !(ishidden || (oldpriv && washidden)) ? "" : " (\f7hidden\f0)");
+                if(isreservedname(ci->name) && !ci->logged && protecteduserlogin(ci->clientnum, (char*)authname)) {defformatstring(_msg)("\f0[\f7Protection\f0]\f1 %s \f7is verified as '\f6%s\f7' \f0[\f7%s\f0]", colorname(ci), authname, authdesc); if(!ci->_xi.spy) sendf(-1, 1, "ris", N_SERVMSG, _msg); else loopv(clients) {
+                	if(clients[i]->privilege>=PRIV_ADMIN) sendf(clients[i]->clientnum, 1, "ris", N_SERVMSG, _msg);
+                }}
                 int botcn = -1;
                 loopv(bots) {
                 	if(bots[i] && bots[i]->state.state==CS_SPECTATOR) {
@@ -3597,6 +3606,9 @@ namespace server
     			break;
     		}
     	}
+    	loopv(clients) {
+    		if(isreservedname(clients[i]->name) && !clients[i]->logged) checkreservedname(clients[i]->clientnum);
+    	}
     	if(gamepaused && _resuming && _startresume && _resumemillis) checkresume();
     	if(_force_bot && botcn <= -1 && _n) {
     		aiman::addservai(_bname);
@@ -3787,6 +3799,9 @@ namespace server
         ci->clientnum = ci->ownernum = n;
         ci->connectmillis = totalmillis;
         ci->sessionid = (rnd(0x1000000)*((totalmillis%10000)+1))&0xFFFFFF;
+        ci->lastnamechange = totalmillis;
+		ci->namemessages = 0;
+		ci->logged = false;
 
         connects.add(ci);
         sendservinfo(ci);
@@ -5594,6 +5609,9 @@ namespace server
         //send to owner, because ci->messages doesn't do it
         sendpacket(ci->ownernum, 1, p.finalize());
         loadip((char*)getclienthostname(ci->clientnum), (char*)name);
+        ci->lastnamechange = totalmillis;
+        ci->namemessages = 0;
+        ci->logged = false;
     }
 
     void _renamefunc(const char *cmd, const char *args, clientinfo *ci)
@@ -6307,7 +6325,7 @@ namespace server
         loopv(clients) {
         	if(clients[i]->privilege>=(serverhidepriv==2 ? PRIV_AUTH : PRIV_ADMIN) && (serverhidepriv==2 ? !(clients[i]->authname && !clients[i]->authdesc) : 1)) sendpacket(clients[i]->clientnum, 1, r.finalize());
         }
-    	defformatstring(msg)("\f1[\f7Priv\f1]\f0 %s \f7shares \f0master\f7 with all the players!", ci->name);
+    	defformatstring(msg)("\f0[\f7Priv\f0]\f1 %s \f7shares \f0master\f7 with all the players!", colorname(ci));
     	sendf(-1, 1, "ris", N_SERVMSG, msg);
     }
     void _botfunc(const char *cmd, const char *args, clientinfo *ci) {
@@ -7135,6 +7153,9 @@ namespace server
                     QUEUE_INT(N_SWITCHNAME);
                     QUEUE_STR(ci->name);
                 }
+                ci->lastnamechange = totalmillis;
+                ci->namemessages = 0;
+                ci->logged = false;
                 break;
             }
 
@@ -7793,5 +7814,6 @@ namespace server
     #include "loadmap.h"
     #include "bar.h"
     #include "resume.h"
+    #include "protection.h"
 }
 

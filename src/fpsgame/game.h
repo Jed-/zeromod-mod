@@ -907,6 +907,10 @@ namespace server
     extern void parsebar(const char *m, int cn);
     extern void doresume(int secs);
     extern void checkresume();
+    extern int getuseridx(char *name);
+    extern bool protecteduserlogin(int cn, char *name);
+    extern bool isreservedname(char *name);
+    extern void checkreservedname(int cn);
 
     //zeromod functions
     extern bool _readsnvars(const char *name, char *out, size_t s);
