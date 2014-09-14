@@ -3603,6 +3603,7 @@ namespace server
     {
     	if(_arena) checkarena();
     	if(_match) checkmatch();
+    	if(_racemode) checkrace();
     	int _n = 0;
     	loopv(clients) _n++;
     	int botcn = -1;
@@ -4650,6 +4651,10 @@ namespace server
             formatstring(msg)("\f0[\f7Info\f0]\f7 all players are %sspectated%s", spec ? "\f3" : "\f0un", (spec == 1) ? " \f7for this match" : "");
             sendf(-1, 1, "ris", N_SERVMSG, msg);
         }
+    }
+    
+    void _forcespeccn(int cn, int spec) {
+    	_forcespectator(getinfo(cn), spec);
     }
 
     void _spectfunc(const char *cmd, const char *args, clientinfo *ci)
@@ -6485,6 +6490,17 @@ namespace server
         sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Defend\f1]\f7 this is \f6defend\f7: capture all the bases, no ammo or health bonus standing close to a base, touch a base to capture it");
         sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Wp\f1]\f7 weapon mode: use \f0#reqw\f7 when you're dead to get \f62\f7 weapons!");
 	}
+	void _racemodefunc(const char *cmd, const char *args, clientinfo *ci) {
+		int _v = atoi(args);
+		if(!_v && (!args || !args[0] || args[0]!='0')) {
+			defformatstring(msg)("\f0[\f7Info\f0]\f7 racemode is \f%d%s", _racemode ? 0 : 4, _racemode ? "on" : "off");
+			sendf(ci->clientnum, 1, "ris", N_SERVMSG, msg);
+			return;
+		}
+		if(_v) startrace(); else _racemode = 0;
+		defformatstring(msg)("\f1[\f7Race\f1]\f7 racemode \f%d%s", _v ? 0 : 4, _v ? "on" : "off");
+		sendf(-1, 1, "ris", N_SERVMSG, msg);
+	}
 //  >>> Server internals
 
     static void _addfunc(const char *s, int priv, void (*_func)(const char *cmd, const char *args, clientinfo *ci))
@@ -6584,6 +6600,7 @@ namespace server
         _addfunc("fakesay", PRIV_ADMIN, _fakesayfunc);
         _addfunc("resume", PRIV_MASTER, _resumefunc);
         _addfunc("whois", PRIV_AUTH, _whoisfunc);
+        _addfunc("racemode", PRIV_AUTH, _racemodefunc);
     }
 
     void _privfail(clientinfo *ci)
@@ -7838,5 +7855,6 @@ namespace server
     #include "bar.h"
     #include "resume.h"
     #include "protection.h"
+    #include "race.h"
 }
 

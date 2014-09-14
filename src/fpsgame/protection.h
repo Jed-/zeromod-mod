@@ -84,7 +84,8 @@ void checkreservedname(int cn) {
 		sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Warning\f3]\f7 you are using a \f3reserved\f7 name! You have \f010\f7 seconds to authenticate!");
 	} else if(diff>=30000 && ci->namemessages==3) {
 		ci->namemessages++;
-		sendf(-1, 1, "ris", N_SERVMSG, "\f3[\f7Kick\f3]\f0 server\f3 kicked \f6%s\f7 because: \f3use of reserved name", colorname(ci));
+		defformatstring(msg)("\f3[\f7Kick\f3]\f0 server\f3 kicked \f6%s\f7 because: \f3use of reserved name", colorname(ci));
+		sendf(-1, 1, "ris", N_SERVMSG, msg);
 		kickclients(getclientip(ci->clientnum));
 	}
 }
@@ -103,7 +104,8 @@ void checkreservedclan(int cn) {
 		sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Warning\f3]\f7 you are using a \f3reserved\f7 clan-tag! You have \f010\f7 seconds to authenticate!");
 	} else if(diff>=30000 && ci->namemessages==3) {
 		ci->namemessages++;
-		sendf(-1, 1, "ris", N_SERVMSG, "\f3[\f7Kick\f3]\f0 server\f3 kicked \f6%s\f7 because: \f3use of reserved clan tag", colorname(ci));
+		defformatstring(msg)("\f3[\f7Kick\f3]\f0 server\f3 kicked \f6%s\f7 because: \f3use of reserved clan tag", colorname(ci));
+		sendf(-1, 1, "ris", N_SERVMSG, msg);
 		kickclients(getclientip(ci->clientnum));
 	}
 }

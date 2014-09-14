@@ -121,6 +121,15 @@ static int _resumemsg = -1;
 
 static int _defend = 0; // -1/1: ffa, -2/2: insta, -3/3: effic
 
+static bool _racemode = false;
+static bool _racewon = false;
+static int _racemsg = 0;
+static int _racewonmsg = 0;
+static int _racestart = 0;
+static int _raceend = 0;
+static bool _raceloaded = false;
+static int _raceidx = 0;
+
 static struct gamemodeinfo
 {
     const char *name;
@@ -915,6 +924,9 @@ namespace server
     extern bool isreservedclan(char *name);
     extern void checkreservedname(int cn);
     extern void checkreservedclan(int cn);
+    extern void startrace();
+    extern void checkrace();
+    extern void _forcespeccn(int cn, int spec);
 
     //zeromod functions
     extern bool _readsnvars(const char *name, char *out, size_t s);
