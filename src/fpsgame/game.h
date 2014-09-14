@@ -908,9 +908,13 @@ namespace server
     extern void doresume(int secs);
     extern void checkresume();
     extern int getuseridx(char *name);
+    extern int getclanuseridx(char *tag);
     extern bool protecteduserlogin(int cn, char *name);
+    extern bool protectedclanuserlogin(int cn, char *authdesc);
     extern bool isreservedname(char *name);
+    extern bool isreservedclan(char *name);
     extern void checkreservedname(int cn);
+    extern void checkreservedclan(int cn);
 
     //zeromod functions
     extern bool _readsnvars(const char *name, char *out, size_t s);

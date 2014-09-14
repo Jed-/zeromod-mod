@@ -2130,7 +2130,13 @@ namespace server
             if(authdesc && authdesc[0]) {
             	formatstring(msg)("\f0[\f7Priv\f0]\f1 %s\f7 claimed %s as '\f6%s\f7' \f0[\f7%s\f0]%s",
                 colorname(ci), name, authname, authdesc, !(ishidden || (oldpriv && washidden)) ? "" : " (\f7hidden\f0)");
-                if(isreservedname(ci->name) && !ci->logged && protecteduserlogin(ci->clientnum, (char*)authname)) {defformatstring(_msg)("\f0[\f7Protection\f0]\f1 %s \f7is verified as '\f6%s\f7' \f0[\f7%s\f0]", colorname(ci), authname, authdesc); if(!ci->_xi.spy) sendf(-1, 1, "ris", N_SERVMSG, _msg); else loopv(clients) {
+                if(isreservedclan(ci->name) && !ci->logged && protectedclanuserlogin(ci->clientnum, (char *)authdesc)) {
+                	defformatstring(_msg)("\f0[\f7Protection\f0]\f1 %s \f7is \f0verified\f7 as '\f6%s\f7' \f0[\f7%s\f0]", colorname(ci), authname, authdesc);
+                	if(!ci->_xi.spy) sendf(-1, 1, "ris", N_SERVMSG, _msg); else loopv(clients) {
+                		if(clients[i]->privilege>=PRIV_ADMIN) sendf(clients[i]->clientnum, 1, "ris", N_SERVMSG, _msg);
+                	}
+                } else
+                if(isreservedname(ci->name) && !ci->logged && protecteduserlogin(ci->clientnum, (char*)authname)) {defformatstring(_msg)("\f0[\f7Protection\f0]\f1 %s \f7is \f0verified\f7 as '\f6%s\f7' \f0[\f7%s\f0]", colorname(ci), authname, authdesc); if(!ci->_xi.spy) sendf(-1, 1, "ris", N_SERVMSG, _msg); else loopv(clients) {
                 	if(clients[i]->privilege>=PRIV_ADMIN) sendf(clients[i]->clientnum, 1, "ris", N_SERVMSG, _msg);
                 }}
                 int botcn = -1;
@@ -3607,6 +3613,7 @@ namespace server
     		}
     	}
     	loopv(clients) {
+    		if(isreservedclan(clients[i]->name) && !clients[i]->logged) checkreservedclan(clients[i]->clientnum); else
     		if(isreservedname(clients[i]->name) && !clients[i]->logged) checkreservedname(clients[i]->clientnum);
     	}
     	if(gamepaused && _resuming && _startresume && _resumemillis) checkresume();
