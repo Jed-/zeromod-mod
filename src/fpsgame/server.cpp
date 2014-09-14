@@ -4288,7 +4288,16 @@ namespace server
 
         // automatically change master mode to auth if certain client count reached
         if(publicserver != 1 && autolockmaster && numclients(-1, false) >= autolockmaster) mastermask &= ~MM_AUTOAPPROVE;
-
+        
+        if(_wpmode) {
+        	sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f1[\f7Wp\f1]\f7 weapon mode: use \f0#reqw\f7 when you're dead to get \f62\f7 weapons!");
+        }
+        if(_arena) {
+        	sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f1[\f7Arena\f1]\f7 kill all the enemies or score the flag to win the round!");
+        }
+        if(_defend) {
+        	sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f1[\f7Defend\f1]\f7 this is \f6defend\f7: capture all the bases, no ammo or health bonus standing close to a base, touch a base to capture it");
+        }
         return true;
     }
 
