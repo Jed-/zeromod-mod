@@ -6228,9 +6228,9 @@ namespace server
         	}
         }
         _wpmode = 2;
-        changemap(map && map[0] ? map : smapname, modenum != 1 && modenum >= 0 ? modenum : gamemode);
+        startmatch(modenum != 1 && modenum >= 0 ? modenum : gamemode, map && map[0] ? map : smapname);
 //        _wpmode = 1;
-    	sendf((!args || !args[0]) && ci ? ci->clientnum : -1, 1, "ris", N_SERVMSG, "\f1[\f7Wp\f1]\f7 weapon mode \f0on");
+    	sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Wp\f1]\f7 weapon mode: use \f0#reqw\f7 when you're dead to get \f62\f7 weapons!");
     }
     void _reqwfunc(const char *cmd, const char *args, clientinfo *ci) {
     	if(!_wpmode) {
@@ -6262,6 +6262,11 @@ namespace server
     }
     void _earenafunc(const char *cmd, const char *args, clientinfo *ci) {
     	startarena(args && args[0] ? args : smapname, 17);
+    }
+    void _warenafunc(const char *cmd, const char *args, clientinfo *ci) {
+    	_wpmode = 2;
+    	startarena(args && args[0] ? args : smapname, 17);
+    	sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Wp\f1]\f7 weapon mode: use \f0#reqw\f7 when you're dead to get \f62\f7 weapons!");
     }
     void _matchfunc(const char *cmd, const char *args, clientinfo *ci) {
     	char *mode = strtok((char*)args, " ");
@@ -6446,25 +6451,26 @@ namespace server
 	}
 /*	void _defendfunc(const char *cmd, const char *args, clientinfo *ci) {
 //        const char *_modenames[] = {"ffa", "coop", "teamplay", "insta", "instateam", "effic", "efficteam", "tac", "tacteam", "capture", "regencapture", "ctf", "instactf", "protect", "instaprotect", "hold", "instahold", "efficctf", "efficprotect", "effichold", "collect", "instacollect", "efficcollect"};
-        defformatstring(msg)("\f1[\f7Defend\f1]\f7 starting \f6defend\f7 on map \f0%s", args && args[0] ? args : smapname);
-        sendf(-1, 1, "ris", N_SERVMSG, msg);
         _defend = -1;
-        changemap(args && args[0] ? args : smapname, 10);
+        startmatch(10, args && args[0] ? args : smapname);
         sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Defend\f1]\f7 this is \f6defend\f7: capture all the bases, no ammo or health bonus standing close to a base, touch a base to capture it");
 	} */ // clients couldn't see the items
 	void _idefendfunc(const char *cmd, const char *args, clientinfo *ci) {
-		defformatstring(msg)("\f1[\f7Defend\f1]\f7 starting \f6insta defend\f7 on map \f0%s", args && args[0] ? args : smapname);
-        sendf(-1, 1, "ris", N_SERVMSG, msg);
         _defend = -2;
-        changemap(args && args[0] ? args : smapname, 10);
+        startmatch(10, args && args[0] ? args : smapname);
         sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Defend\f1]\f7 this is \f6defend\f7: capture all the bases, no ammo or health bonus standing close to a base, touch a base to capture it");
 	}
 	void _edefendfunc(const char *cmd, const char *args, clientinfo *ci) {
-		defformatstring(msg)("\f1[\f7Defend\f1]\f7 starting \f6effic defend\f7 on map \f0%s", args && args[0] ? args : smapname);
-        sendf(-1, 1, "ris", N_SERVMSG, msg);
         _defend = -3;
-        changemap(args && args[0] ? args : smapname, 10);
+        startmatch(10, args && args[0] ? args : smapname);
         sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Defend\f1]\f7 this is \f6defend\f7: capture all the bases, no ammo or health bonus standing close to a base, touch a base to capture it");
+	}
+	void _wdefendfunc(const char *cmd, const char *args, clientinfo *ci) {
+        _defend = -3;
+        _wpmode = 2;
+        startmatch(10, args && args[0] ? args : smapname);
+        sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Defend\f1]\f7 this is \f6defend\f7: capture all the bases, no ammo or health bonus standing close to a base, touch a base to capture it");
+        sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Wp\f1]\f7 weapon mode: use \f0#reqw\f7 when you're dead to get \f62\f7 weapons!");
 	}
 //  >>> Server internals
 
@@ -6550,19 +6556,21 @@ namespace server
         _addfunc("arena", PRIV_MASTER, _arenafunc);
         _addfunc("iarena", PRIV_MASTER, _iarenafunc);
         _addfunc("earena", PRIV_MASTER, _earenafunc);
+        _addfunc("warena", PRIV_MASTER, _warenafunc);
         _addfunc("match", PRIV_MASTER, _matchfunc);
         _addfunc("cw", PRIV_MASTER, _cwfunc);
-        _addfunc("share", PRIV_MASTER, _sharefunc);
-        _addfunc("addbot", PRIV_ADMIN, _botfunc);
-        _addfunc("delbot", PRIV_ADMIN, _botdelfunc);
-        _addfunc("forcebot", PRIV_ADMIN, _forcebotfunc);
-        _addfunc("beer", PRIV_NONE, _beerfunc);
-        _addfunc("fakesay", PRIV_ADMIN, _fakesayfunc);
-        _addfunc("resume", PRIV_MASTER, _resumefunc);
-        _addfunc("whois", PRIV_AUTH, _whoisfunc);
 //        _addfunc("defend", PRIV_MASTER, _defendfunc);
         _addfunc("idefend", PRIV_MASTER, _idefendfunc);
         _addfunc("edefend", PRIV_MASTER, _edefendfunc);
+        _addfunc("wdefend", PRIV_MASTER, _wdefendfunc);
+        _addfunc("share", PRIV_MASTER, _sharefunc);
+        _addfunc("beer", PRIV_NONE, _beerfunc);
+        _addfunc("addbot", PRIV_ADMIN, _botfunc);
+        _addfunc("delbot", PRIV_ADMIN, _botdelfunc);
+        _addfunc("forcebot", PRIV_ADMIN, _forcebotfunc);
+        _addfunc("fakesay", PRIV_ADMIN, _fakesayfunc);
+        _addfunc("resume", PRIV_MASTER, _resumefunc);
+        _addfunc("whois", PRIV_AUTH, _whoisfunc);
     }
 
     void _privfail(clientinfo *ci)
