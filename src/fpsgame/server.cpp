@@ -678,9 +678,9 @@ namespace server
                 fr->timeused = timeused;
             }
             string msg;
-            if(isbest) formatstring(msg)("\f0[\f7flagrun\f0] %s \f7did \f6flagrun\f7 in \f6%i.%02i\f7 seconds \f0(\f7best\f0)",
+            if(isbest) formatstring(msg)("\f0[\f7Flagrun\f0] %s \f7did \f6flagrun\f7 in \f6%i.%02i\f7 seconds \f0(\f7best\f0)",
                 colorname(ci), timeused/1000, (timeused%1000)/10);
-            else formatstring(msg)("\f0[\f7flagrun\f0] %s \f7did \f6flagrun\f7 in \f1%i.%02i\f7 seconds \f0(\f7best: \f0%s \f6%i.%02i\f0)",
+            else formatstring(msg)("\f0[\f7Flagrun\f0] %s \f7did \f6flagrun\f7 in \f1%i.%02i\f7 seconds \f0(\f7best: \f0%s \f6%i.%02i\f0)",
                 colorname(ci), timeused/1000, (timeused%1000)/10, fr->name, fr->timeused/1000, (fr->timeused%1000)/10);
             sendservmsg(msg);
         }
@@ -6250,9 +6250,6 @@ namespace server
         	int _w1 = clamp(atoi(w1), 0, 6);
         	int _w2 = clamp(atoi(w2), 0, 6);
         	ci->state.wp1 = _w1; ci->state.wp2 = _w2;
-        	const char *weapons[7] = {"chainsaw", "shotgun", "chaingun", "rocket launcher", "rifle", "grenade launcher", "pistol"};
-        	defformatstring(msg)("Set weapons to %s and %s!", weapons[_w1], weapons[_w2]);
-        	sendf(ci->clientnum, 1, "ris", N_SERVMSG, msg);
     }
     void _arenafunc(const char *cmd, const char *args, clientinfo *ci) {
     	startarena(args && args[0] ? args : smapname, 11);
