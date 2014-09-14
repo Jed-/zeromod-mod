@@ -6444,14 +6444,14 @@ namespace server
 		}
 		sendf(ci->clientnum, 1, "ris", N_SERVMSG, msg2);
 	}
-	void _defendfunc(const char *cmd, const char *args, clientinfo *ci) {
+/*	void _defendfunc(const char *cmd, const char *args, clientinfo *ci) {
 //        const char *_modenames[] = {"ffa", "coop", "teamplay", "insta", "instateam", "effic", "efficteam", "tac", "tacteam", "capture", "regencapture", "ctf", "instactf", "protect", "instaprotect", "hold", "instahold", "efficctf", "efficprotect", "effichold", "collect", "instacollect", "efficcollect"};
         defformatstring(msg)("\f1[\f7Defend\f1]\f7 starting \f6defend\f7 on map \f0%s", args && args[0] ? args : smapname);
         sendf(-1, 1, "ris", N_SERVMSG, msg);
         _defend = -1;
         changemap(args && args[0] ? args : smapname, 10);
         sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Defend\f1]\f7 this is \f6defend\f7: capture all the bases, no ammo or health bonus standing close to a base, touch a base to capture it");
-	}
+	} */ // clients couldn't see the items
 	void _idefendfunc(const char *cmd, const char *args, clientinfo *ci) {
 		defformatstring(msg)("\f1[\f7Defend\f1]\f7 starting \f6insta defend\f7 on map \f0%s", args && args[0] ? args : smapname);
         sendf(-1, 1, "ris", N_SERVMSG, msg);
@@ -6560,7 +6560,7 @@ namespace server
         _addfunc("fakesay", PRIV_ADMIN, _fakesayfunc);
         _addfunc("resume", PRIV_MASTER, _resumefunc);
         _addfunc("whois", PRIV_AUTH, _whoisfunc);
-        _addfunc("defend", PRIV_MASTER, _defendfunc);
+//        _addfunc("defend", PRIV_MASTER, _defendfunc);
         _addfunc("idefend", PRIV_MASTER, _idefendfunc);
         _addfunc("edefend", PRIV_MASTER, _edefendfunc);
     }
