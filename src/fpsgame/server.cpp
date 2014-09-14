@@ -3773,8 +3773,8 @@ namespace server
         _nodamage = 0;
         defformatstring(_a)("%d", servergamelimit);
         _timefunc("time", _a, NULL);
-        smapname[0] = '\0';
-        gamemode = defaultgamemode;
+//        smapname[0] = '\0';
+//        gamemode = defaultgamemode;
     }
 #if 0
     void localconnect(int n)
