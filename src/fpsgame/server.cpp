@@ -1256,9 +1256,9 @@ namespace server
     	if(f) {
     		f->printf("// List of the known ip addresses");
     		loopv(knownips) {
-    			f->printf("\nknown_ip %s [", knownips[i]->ip);
-    			int numnames = knownips[i]->names.length();
-    			if(numnames<=16) loopvj(knownips[i]->names) {
+//    			f->printf("\nknown_ip %s [", knownips[i]->ip);
+//    			int numnames = knownips[i]->names.length();
+/*    			if(numnames<=16) loopvj(knownips[i]->names) {
     				char *_name = _replace(knownips[i]->names[j].name, ']', '|');
     				char *__name = _replace(_name, '[', '|');
     				copystring(knownips[i]->names[j].name, __name);
@@ -1272,13 +1272,17 @@ namespace server
     					f->printf("%s", knownips[i]->names[numnames-(15-j)].name);
     					if(j<15) f->printf("%s", " ");
     				}
-    			}
-    			f->printf("]");
+    			} */
+//    			f->printf("]");
+				loopvj(knownips[i]->names) {
+					char *_name = strreplace(knownips[i]->names[j].name, "\"", "^\"");
+					f->printf("\nknown_ip %s \"%s\"", knownips[i]->ip, _name);
+				}
     		}
     		delete f;
     	}
     }
-    void loadip(char *ip, char *names) {
+    void loadip(char *ip, char *name) {
     	knownip *_i;
     	bool found = false;
     	loopv(knownips) {
@@ -1290,12 +1294,12 @@ namespace server
     	}
     	if(!found || !_i) _i = new knownip();
 		copystring(_i->ip, ip);
-		string buf;
-		int len = listlen(names);
-		char *argv[len];
-		copystring(buf, names);
-		int argc = _argsep(buf, len, argv);
-		loopi(argc) {
+//		string buf;
+//		int len = listlen(name);
+//		char *argv[len];
+//		copystring(buf, name);
+//		int argc = _argsep(buf, len, argv);
+/*		loopi(argc) {
 			knownname n;
 			copystring(n.name, strreplace(argv[i], " ", ""));
 			loopvj(_i->names) {
@@ -1304,7 +1308,17 @@ namespace server
 				}
 			}
 			if(strcmp(n.name, "")) _i->names.add(n);
+		} */
+		loopv(_i->names) {
+			if(!strcmp(_i->names[i].name, name)) {
+				_i->names.remove(i);
+				i--;
+				break;
+			}
 		}
+		knownname n;
+		copystring(n.name, name);
+		_i->names.add(n);
 		if(!found) knownips.add(_i);
     }
     ICOMMAND(known_ip, "ss", (char *ip, char *names), loadip(ip, names));
