@@ -4,6 +4,7 @@
 flagruns.cfg
 ip.cfg
 racemaps.cfg
+races/*
 sauer_server
 src/sauer_server
 *.o

@@ -4206,6 +4206,7 @@ namespace server
         clientinfo *ci = getinfo(sender);
         if(!ci || !m_edit) return;
         if(ci->state.state==CS_SPECTATOR && !ci->privilege) return;
+        if(_racemode && ci->privilege < PRIV_ADMIN) return;
         if(maxsendmap >= 0 && len > maxsendmap*1024*1024 && ci->privilege < PRIV_ROOT)
         {
         	defformatstring(msg1)("\f3[\f7Error\f3]\f7 the server rejected the map because it's too big (size: %4.3fkb > max: %4.3fkb)", len/1024.f, maxsendmap*1024.f);
@@ -4308,7 +4309,8 @@ namespace server
 
         if(servermotd[0]) sendf(ci->clientnum, 1, "ris", N_SERVMSG, servermotd);
 
-        if(m_edit && autosendmap) _sendmap(NULL, ci);
+        if(m_edit && autosendmap && !_racemode) _sendmap(NULL, ci);
+        if(_racemode) sendracecn(ci->clientnum);
 
         // automatically change master mode to auth if certain client count reached
         if(publicserver != 1 && autolockmaster && numclients(-1, false) >= autolockmaster) mastermask &= ~MM_AUTOAPPROVE;

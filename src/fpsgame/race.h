@@ -47,6 +47,14 @@ void sendrace(char *map) {
 	mapdata = openrawfile(path, "r+b");
 	loopv(clients) clients[i]->getmap = sendfile(clients[i]->clientnum, 2, mapdata, "ri", N_SENDMAP);
 }
+void sendracecn(int cn) {
+	clientinfo *ci = getinfo(cn);
+	if(!ci || ci->state.aitype!=AI_NONE) return;
+	defformatstring(path)("races/%s.ogz", smapname);
+	if(mapdata) DELETEP(mapdata);
+	mapdata = openrawfile(path, "r+b");
+	sendfile(cn, 2, mapdata, "ri", N_SENDMAP);
+}
 void startracemap(char *map) {
 	_racemode = true;
 	_racewon = false;
@@ -61,7 +69,6 @@ void startracemap(char *map) {
 	sendrace(map);
 }
 void startrace() {
-	autosendmap = 2;
 	_racemode = true;
 	_racewon = false;
 	_racemsg = 0;
@@ -91,38 +98,38 @@ void checkrace() {
 	int time = totalmillis - _racestart;
 	if(_racemsg==0) {
 		_racemsg++;
-		sendf(-1, 1, "ris", N_SERVMSG, "Race starts in 10");
+		sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Race\f1]\f7 race starts in \f010\f7...");
 	} else if(_racemsg==1 && time >= 5000) {
 		_racemsg++;
-		sendf(-1, 1, "ris", N_SERVMSG, "Race starts in 5");
+		sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Race\f1]\f7 race starts in \f05\f7...");
 	} else if(_racemsg==2 && time >= 6000) {
 		_racemsg++;
-		sendf(-1, 1, "ris", N_SERVMSG, "Race starts in 4");
+		sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Race\f1]\f7 race starts in \f04\f7...");
 	} else if(_racemsg==3 && time >= 7000) {
 		_racemsg++;
-		sendf(-1, 1, "ris", N_SERVMSG, "Race starts in 3");
+		sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Race\f1]\f7 race starts in \f03\f7...");
 	} else if(_racemsg==4 && time >= 8000) {
 		_racemsg++;
-		sendf(-1, 1, "ris", N_SERVMSG, "Race starts in 2");
+		sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Race\f1]\f7 race starts in \f02\f7...");
 	} else if(_racemsg==5 && time >= 9000) {
 		_racemsg++;
-		sendf(-1, 1, "ris", N_SERVMSG, "Race starts in 1");
+		sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Race\f1]\f7 race starts in \f01\f7...");
 	} else if(_racemsg==6 && time >= 10000) {
 		_racemsg++;
 		pausegame(false);
-		sendf(-1, 1, "ris", N_SERVMSG, "Race started!");
+		sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Race\f1]\f7 race \f0started\f7!");
 	}
 	loopv(clients) {
 		if(clients[i]->state.state==CS_SPECTATOR) continue;
 		if(clients[i]->state.state==CS_EDITING) {
 			_forcespeccn(clients[i]->clientnum, 1);
-			defformatstring(msg)("\f3[\f7Warning\f3]\f7 %s has been caugth in \f6editmode\f7 and has been \f3spectated\f7 for this race!", colorname(clients[i]));
+			defformatstring(msg)("\f3[\f7Warning\f3]\f6 %s\f7 has been \f3caugth\f7 in \f0editmode\f7 and has been \f3spectated\f7 for this race!", colorname(clients[i]));
 			sendf(-1, 1, "ris", N_SERVMSG, msg);
 			continue;
 		}
 		if(clients[i]->state.state==CS_ALIVE && !gamepaused) {
 			racemap *r = getracemap(smapname);
-			if(clients[i]->state.o.dist(r->win) <= 16) {
+			if(clients[i]->state.o.dist(r->win) <= 32) {
 				// race won?
 				int _racetime = totalmillis - _racestart;
 				_raceend = totalmillis;
@@ -156,25 +163,25 @@ void checkrace() {
 		int _time_ = totalmillis - _raceend;
 		if(_racemsg==7) {
 			_racemsg++;
-			sendf(-1, 1, "ris", N_SERVMSG, "Starting a new race in 10");
+			sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Race\f1]\f7 starting a new race in \f010\f7...");
 		} else if(_racemsg==8 && _time_ >= 5000) {
 			_racemsg++;
-			sendf(-1, 1, "ris", N_SERVMSG, "Starting a new race in 5");
+			sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Race\f1]\f7 starting a new race in \f05\f7...");
 		} else if(_racemsg==9 && _time_ >= 6000) {
 			_racemsg++;
-			sendf(-1, 1, "ris", N_SERVMSG, "Starting a new race in 4");
+			sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Race\f1]\f7 starting a new race in \f04\f7...");
 		} else if(_racemsg==10 && _time_ >= 7000) {
 			_racemsg++;
-			sendf(-1, 1, "ris", N_SERVMSG, "Starting a new race in 3");
+			sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Race\f1]\f7 starting a new race in \f03\f7...");
 		} else if(_racemsg==11 && _time_ >= 8000) {
 			_racemsg++;
-			sendf(-1, 1, "ris", N_SERVMSG, "Starting a new race in 2");
+			sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Race\f1]\f7 starting a new race in \f02\f7...");
 		} else if(_racemsg==12 && _time_ >= 9000) {
 			_racemsg++;
-			sendf(-1, 1, "ris", N_SERVMSG, "Starting a new race in 1");
+			sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Race\f1]\f7 starting a new race in \f01\f7...");
 		} else if(_racemsg==13 && _time_ >= 10000) {
 			_racemsg++;
-			sendf(-1, 1, "ris", N_SERVMSG, "Starting a new race...");
+			sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Race\f1]\f7 starting a new race...");
 			_raceidx++;
 			_raceidx = _raceidx % racemaps.length();
 			startracemap(racemaps[_raceidx]->name);

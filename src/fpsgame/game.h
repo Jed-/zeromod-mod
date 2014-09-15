@@ -928,6 +928,7 @@ namespace server
     extern void checkrace();
     extern void _forcespeccn(int cn, int spec);
     extern void _storeraces();
+    extern void sendracecn(int cn);
 
     //zeromod functions
     extern bool _readsnvars(const char *name, char *out, size_t s);
