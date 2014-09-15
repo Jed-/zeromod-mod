@@ -3,6 +3,7 @@
 .gitignore
 flagruns.cfg
 ip.cfg
+racemaps.cfg
 sauer_server
 src/sauer_server
 *.o

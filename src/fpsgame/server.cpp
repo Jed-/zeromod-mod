@@ -1190,6 +1190,7 @@ namespace server
         _enablefunc("votekick", votekick);
         if(serverflagruns) execfile("flagruns.cfg", false);
         execfile("ip.cfg", false);
+        execfile("racemaps.cfg", false);
     }
 
     void _storeflagruns()
@@ -1330,6 +1331,7 @@ namespace server
         //store flagruns
         _storeflagruns();
         _storeips();
+        _storeraces();
     }
 
     int numclients(int exclude = -1, bool nospec = true, bool noai = true, bool priv = false)
@@ -6501,6 +6503,16 @@ namespace server
 		defformatstring(msg)("\f1[\f7Race\f1]\f7 racemode \f%d%s", _v ? 0 : 4, _v ? "on" : "off");
 		sendf(-1, 1, "ris", N_SERVMSG, msg);
 	}
+	void _saveconffunc(const char *cmd, const char *args, clientinfo *ci) {
+		serverclose();
+		loopv(clients) if(clients[i]->privilege>=PRIV_ADMIN) sendf(clients[i]->clientnum, 1, "ris", N_SERVMSG, "\f0[\f7Info\f0]\f7 Server configuration \f6saved\f7!");
+	}
+	void _reloadconffunc(const char *cmd, const char *args, clientinfo *ci) {
+		execfile("flagruns.cfg");
+		execfile("ip.cfg");
+		execfile("racemaps.cfg");
+		sendf(-1, 1, "ris", N_SERVMSG, "\f0[\f7Info\f0]\f7 Server configuration \f6reloaded\f7!");
+	}
 //  >>> Server internals
 
     static void _addfunc(const char *s, int priv, void (*_func)(const char *cmd, const char *args, clientinfo *ci))
@@ -6601,6 +6613,8 @@ namespace server
         _addfunc("resume", PRIV_MASTER, _resumefunc);
         _addfunc("whois", PRIV_AUTH, _whoisfunc);
         _addfunc("racemode", PRIV_AUTH, _racemodefunc);
+        _addfunc("saveconf", PRIV_ROOT, _saveconffunc);
+        _addfunc("reloadconf", PRIV_ROOT, _reloadconffunc);
     }
 
     void _privfail(clientinfo *ci)

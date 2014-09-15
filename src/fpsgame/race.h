@@ -6,24 +6,37 @@ struct racemap {
 	racemap() : mintime(0), besttime(0), win(0, 0, 0) {copystring(bestname, "[no best]", MAXNAMELEN+1);}
 };
 vector<racemap *> racemaps;
-void loadrace(char *name, int mintime, int x, int y, int z) {
+void loadrace(const char *name, int mintime, int x, int y, int z, const char *bestname = "", int besttime = 0) {
 	int _exists = -1;
 	loopv(racemaps) if(!strcmp(racemaps[i]->name, name)) _exists = i;
 	if(_exists > -1) {
 		racemap *r = racemaps[_exists];
 		r->mintime = mintime;
-		r->besttime = 0;
-		copystring(r->bestname, "[no best]", MAXNAMELEN+1);
+		if(besttime && besttime>=mintime) r->besttime = besttime; else r->besttime = 0;
+		if(bestname && bestname[0]) copystring(r->bestname, bestname, MAXNAMELEN+1);
+		else copystring(r->bestname, "[no best]", MAXNAMELEN+1);
 		r->win = vec(x, y, z);
 	} else {
 		racemap *r = new racemap();
 		copystring(r->name, name);
 		r->mintime = max(0, mintime);
 		r->win = vec(x, y, z);
+		if(bestname && bestname[0]) copystring(r->bestname, bestname, MAXNAMELEN+1);
+		if(besttime && besttime>=mintime) r->besttime = besttime;
 		racemaps.add(r);
 	}
 }
-ICOMMAND(loadrace, "siiii", (char *name, int *mintime, int *x, int *y, int *z), loadrace(name, *mintime, *x, *y, *z));
+ICOMMAND(loadrace, "siiiisi", (const char *name, int *mintime, int *x, int *y, int *z, const char *bestname, int *besttime), loadrace(name, *mintime, *x, *y, *z, bestname, *besttime));
+void _storeraces() {
+	stream *f = openutf8file(path("racemaps.cfg", true), "w");
+	if(f) {
+		f->printf("// List of the default racemaps");
+		loopv(racemaps) {
+			f->printf("\nloadrace %s %d %d %d %d \"%s\" %d", racemaps[i]->name, racemaps[i]->mintime, (int)racemaps[i]->win.x, (int)racemaps[i]->win.y, (int)racemaps[i]->win.z, racemaps[i]->bestname, racemaps[i]->besttime);
+		}
+		delete f;
+	}
+}
 bool loaded() {
 	loopv(clients) if(clients[i]->state.state!=CS_SPECTATOR && (clients[i]->clientmap[0] == '\0' || !clients[i]->clientmap[0])) return false;
 	return true;
