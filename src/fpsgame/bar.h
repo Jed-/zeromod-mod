@@ -40,19 +40,20 @@ void parsebar(const char *m, int cn) {
 	
 	if(!drinks.inrange(0)) return;
 	int idx = _strcasestr((char *)m, bname);
-	if(!idx) return;
+	if(idx <= -1) return;
 	string barcmd;
 	copystring(barcmd, (char *)&m[idx]);
 	char *argv[260];
 	int argc = _argsep(barcmd, 260, argv);
 	if(argc < 2) return;
-	if(strcmp(argv[0], bname) || strcmp(argv[1], drinkcmd)) return;
-	char *list = NULL;
+	if(strcasecmp(argv[0], bname) || strcasecmp(argv[1], drinkcmd)) return;
+	char list[MAXTRANS];
+	list[0] = '\0';
 	loopv(drinks) {
 		concatstring(list, drinks[i].name);
 		if(i < (drinks.length()-1)) concatstring(list, " ");
 	}
-	if(argc < 3 || (!strcasecmp(argv[2], "list") && !strcasecmp(argv[2], "menu"))) {
+	if(argc < 3 || !strcasecmp(argv[2], "list") || !strcasecmp(argv[2], "menu")) {
 		defformatstring(_cmd)("barlist %d %d \"%s\"", botcn, cn, list);
 		if(identexists("barlist")) execute(_cmd);
 		return;
