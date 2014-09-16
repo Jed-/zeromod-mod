@@ -1,4 +1,17 @@
+struct histr {
+	string str;
+	histr() {};
+};
+struct drink {
+	string name;
+	drink() {};
+};
+vector<histr> histrings;
+vector<drink> drinks;
+SVAR(drinkcmd, "gimme");
+int _strcasestr(char *a, char *b);
 void parsebar(const char *m, int cn) {
+	if(!histrings.inrange(0)) return;
 	clientinfo *ci = getinfo(cn);
 	if(!ci || ci->state.aitype==AI_BOT) return;
 	int botcn = -1;
@@ -13,14 +26,69 @@ void parsebar(const char *m, int cn) {
 	if(!b) return;
 	defformatstring(bname)("%s", b->name);
 	for(int j=0; bname[j]; j++) bname[j] = tolower(bname[j]);
-	defformatstring(str0)("hi, %s", bname);
-	defformatstring(str1)("hi %s", bname);
-	defformatstring(str2)("hey, %s", bname);
-	defformatstring(str3)("hey %s", bname);
-	defformatstring(str4)("hello, %s", bname);
-	defformatstring(str5)("hello %s", bname);
-	char *text = (char*)m;
-	for(int j=0; text[j]; j++) text[j] = tolower(text[j]);
+	bool ishi = false;
+	loopv(histrings) {
+		defformatstring(str1)("%s %s", histrings[i].str, bname);
+		defformatstring(str2)("%s, %s", histrings[i].str, bname);
+		if(strcasestr(m, str1) || strcasestr(m, str2)) {
+			ishi = true;
+			break;
+		}
+	}
 	defformatstring(cmd)("barhi %d %d", botcn, cn);
-	if(strstr(text, str0) || strstr(text, str1) || strstr(text, str2) || strstr(text, str3) || strstr(text, str4) || strstr(text, str5)) execute(cmd);
+	if(ishi && identexists("barhi")) execute(cmd);
+	
+	if(!drinks.inrange(0)) return;
+	int idx = _strcasestr((char *)m, bname);
+	if(!idx) return;
+	string barcmd;
+	copystring(barcmd, (char *)&m[idx]);
+	char *argv[260];
+	int argc = _argsep(barcmd, 260, argv);
+	if(argc < 2) return;
+	if(strcmp(argv[0], bname) || strcmp(argv[1], drinkcmd)) return;
+	char *list = NULL;
+	loopv(drinks) {
+		concatstring(list, drinks[i].name);
+		if(i < (drinks.length()-1)) concatstring(list, " ");
+	}
+	if(argc < 3 || (!strcasecmp(argv[2], "list") && !strcasecmp(argv[2], "menu"))) {
+		defformatstring(_cmd)("barlist %d %d \"%s\"", botcn, cn, list);
+		if(identexists("barlist")) execute(_cmd);
+		return;
+	}
+	bool listed = false;
+	loopv(drinks) {
+		if(!strcasecmp(drinks[i].name, argv[2])) {
+			listed = true;
+			break;
+		}
+	}
+	if(!listed) {
+		defformatstring(_cmd)("barunlisted %d %d %s", botcn, cn, argv[2]);
+		if(identexists("barunlisted")) execute(_cmd);
+		return;
+	}
+	defformatstring(_cmd)("bardrink %d %d %s", botcn, cn, argv[2]);
+	if(identexists("bardrink")) execute(_cmd);
 }
+void histring(char *s) {
+	histr h;
+	copystring(h.str, s);
+	histrings.add(h);
+}
+ICOMMAND(histring, "s", (char *s), histring(s));
+void resethistrings() {
+	histrings.shrink(0);
+}
+ICOMMAND(resethistrings, "", (), resethistrings());
+void adddrink(char *name) {
+	drink d;
+	copystring(d.name, name);
+	drinks.add(d);
+}
+ICOMMAND(adddrink, "s", (char *name), adddrink(name));
+void resetdrinks() {
+	drinks.shrink(0);
+}
+ICOMMAND(resetdrinks, "", (), resetdrinks());
