@@ -3258,6 +3258,39 @@ namespace server
     SVAR(dlcmd, "wget -O .tmp --");
     SVAR(scoreboardurl, "");
     SVAR(scoreboardpass, "");
+    
+    struct invalidCharType {
+		char invalidChar;
+		string charReplacement;
+	};
+	vector<invalidCharType> invalidChars;
+	void addInvalidChars(char invalidChar, char *charReplacement) {
+		invalidCharType *cur = &invalidChars.add();
+		cur->invalidChar = invalidChar;
+		copystring(cur->charReplacement, charReplacement);
+	}
+	bool isInvalidChar(char character) {
+		loopv(invalidChars) {
+			if(character == invalidChars[i].invalidChar) return true;
+		}
+		return false;
+	}
+	int replaceInvalidChar(char character, char *name, int nameID) {
+		int id = 0;
+		invalidCharType *cur = 0;
+		loopv(invalidChars) {
+			if(character == invalidChars[i].invalidChar) {
+				cur = &invalidChars[i];
+				break;
+			}
+		}
+		if(!cur) return 0;
+		while(cur->charReplacement[id]) {
+			name[nameID + id] = cur->charReplacement[id];
+			id++;
+		}
+		return id;
+	}
 
     void startintermission() {
     	gamelimit = min(gamelimit, gamemillis);
@@ -3270,7 +3303,18 @@ namespace server
     		loopv(clients) {
     			if(clients[i]->state.aitype!=AI_NONE || clients[i]->state.state==CS_SPECTATOR) continue;
     			clientinfo *ci = clients[i];
-    			defformatstring(cmd)("%s \"%s?a=g&p=%s&n=%s&k=%d&d=%d&tots=%d&totd=%d&s=%d&t=%d&l=%d\" &", dlcmd, scoreboardurl, scoreboardpass, ci->name, ci->state.frags, ci->state.deaths, ci->state.shotdamage, ci->state.damage, ci->state._suicides, ci->state.teamkills, ci->state.flags);
+    			string name;
+    			copystring(name, ci->name);
+				int nameID = 0;
+				for(int i = 0; name[i]; i++) {
+					if(isInvalidChar(name[i])) {
+						nameID += replaceInvalidChar(name[i], name, nameID);
+					} else {
+						name[nameID] = name[i];
+						nameID++;
+					}
+				}
+    			defformatstring(cmd)("%s \"%s?a=g&p=%s&n=%s&k=%d&d=%d&tots=%d&totd=%d&s=%d&t=%d&l=%d\" &", dlcmd, scoreboardurl, scoreboardpass, name, ci->state.frags, ci->state.deaths, ci->state.shotdamage, ci->state.damage, ci->state._suicides, ci->state.teamkills, ci->state.flags);
     			system(cmd);
     		}
     	}
