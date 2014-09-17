@@ -10,6 +10,16 @@ vector<histr> histrings;
 vector<drink> drinks;
 SVAR(drinkcmd, "gimme");
 int _strcasestr(char *a, char *b);
+void offer(int whocn, int tocn, char *what = (char*)"beer", int howmuch = 1) {
+	if(!howmuch) return;
+	clientinfo *who = getinfo(whocn);
+	if(!who) return;
+	clientinfo *to = getinfo(tocn);
+	if(!to) return;
+	defformatstring(args)("%d %d %s", to->clientnum, howmuch, what);
+	_beerfunc("beer", args, who);
+}
+ICOMMAND(offer, "iisi", (int *whocn, int *tocn, char *what, int *howmuch), offer(*whocn, *tocn, what, *howmuch));
 void parsebar(const char *m, int cn) {
 	if(!histrings.inrange(0)) return;
 	clientinfo *ci = getinfo(cn);
@@ -70,8 +80,14 @@ void parsebar(const char *m, int cn) {
 		if(identexists("barunlisted")) execute(_cmd);
 		return;
 	}
-	defformatstring(_cmd)("bardrink %d %d %s", botcn, cn, argv[2]);
-	if(identexists("bardrink")) execute(_cmd);
+	int num = 1;
+	if(argc >= 4) {
+		num = atoi(argv[3]);
+	}
+	if(num || strcmp(argv[3], "0")) {
+		defformatstring(_cmd)("bardrink %d %d %s %d", botcn, cn, argv[2], num);
+		if(identexists("bardrink")) execute(_cmd);
+	}
 }
 void histring(char *s) {
 	histr h;

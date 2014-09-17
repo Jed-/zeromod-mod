@@ -6435,10 +6435,10 @@ namespace server
     	sendf(-1, 1, "ris", N_SERVMSG, msg);
     }
     void _beerfunc(const char *cmd, const char *args, clientinfo *ci) {
-    	char *argv[2];
+    	char *argv[3];
     	string buf;
     	copystring(buf, args);
-    	_argsep(buf, 2, argv);
+    	_argsep(buf, 3, argv);
     	int cn = -1;
     	if(!args || !argv[0] || !argv[0][0]) cn = ci->clientnum; else {
     		int _c = atoi(argv[0]);
@@ -6464,13 +6464,13 @@ namespace server
 			clientinfo *to = (clientinfo*)getclientinfo(cn);
 			loopv(clients) {
 				if(clients[i]==to) continue;
-				defformatstring(msg)("\f1[\f7Beer\f1] \f3%s\f7 offers \f3%s\f%d %s\f7 beer%s!", colorname(ci), colorname(to), numbeers==1 ? 7 : 0, numbeers==1 ? "a" : beers, numbeers==1 ? "" : "s");
+				defformatstring(msg)("\f1[\f7Bar\f1] \f3%s\f7 offers \f3%s\f%d %s\f7 %s%s!", colorname(ci), colorname(to), numbeers==1 ? 7 : 0, numbeers==1 ? "a" : beers, (argv[2] && argv[2][0] && ci->state.aitype!=AI_NONE) ? argv[2] : "beer", numbeers==1 ? "" : "s");
 				sendf(clients[i]->clientnum, 1, "ris", N_SERVMSG, msg);
 			}
-			defformatstring(msg)("\f1[\f7Beer\f1] \f3%s\f7 offers \f3you\f%d %s\f7 beer%s!", colorname(ci), numbeers==1 ? 7 : 0, numbeers==1 ? "a" : beers, numbeers==1 ? "" : "s");
+			defformatstring(msg)("\f1[\f7Bar\f1] \f3%s\f7 offers \f3you\f%d %s\f7 %s%s!", colorname(ci), numbeers==1 ? 7 : 0, numbeers==1 ? "a" : beers, (argv[2] && argv[2][0] && ci->state.aitype!=AI_NONE) ? argv[2] : "beer", numbeers==1 ? "" : "s");
 			sendf(cn, 1, "ris", N_SERVMSG, msg);
 		} else {
-			defformatstring(msg)("\f1[\f7Beer\f1] \f3%s\f7 drinks\f%d %s\f7 beer%s!", colorname(ci), numbeers==1 ? 7 : 0, numbeers==1 ? "a" : beers, numbeers==1 ? "" : "s");
+			defformatstring(msg)("\f1[\f7Bar\f1] \f3%s\f7 drinks\f%d %s\f7 %s%s!", colorname(ci), numbeers==1 ? 7 : 0, numbeers==1 ? "a" : beers, (argv[2] && argv[2][0] && ci->state.aitype!=AI_NONE) ? argv[2] : "beer", numbeers==1 ? "" : "s");
 			sendf(-1, 1, "ris", N_SERVMSG, msg);
 		}
 	}
