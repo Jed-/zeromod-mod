@@ -469,6 +469,7 @@ namespace server
         extern void changeteam(clientinfo *ci);
         extern void _botname(clientinfo *ci);
         extern bool addservai(const char *name);
+        extern void reqdelcn(int cn);
     }
 
     #define MM_MODE 0xF
@@ -6420,7 +6421,13 @@ namespace server
     	aiman::addservai(n);
     }
     void _botdelfunc(const char *cmd, const char *args, clientinfo *ci) {
-    	aiman::reqdel(ci, true);
+//    	aiman::reqdel(ci, true);
+		loopv(bots) {
+			if(bots[i] && bots[i]->state.state==CS_SPECTATOR) {
+				aiman::reqdelcn(bots[i]->clientnum);
+				break;
+			}
+		}
     }
     void _forcebotfunc(const char *cmd, const char *args, clientinfo *ci) {
     	if(!args || !args[0]) {

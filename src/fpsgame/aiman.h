@@ -323,6 +323,13 @@ namespace aiman
         loopv(clients) if(clients[i]->state.aitype == AI_BOT) numbots++;
         if(!deleteai(force)) sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Error\f3]\f7 failed to remove any bots");
 	}
+	void reqdelcn(int cn) {
+		if(cn < 0 || cn > 255) return;
+		clientinfo *ci = getinfo(cn);
+		if(!ci || ci->state.aitype!=AI_BOT) return;
+		deleteai(ci);
+		
+	}
 
     void setbotlimit(clientinfo *ci, int limit)
     {
