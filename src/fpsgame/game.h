@@ -94,6 +94,7 @@ enum
 };
 
 static int _wpmode = 0;
+static bool _wpchosen = false;
 
 static bool _arena = false;
 static int _startarena = 0;

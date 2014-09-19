@@ -303,8 +303,9 @@ namespace server
         bool logged;
         int lastnamechange;
         int namemessages;
+        bool wpchosen;
 
-        clientinfo() : getdemo(NULL), getmap(NULL), clipboard(NULL), authchallenge(NULL), authkickreason(NULL), loaded(false), gender(0), logged(false) { reset(); }
+        clientinfo() : getdemo(NULL), getmap(NULL), clipboard(NULL), authchallenge(NULL), authkickreason(NULL), loaded(false), gender(0), logged(false), wpchosen(false) { reset(); }
         ~clientinfo() { events.deletecontents(); cleanclipboard(); cleanauth(); }
 
         void addevent(gameevent *e)
@@ -425,6 +426,7 @@ namespace server
             logged = false;
             lastnamechange = totalmillis;
             namemessages = 0;
+            wpchosen = 0;
             mapchange();
         }
 
@@ -2794,7 +2796,9 @@ namespace server
     {
         stopdemo();
         _loaded_map = false;
+        _wpchosen = false;
         loopv(clients) clients[i]->loaded = false;
+        loopv(clients) clients[i]->wpchosen = false;
         pausegame(false);
         changegamespeed(servergamespeed);
         if(smode) smode->cleanup();
@@ -6321,10 +6325,10 @@ namespace server
     }
     void _reqwfunc(const char *cmd, const char *args, clientinfo *ci) {
     	if(!_wpmode) {
-    		sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Error\f3]\f7 weapon mode is \f3off\f7!");
+    		sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Error\f3]\f7 weapon mode is \f4disabled\f7!");
         	return;
     	}
-    	if(ci->state.state==CS_ALIVE) {
+    	if(ci->state.state==CS_ALIVE && ci->wpchosen) {
     		sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Error\f3]\f7 you \f3can't\f7 change your weapons when you're \f0alive\f7!");
         	return;
     	}
@@ -6332,11 +6336,12 @@ namespace server
         	sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Error\f3]\f7 you must specify \f02\f7 weapons (\f00\f7-\f06\f7)!");
         	return;
         }
-        	char *w1 = strtok((char*)args, " ");
-        	char *w2 = strtok(NULL, " ");
-        	int _w1 = clamp(atoi(w1), 0, 6);
-        	int _w2 = clamp(atoi(w2), 0, 6);
-        	ci->state.wp1 = _w1; ci->state.wp2 = _w2;
+    	char *w1 = strtok((char*)args, " ");
+    	char *w2 = strtok(NULL, " ");
+    	int _w1 = clamp(atoi(w1), 0, 6);
+    	int _w2 = clamp(atoi(w2), 0, 6);
+    	ci->state.wp1 = _w1; ci->state.wp2 = _w2;
+    	ci->wpchosen = true;
     }
     void _arenafunc(const char *cmd, const char *args, clientinfo *ci) {
     	startarena(args && args[0] ? args : smapname, 11);

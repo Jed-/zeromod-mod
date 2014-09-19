@@ -5,7 +5,8 @@ void startmatch(int mode, const char *map) {
 	_matchmsg = 0;
 	updatematchclients();
 	pausegame(true);
-	sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Match\f1]\f7 waiting for all the players to load the map...");
+	defformatstring(msg)("\f1[\f7Match\f1]\f7 waiting for all the players to load the map%s...", _wpmode ? " and choose \f32\f7 weapons with \f3#setwp weapon1 weapon2\f7" : "");
+	sendf(-1, 1, "ris", N_SERVMSG, msg);
 }
 void checkmatch() {
 	if(!_loaded_map) checkloadmap();

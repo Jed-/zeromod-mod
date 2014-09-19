@@ -7,8 +7,9 @@ void startarena(const char *map, int mode) {
 	_roundsgood = 0;
 	_roundsevil = 0;
 	_scored = 0;
-	sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Arena\f1]\f7 waiting for all the players to load the map...");
-	_timefunc("time", "1440", NULL);
+	defformatstring(msg)("\f1[\f7Arena\f1]\f7 waiting for all the players to load the map%s...", _wpmode ? " and choose \f32\f7 weapons with \f3#setwp weapon1 weapon2\f7" : "");
+	sendf(-1, 1, "ris", N_SERVMSG, msg);
+	_timefunc("time", "30", NULL);
 }
 void checkstartround() {
 	if(!_loaded_map) {
