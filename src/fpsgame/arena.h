@@ -47,7 +47,7 @@ void _respawn() {
 void startround() {
 	if(_rounds >= 10 || _roundsgood >= 6 || _roundsevil >= 6) {
 		startintermission();
-		defformatstring(msg)("\f1[\f7Arena\f1]\f7 match finished \f%d%d - \f%d%d%s!", (_roundsgood==_roundsevil) ? 6 : (_roundsgood>_roundsevil) ? 0 : 3, _roundsgood, (_roundsgood==_roundsevil) ? 6 : (_roundsgood>_roundsevil) ? 3 : 0, _roundsevil,
+		defformatstring(msg)("\f1[\f7Arena\f1]\f7 match finished \f%d%d\f7 - \f%d%d\f7%s!", (_roundsgood==_roundsevil) ? 6 : (_roundsgood>_roundsevil) ? 0 : 3, _roundsgood, (_roundsgood==_roundsevil) ? 6 : (_roundsgood>_roundsevil) ? 3 : 0, _roundsevil,
 		(_roundsgood==_roundsevil) ? "" : (_roundsgood>_roundsevil) ? " for team \f1good" : " for team \f3evil");
 		sendf(-1, 1, "ris", N_SERVMSG, msg);
 	} else {
