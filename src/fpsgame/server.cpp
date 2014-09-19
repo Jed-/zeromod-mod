@@ -3364,7 +3364,8 @@ namespace server
             	int _w1 = rnd(5)+1;
             	int _w2 = 0;
             	do _w2 = rnd(5)+1; while(_w2 == _w1);
-            	defformatstring(_msg)("\f1[\f7Wp\f1]\f7 do \f3#setwp %d %d\f7 to get \f3%s\f7 and \f3%s\f7!", _w1, _w2, _weapons[_w1], _weapons[_w2]);
+            	const char *wpcodes[7] = {"cs", "sg", "cg", "rl", "ri", "gl", "pi"};
+            	defformatstring(_msg)("\f1[\f7Wp\f1]\f7 do \f3#setwp %s %s\f7 to get \f3%s\f7 and \f3%s\f7!", wpcodes[_w1], wpcodes[_w2], _weapons[_w1], _weapons[_w2]);
             	sendf(target->clientnum, 1, "ris", N_SERVMSG, _msg);
             }
             int fragvalue = smode ? smode->fragvalue(target, actor) : (target==actor || isteam(target->team, actor->team) ? -1 : 1);
@@ -3436,7 +3437,8 @@ namespace server
         	int _w1 = rnd(5)+1;
         	int _w2 = 0;
         	do _w2 = rnd(5)+1; while(_w2 == _w1);
-        	defformatstring(_msg)("\f1[\f7Wp\f1]\f7 do \f3#setwp %d %d\f7 to get \f3%s\f7 and \f6%s\f7!", _w1, _w2, _weapons[_w1], _weapons[_w2]);
+        	const char *wpcodes[7] = {"cs", "sg", "cg", "rl", "ri", "gl", "pi"};
+        	defformatstring(_msg)("\f1[\f7Wp\f1]\f7 do \f3#setwp %s %s\f7 to get \f3%s\f7 and \f6%s\f7!", wpcodes[_w1], wpcodes[_w2], _weapons[_w1], _weapons[_w2]);
         	sendf(ci->clientnum, 1, "ris", N_SERVMSG, _msg);
         }
         //zeromod
@@ -4367,7 +4369,7 @@ namespace server
         if(publicserver != 1 && autolockmaster && numclients(-1, false) >= autolockmaster) mastermask &= ~MM_AUTOAPPROVE;
         
         if(_wpmode) {
-        	sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f1[\f7Wp\f1]\f7 weapon mode: use \f0#setwp\f7 when you're dead to get \f62\f7 weapons!");
+        	sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f1[\f7Wp\f1]\f7 weapon mode: use \f0#setwp\f7 when you're dead to get \f62\f7 weapons! - Codes: cs, sg, cg, rl, ri, gl, pi");
         }
         if(_arena) {
         	sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f1[\f7Arena\f1]\f7 kill all the enemies or score the flag to win the round!");
@@ -6321,7 +6323,7 @@ namespace server
         _wpmode = 2;
         startmatch(modenum != 1 && modenum >= 0 ? modenum : gamemode, map && map[0] ? map : smapname);
 //        _wpmode = 1;
-    	sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Wp\f1]\f7 weapon mode: use \f0#setwp\f7 when you're dead to get \f62\f7 weapons!");
+    	sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Wp\f1]\f7 weapon mode: use \f0#setwp\f7 when you're dead to get \f62\f7 weapons! - Codes: cs, sg, cg, rl, ri, gl, pi");
     }
     void _reqwfunc(const char *cmd, const char *args, clientinfo *ci) {
     	if(!_wpmode) {
@@ -6338,10 +6340,22 @@ namespace server
         }
     	char *w1 = strtok((char*)args, " ");
     	char *w2 = strtok(NULL, " ");
-    	int _w1 = clamp(atoi(w1), 0, 6);
-    	int _w2 = clamp(atoi(w2), 0, 6);
+    	const char *wpcodes[7] = {"cs", "sg", "cg", "rl", "ri", "gl", "pi"};
+    	int _w1 = -1;
+    	int _w2 = -1;
+		loopi(7) if(w1 && w1[0] && !strcmp(w1, wpcodes[i])) {_w1 = i; break;}
+		loopi(7) if(w2 && w2[0] && !strcmp(w2, wpcodes[i])) {_w2 = i; break;}
+		if(_w1 <= -1 || _w2 <= -1) {
+			sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Error\f3]\f7 kwnown weapon codes: cs, sg, cg, rl, ri, gl, pi");
+			return;
+		}
     	ci->state.wp1 = _w1; ci->state.wp2 = _w2;
-    	ci->wpchosen = true;
+		if(!ci->wpchosen) {
+			ci->state.respawn();
+			ci->state.state=CS_ALIVE;
+			sendspawn(ci);
+			ci->wpchosen = true;
+		}
     }
     void _arenafunc(const char *cmd, const char *args, clientinfo *ci) {
     	startarena(args && args[0] ? args : smapname, 11);
@@ -6355,7 +6369,7 @@ namespace server
     void _warenafunc(const char *cmd, const char *args, clientinfo *ci) {
     	_wpmode = 2;
     	startarena(args && args[0] ? args : smapname, 17);
-    	sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Wp\f1]\f7 weapon mode: use \f0#setwp\f7 when you're dead to get \f62\f7 weapons!");
+    	sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Wp\f1]\f7 weapon mode: use \f0#setwp\f7 when you're dead to get \f62\f7 weapons! - Codes: cs, sg, cg, rl, ri, gl, pi");
     }
     void _matchfunc(const char *cmd, const char *args, clientinfo *ci) {
     	char *mode = strtok((char*)args, " ");
@@ -6565,7 +6579,7 @@ namespace server
         _wpmode = 2;
         startmatch(10, args && args[0] ? args : smapname);
         sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Defend\f1]\f7 this is \f6defend\f7: capture all the bases, no ammo or health bonus standing close to a base, touch a base to capture it");
-        sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Wp\f1]\f7 weapon mode: use \f0setwp\f7 when you're dead to get \f62\f7 weapons!");
+        sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Wp\f1]\f7 weapon mode: use \f0setwp\f7 when you're dead to get \f62\f7 weapons! - Codes: cs, sg, cg, rl, ri, gl, pi");
 	}
 	void _racemodefunc(const char *cmd, const char *args, clientinfo *ci) {
 		int _v = atoi(args);
