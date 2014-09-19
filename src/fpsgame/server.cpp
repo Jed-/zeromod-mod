@@ -3364,7 +3364,7 @@ namespace server
             	int _w1 = rnd(5)+1;
             	int _w2 = 0;
             	do _w2 = rnd(5)+1; while(_w2 == _w1);
-            	defformatstring(_msg)("\f1[\f7Wp\f1]\f7 do \f0#reqw %d %d\f7 to get \f6%s\f7 and \f6%s\f7!", _w1, _w2, _weapons[_w1], _weapons[_w2]);
+            	defformatstring(_msg)("\f1[\f7Wp\f1]\f7 do \f3#setwp %d %d\f7 to get \f3%s\f7 and \f3%s\f7!", _w1, _w2, _weapons[_w1], _weapons[_w2]);
             	sendf(target->clientnum, 1, "ris", N_SERVMSG, _msg);
             }
             int fragvalue = smode ? smode->fragvalue(target, actor) : (target==actor || isteam(target->team, actor->team) ? -1 : 1);
@@ -3436,7 +3436,7 @@ namespace server
         	int _w1 = rnd(5)+1;
         	int _w2 = 0;
         	do _w2 = rnd(5)+1; while(_w2 == _w1);
-        	defformatstring(_msg)("\f1[\f7Wp\f1]\f7 do \f0#reqw %d %d\f7 to get \f6%s\f7 and \f6%s\f7!", _w1, _w2, _weapons[_w1], _weapons[_w2]);
+        	defformatstring(_msg)("\f1[\f7Wp\f1]\f7 do \f3#setwp %d %d\f7 to get \f3%s\f7 and \f6%s\f7!", _w1, _w2, _weapons[_w1], _weapons[_w2]);
         	sendf(ci->clientnum, 1, "ris", N_SERVMSG, _msg);
         }
         //zeromod
@@ -4367,7 +4367,7 @@ namespace server
         if(publicserver != 1 && autolockmaster && numclients(-1, false) >= autolockmaster) mastermask &= ~MM_AUTOAPPROVE;
         
         if(_wpmode) {
-        	sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f1[\f7Wp\f1]\f7 weapon mode: use \f0#reqw\f7 when you're dead to get \f62\f7 weapons!");
+        	sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f1[\f7Wp\f1]\f7 weapon mode: use \f0#setwp\f7 when you're dead to get \f62\f7 weapons!");
         }
         if(_arena) {
         	sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f1[\f7Arena\f1]\f7 kill all the enemies or score the flag to win the round!");
@@ -6321,11 +6321,11 @@ namespace server
         _wpmode = 2;
         startmatch(modenum != 1 && modenum >= 0 ? modenum : gamemode, map && map[0] ? map : smapname);
 //        _wpmode = 1;
-    	sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Wp\f1]\f7 weapon mode: use \f0#reqw\f7 when you're dead to get \f62\f7 weapons!");
+    	sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Wp\f1]\f7 weapon mode: use \f0#setwp\f7 when you're dead to get \f62\f7 weapons!");
     }
     void _reqwfunc(const char *cmd, const char *args, clientinfo *ci) {
     	if(!_wpmode) {
-    		sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Error\f3]\f7 weapon mode is \f4disabled\f7!");
+    		sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Error\f3]\f7 weapon preference mode is \f4disabled\f7!");
         	return;
     	}
     	if(ci->state.state==CS_ALIVE && ci->wpchosen) {
@@ -6355,7 +6355,7 @@ namespace server
     void _warenafunc(const char *cmd, const char *args, clientinfo *ci) {
     	_wpmode = 2;
     	startarena(args && args[0] ? args : smapname, 17);
-    	sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Wp\f1]\f7 weapon mode: use \f0#reqw\f7 when you're dead to get \f62\f7 weapons!");
+    	sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Wp\f1]\f7 weapon mode: use \f0#setwp\f7 when you're dead to get \f62\f7 weapons!");
     }
     void _matchfunc(const char *cmd, const char *args, clientinfo *ci) {
     	char *mode = strtok((char*)args, " ");
@@ -6565,7 +6565,7 @@ namespace server
         _wpmode = 2;
         startmatch(10, args && args[0] ? args : smapname);
         sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Defend\f1]\f7 this is \f6defend\f7: capture all the bases, no ammo or health bonus standing close to a base, touch a base to capture it");
-        sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Wp\f1]\f7 weapon mode: use \f0#reqw\f7 when you're dead to get \f62\f7 weapons!");
+        sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Wp\f1]\f7 weapon mode: use \f0setwp\f7 when you're dead to get \f62\f7 weapons!");
 	}
 	void _racemodefunc(const char *cmd, const char *args, clientinfo *ci) {
 		int _v = atoi(args);
@@ -6669,7 +6669,8 @@ namespace server
         _addfunc("autosendmap", PRIV_MASTER, _autosendmapfunc);
         _addfunc("halt", PRIV_ROOT, _haltfunc);
         _addfunc("wp", PRIV_MASTER, _wpfunc);
-        _addfunc("reqw", PRIV_NONE, _reqwfunc);
+        _addfunc("setwp", PRIV_NONE, _reqwfunc);
+        _addhiddenfunc("wpset", PRIV_NONE, _reqwfunc);
         _addfunc("arena", PRIV_MASTER, _arenafunc);
         _addfunc("iarena", PRIV_MASTER, _iarenafunc);
         _addfunc("earena", PRIV_MASTER, _earenafunc);
