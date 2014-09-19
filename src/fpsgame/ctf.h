@@ -285,7 +285,7 @@ struct ctfclientmode : clientmode
         loopv(flags) if(flags[i].owner==ci->clientnum)
         {
             flag &f = flags[i];
-            if((_arena && _scored) || (m_protect && insidebase(f, ci->state.o)))
+            if((m_protect && insidebase(f, ci->state.o)))
             {
                 returnflag(i);
                 sendf(-1, 1, "ri4", N_RETURNFLAG, ci->clientnum, i, ++f.version);
@@ -356,7 +356,7 @@ struct ctfclientmode : clientmode
             ci->_xi.lasttakeflag = 0;
         }
         ////
-        if(_arena) _scored = isteam(ci->team, "good") ? 1 : 2;
+//        if(_arena) _scored = isteam(ci->team, "good") ? 1 : 2;
         if(score >= FLAGLIMIT && !_arena) startintermission();
     }
 
