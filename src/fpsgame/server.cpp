@@ -4375,7 +4375,7 @@ namespace server
         	sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f1[\f7Arena\f1]\f7 kill all the enemies or score the flag to win the round!");
         }
         if(_defend) {
-        	sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f1[\f7Defend\f1]\f7 this is \f6defend\f7: capture all the bases, no ammo or health bonus standing close to a base, touch a base to capture it");
+        	sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f1[\f7Defend\f1]\f7 this is \f6defend\f7: capture all the bases, no ammo or health bonus standing close to a base, capture bases faster");
         }
         return true;
     }
@@ -6562,24 +6562,24 @@ namespace server
 //        const char *_modenames[] = {"ffa", "coop", "teamplay", "insta", "instateam", "effic", "efficteam", "tac", "tacteam", "capture", "regencapture", "ctf", "instactf", "protect", "instaprotect", "hold", "instahold", "efficctf", "efficprotect", "effichold", "collect", "instacollect", "efficcollect"};
         _defend = -1;
         startmatch(10, args && args[0] ? args : smapname);
-        sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Defend\f1]\f7 this is \f6defend\f7: capture all the bases, no ammo or health bonus standing close to a base, touch a base to capture it");
+        sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Defend\f1]\f7 this is \f6defend\f7: capture all the bases, no ammo or health bonus standing close to a base, capture bases faster");
 	} */ // clients couldn't see the items
 	void _idefendfunc(const char *cmd, const char *args, clientinfo *ci) {
         _defend = -2;
         startmatch(10, args && args[0] ? args : smapname);
-        sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Defend\f1]\f7 this is \f6defend\f7: capture all the bases, no ammo or health bonus standing close to a base, touch a base to capture it");
+        sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Defend\f1]\f7 this is \f6defend\f7: capture all the bases, no ammo or health bonus standing close to a base, capture bases faster");
 	}
 	void _edefendfunc(const char *cmd, const char *args, clientinfo *ci) {
         _defend = -3;
         startmatch(10, args && args[0] ? args : smapname);
-        sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Defend\f1]\f7 this is \f6defend\f7: capture all the bases, no ammo or health bonus standing close to a base, touch a base to capture it");
+        sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Defend\f1]\f7 this is \f6defend\f7: capture all the bases, no ammo or health bonus standing close to a base, capture bases faster");
 	}
 	void _wdefendfunc(const char *cmd, const char *args, clientinfo *ci) {
         _defend = -3;
         _wpmode = 2;
         startmatch(10, args && args[0] ? args : smapname);
-        sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Defend\f1]\f7 this is \f6defend\f7: capture all the bases, no ammo or health bonus standing close to a base, touch a base to capture it");
-        sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Wp\f1]\f7 weapon preference: use \f0setwp\f7 when you're dead to get \f62\f7 weapons! - Codes: cs, sg, cg, rl, ri, gl, pi");
+        sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Defend\f1]\f7 this is \f6defend\f7: capture all the bases, no ammo or health bonus standing close to a base, capture bases faster to capture it");
+        sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Wp\f1]\f7 weapon preference: use \f0#setwp\f7 when you're dead to get \f62\f7 weapons! - Codes: cs, sg, cg, rl, ri, gl, pi");
 	}
 	void _racemodefunc(const char *cmd, const char *args, clientinfo *ci) {
 		int _v = atoi(args);

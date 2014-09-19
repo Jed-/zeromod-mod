@@ -103,15 +103,15 @@ struct captureclientmode : clientmode
         int occupy(const char *team, int units)
         {
             if(strcmp(enemy, team)) return -1;
-            if(_defend) {
+            /*if(_defend) {
             	converted = owner[0] ? int(OCCUPYENEMYLIMIT) : int(OCCUPYNEUTRALLIMIT);
-			} else converted += units;
+			}*/ else converted += units;
             if(units<0)
             {
                 if(converted<=0) noenemy();
                 return -1;
             }
-            else if(converted<(owner[0] ? int(OCCUPYENEMYLIMIT) : int(OCCUPYNEUTRALLIMIT))) return -1;
+            else if(converted<(owner[0] ? (_defend ? 6 : int(OCCUPYENEMYLIMIT)) : (_defend ? 4 : int(OCCUPYNEUTRALLIMIT)))) return -1;
             if(owner[0]) { owner[0] = '\0'; converted = 0; copystring(enemy, team); return 0; }
             else { copystring(owner, team); ammo = 0; capturetime = 0; owners = enemies; noenemy(); return 1; }
         }
@@ -247,7 +247,7 @@ struct captureclientmode : clientmode
     bool insidebase(const baseinfo &b, const vec &o)
     {
         float dx = (b.o.x-o.x), dy = (b.o.y-o.y), dz = (b.o.z-o.z);
-        if(_defend) return dx*dx+dy*dy <= 8*8 && fabs(dz) <= CAPTUREHEIGHT;
+//        if(_defend) return dx*dx+dy*dy <= 8*8 && fabs(dz) <= CAPTUREHEIGHT;
         return dx*dx + dy*dy <= CAPTURERADIUS*CAPTURERADIUS && fabs(dz) <= CAPTUREHEIGHT;
     }
 
@@ -921,7 +921,7 @@ ICOMMAND(insidebases, "", (),
         if(gamemillis>=gamelimit) return;
         endcheck();
         int t = gamemillis/1000 - (gamemillis-curtime)/1000;
-        if(t<1 && !_defend) return;
+        if(t<1) return;
         loopv(bases)
         {
             baseinfo &b = bases[i];
@@ -935,7 +935,7 @@ ICOMMAND(insidebases, "", (),
             {
                 b.capturetime += t;
 
-                int score = b.capturetime/SCORESECS - (b.capturetime-t)/SCORESECS;
+                int score = b.capturetime / SCORESECS - (b.capturetime-t) / SCORESECS;
                 if(score) addscore(i, b.owner, score);
 
                 if(m_regencapture)
