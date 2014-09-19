@@ -4390,7 +4390,7 @@ namespace server
     {
         string buf;
         logoutf("debug::%s", msg ? msg : "");
-        formatstring(buf)("\f6[\f7Debug\f6] \f7%s", msg ? msg : "");
+        formatstring(buf)("\f4[\f7Debug\f4] \f7%s", msg ? msg : "");
         loopv(clients) if(clients[i] && clients[i]->privilege >= debuglevel)
         {
             sendf(clients[i]->clientnum, 1, "ris", N_SERVMSG, buf);
@@ -5115,7 +5115,7 @@ namespace server
 
     void _testfunc()
     {
-        sendf(-1, 1, "ris", N_SERVMSG, "\f6[\f7Debug\f6]\f7 plugin test function");
+        sendf(-1, 1, "ris", N_SERVMSG, "\f4[\f7Debug\f4]\f7 plugin test function");
     }
 
     void * _getext(char *s)
@@ -5483,7 +5483,7 @@ namespace server
         }
         else
         {
-            _notify("\f6[\f7Debug\f6]\f7 this function isn't implemented yet", ci);
+            _notify("\f4[\f7Debug\f4]\f7 this function isn't implemented yet", ci);
             return;
         }
 
