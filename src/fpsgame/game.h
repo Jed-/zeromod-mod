@@ -924,6 +924,7 @@ namespace server
     extern bool isreservedclan(char *name);
     extern void checkreservedname(int cn);
     extern void checkreservedclan(int cn);
+    extern void storeprotection();
     extern void startrace();
     extern void checkrace();
     extern void _forcespeccn(int cn, int spec);

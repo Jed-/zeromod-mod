@@ -1192,6 +1192,7 @@ namespace server
         if(serverflagruns) execfile("flagruns.cfg", false);
         execfile("ip.cfg", false);
         execfile("racemaps.cfg", false);
+        execfile("protection.cfg", false);
     }
 
     void _storeflagruns()
@@ -1347,6 +1348,7 @@ namespace server
         _storeflagruns();
         _storeips();
         _storeraces();
+        storeprotection();
     }
 
     int numclients(int exclude = -1, bool nospec = true, bool noai = true, bool priv = false)
@@ -6576,9 +6578,10 @@ namespace server
 		loopv(clients) if(clients[i]->privilege>=PRIV_ADMIN) sendf(clients[i]->clientnum, 1, "ris", N_SERVMSG, "\f0[\f7Info\f0]\f7 Server configuration \f6saved\f7!");
 	}
 	void _reloadconffunc(const char *cmd, const char *args, clientinfo *ci) {
-		execfile("flagruns.cfg");
-		execfile("ip.cfg");
-		execfile("racemaps.cfg");
+		execfile("flagruns.cfg", false);
+		execfile("ip.cfg", false);
+		execfile("racemaps.cfg", false);
+		execfile("protection.cfg", false);
 		sendf(-1, 1, "ris", N_SERVMSG, "\f0[\f7Info\f0]\f7 Server configuration \f6reloaded\f7!");
 	}
 //  >>> Server internals

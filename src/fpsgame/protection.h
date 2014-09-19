@@ -143,5 +143,27 @@ void addreservedclan(char *tag, char *authdesc) {
 		pcu->clans.add(pc);
 	}
 }
+void clearprotection() {
+	protectedusers.shrink(0);
+	protectedclanusers.shrink(0);
+}
+void storeprotection() {
+	stream *f = openutf8file(path("protection.cfg", true), "w");
+	if(f) {
+		f->printf("// Reserved users and clans list\nclearprotection");
+		loopv(protectedusers) {
+			loopvj(protectedusers[i]->names) {
+				f->printf("\naddreservedname %s %s", protectedusers[i]->names[j].name, protectedusers[i]->authname);
+			}
+		}
+		loopv(protectedclanusers) {
+			loopvj(protectedclanusers[i]->clans) {
+				f->printf("\naddreservedclan %s %s", protectedclanusers[i]->clans[j].tag, protectedclanusers[i]->authdesc);
+			}
+		}
+		delete f;
+	}
+}
+ICOMMAND(clearprotection, "", (), clearprotection());
 ICOMMAND(addreservedname, "ss", (char *nick, char *authname), addreservedname(nick, authname));
 ICOMMAND(addreservedclan, "ss", (char *tag, char *authdesc), addreservedclan(tag, authdesc));
