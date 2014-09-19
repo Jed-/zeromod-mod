@@ -11,7 +11,10 @@ void startarena(const char *map, int mode) {
 	_timefunc("time", "1440", NULL);
 }
 void checkstartround() {
-	if(!_loaded_map) checkloadmap();
+	if(!_loaded_map) {
+		if(!gamepaused) pausegame(true);
+		checkloadmap();
+	}
 	if(!_loaded_map) return;
 	if(!_startarena) {
 		_startarena = totalmillis;
