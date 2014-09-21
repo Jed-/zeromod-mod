@@ -72,7 +72,12 @@ void checkmatch() {
 		}
 		int _n = 0;
 		loopv(clients) _n++;
-		if(!gamepaused) loopv(_matchclients) {
+		bool hasmaster = false;
+		loopv(clients) {
+			if(clients[i]->privilege) hasmaster = true;
+			break;
+		}
+		if(!gamepaused && mastermode>= 2 && hasmaster) loopv(_matchclients) {
 			clientinfo *_ci = getinfo(_matchclients[i]);
 			if(!_ci || _ci->state.state==CS_SPECTATOR) {
 				pausegame(true);

@@ -356,8 +356,7 @@ struct ctfclientmode : clientmode
             ci->_xi.lasttakeflag = 0;
         }
         ////
-//        if(_arena) _scored = isteam(ci->team, "good") ? 1 : 2;
-        if(score >= FLAGLIMIT && !_arena) startintermission();
+        if(score >= FLAGLIMIT) startintermission();
     }
 
     void takeflag(clientinfo *ci, int i, int version)
