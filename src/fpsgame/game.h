@@ -490,6 +490,8 @@ struct fpsstate
     		gunselect = wp1;
     		baseammo(wp1);
     		baseammo(wp2);
+    		armourtype = A_GREEN;
+    		armour = 100;
     	} else {
     		if(_defend) {
     			if(_defend==1 || _defend==-1) {
