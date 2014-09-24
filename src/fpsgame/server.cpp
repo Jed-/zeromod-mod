@@ -5117,6 +5117,8 @@ namespace server
     {
         sendf(-1, 1, "ris", N_SERVMSG, "\f4[\f7Debug\f4]\f7 plugin test function");
     }
+    
+    SVAR(connectmsg, "connected from");
 
     void * _getext(char *s)
     {
@@ -5127,6 +5129,7 @@ namespace server
         else if(!strcmp(s, "debug")) return (void *)_debug;
         else if(!strcmp(s, "notifypriv")) return (void *)_notifypriv;
         else if(!strcmp(s, "logoutf")) return (void *)logoutf;
+        else if(!strcmp(s, "connectmsg")) return (void *)connectmsg;
         else
         {
             loopv(_plfuncs)

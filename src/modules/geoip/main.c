@@ -155,7 +155,12 @@ int on_connect(struct hookparam *hp)
 
     //assemble announcement string
     strcpy(connmsg, name);
-    strcat(connmsg, " \f1connected from \f0");
+//    z_getext = (getexttype)getext;
+    char *connstr = (char *) z_getext("connectmsg");
+//    strcat(connmsg, " \f1connected from \f0");
+	strcat(connmsg, " \f1");
+	strcat(connmsg, connstr);
+	strcat(connmsg, " \f0");
 
     int first = 1;
 
