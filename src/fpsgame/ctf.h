@@ -359,6 +359,13 @@ struct ctfclientmode : clientmode
         ////
         if(score >= FLAGLIMIT) startintermission();
     }
+    
+    bool hasflag(int cn) {
+    	loopv(flags) {
+    		if(flags[i].owner==cn) return true;
+    	}
+    	return false;
+    }
 
     void takeflag(clientinfo *ci, int i, int version)
     {
