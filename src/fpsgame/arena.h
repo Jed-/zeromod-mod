@@ -22,7 +22,7 @@ void startarena(const char *map, int mode) {
 			}
 		}
 	}
-	_timefunc("time", "30", NULL);
+//	_timefunc("time", "30", NULL);
 }
 void checkstartround() {
 	if(!_loaded_map) {

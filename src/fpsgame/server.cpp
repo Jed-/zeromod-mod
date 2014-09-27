@@ -6312,8 +6312,12 @@ namespace server
         quitserver = true;
     }
     
-    void _wpfunc(const char *cmd, const char *args, clientinfo *ci) {
-    	char *mode = strtok((char*)args, " ");
+    void dowp(int mode, const char *map) {
+        _wpmode = 2;
+        startmatch(mode, map && map[0] ? map : smapname);
+    }
+    void _wffa(const char *cmd, const char *args, clientinfo *ci) {
+/*    	char *mode = strtok((char*)args, " ");
         char *map = strtok(NULL, " ");
         int modenum = -1;
         const char *_modenames[] = {"ffa", "coop", "teamplay", "insta", "instateam", "effic", "efficteam", "tac", "tacteam", "capture", "regencapture", "ctf", "instactf", "protect", "instaprotect", "hold", "instahold", "efficctf", "efficprotect", "effichold", "collect", "instacollect", "efficcollect"};
@@ -6326,6 +6330,28 @@ namespace server
         _wpmode = 2;
         startmatch(modenum != 1 && modenum >= 0 ? modenum : gamemode, map && map[0] ? map : smapname);
 //        _wpmode = 1;
+		*/
+		dowp(5, args && args[0] ? args : smapname);
+    	sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Wp\f1]\f7 weapon preference: use \f0#setwp\f7 when you're dead to get \f62\f7 weapons! - Codes: cs, sg, cg, rl, ri, gl, pi");
+    }
+    void _wteam(const char *cmd, const char *args, clientinfo *ci) {
+    	dowp(6, args && args[0] ? args : smapname);
+    	sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Wp\f1]\f7 weapon preference: use \f0#setwp\f7 when you're dead to get \f62\f7 weapons! - Codes: cs, sg, cg, rl, ri, gl, pi");
+    }
+    void _wctf(const char *cmd, const char *args, clientinfo *ci) {
+    	dowp(17, args && args[0] ? args : smapname);
+    	sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Wp\f1]\f7 weapon preference: use \f0#setwp\f7 when you're dead to get \f62\f7 weapons! - Codes: cs, sg, cg, rl, ri, gl, pi");
+    }
+    void _wprotect(const char *cmd, const char *args, clientinfo *ci) {
+    	dowp(18, args && args[0] ? args : smapname);
+    	sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Wp\f1]\f7 weapon preference: use \f0#setwp\f7 when you're dead to get \f62\f7 weapons! - Codes: cs, sg, cg, rl, ri, gl, pi");
+    }
+    void _whold(const char *cmd, const char *args, clientinfo *ci) {
+    	dowp(19, args && args[0] ? args : smapname);
+    	sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Wp\f1]\f7 weapon preference: use \f0#setwp\f7 when you're dead to get \f62\f7 weapons! - Codes: cs, sg, cg, rl, ri, gl, pi");
+    }
+    void _wcollect(const char *cmd, const char *args, clientinfo *ci) {
+    	dowp(22, args && args[0] ? args : smapname);
     	sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Wp\f1]\f7 weapon preference: use \f0#setwp\f7 when you're dead to get \f62\f7 weapons! - Codes: cs, sg, cg, rl, ri, gl, pi");
     }
     void _reqwfunc(const char *cmd, const char *args, clientinfo *ci) {
@@ -6685,19 +6711,33 @@ namespace server
         _addfunc("persist", PRIV_MASTER, _persistfunc);
         _addfunc("autosendmap", PRIV_MASTER, _autosendmapfunc);
         _addfunc("halt", PRIV_ROOT, _haltfunc);
-        _addfunc("wp", PRIV_MASTER, _wpfunc);
-        _addfunc("setwp", PRIV_NONE, _reqwfunc);
+//        _addfunc("wp", PRIV_MASTER, _wpfunc);
+		_addfunc("wffa", PRIV_MASTER, _wffa);
+		_addfunc("wteam", PRIV_MASTER, _wteam);
+		_addfunc("wctf", PRIV_MASTER, _wctf);
+		_addfunc("wprotect", PRIV_MASTER, _wprotect);
+		_addfunc("whold", PRIV_MASTER, _whold);
+		_addfunc("wcollect", PRIV_MASTER, _wcollect);
+		_addhiddenfunc("wpffa", PRIV_MASTER, _wffa);
+		_addhiddenfunc("wpteam", PRIV_MASTER, _wteam);
+		_addhiddenfunc("wpctf", PRIV_MASTER, _wctf);
+		_addhiddenfunc("wpprotect", PRIV_MASTER, _wprotect);
+		_addhiddenfunc("wphold", PRIV_MASTER, _whold);
+		_addhiddenfunc("wpcollect", PRIV_MASTER, _wcollect);
+        _addhiddenfunc("setwp", PRIV_NONE, _reqwfunc);
         _addhiddenfunc("wpset", PRIV_NONE, _reqwfunc);
         _addfunc("arena", PRIV_MASTER, _arenafunc);
         _addfunc("iarena", PRIV_MASTER, _iarenafunc);
         _addfunc("earena", PRIV_MASTER, _earenafunc);
         _addfunc("warena", PRIV_MASTER, _warenafunc);
+        _addhiddenfunc("wparena", PRIV_MASTER, _warenafunc);
         _addfunc("match", PRIV_MASTER, _matchfunc);
         _addfunc("cw", PRIV_MASTER, _cwfunc);
 //        _addfunc("defend", PRIV_MASTER, _defendfunc);
         _addfunc("idefend", PRIV_MASTER, _idefendfunc);
         _addfunc("edefend", PRIV_MASTER, _edefendfunc);
         _addfunc("wdefend", PRIV_MASTER, _wdefendfunc);
+        _addhiddenfunc("wpdefend", PRIV_MASTER, _wdefendfunc);
         _addfunc("share", PRIV_MASTER, _sharefunc);
         _addfunc("beer", PRIV_NONE, _beerfunc);
         _addfunc("addbot", PRIV_ADMIN, _botfunc);

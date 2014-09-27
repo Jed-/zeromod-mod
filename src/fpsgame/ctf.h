@@ -343,6 +343,7 @@ struct ctfclientmode : clientmode
 
     void scoreflag(clientinfo *ci, int goal, int relay = -1)
     {
+    	if(_arena) return;
         returnflag(relay >= 0 ? relay : goal, m_protect ? lastmillis : 0);
         ci->state.flags++;
         int team = ctfteamflag(ci->team), score = addscore(team, 1);
@@ -399,7 +400,7 @@ struct ctfclientmode : clientmode
         }
         else
         {
-            loopvj(flags) if(flags[j].owner==ci->clientnum) { scoreflag(ci, i, j); break; }
+            loopvj(flags) if(flags[j].owner==ci->clientnum) { if(!_arena) scoreflag(ci, i, j); break; }
         }
     }
 
@@ -423,7 +424,7 @@ struct ctfclientmode : clientmode
             if(m_hold && f.owner>=0 && lastmillis - f.owntime >= HOLDSECS*1000)
             {
                 clientinfo *ci = getinfo(f.owner);
-                if(ci) scoreflag(ci, i);
+                if(ci && !_arena) scoreflag(ci, i);
                 else
                 {
                     spawnflag(i);
