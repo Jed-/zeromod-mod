@@ -2258,7 +2258,7 @@ namespace server
                 if(authname)
                 {
                     if(authdesc && authdesc[0]) formatstring(kicker)("%s\f7 as '\f6%s' \f0[\f7%s\f0]", colorname(ci), authname, authdesc);
-                    else formatstring(kicker)("%s\f7 as '\f6%s'", colorname(ci), authname);
+                    else formatstring(kicker)("%s\f7 as '\f6%s\f7'", colorname(ci), authname);
                 }
                 else copystring(kicker, colorname(ci));
 
@@ -3911,7 +3911,7 @@ namespace server
             clients.removeobj(ci);
             if(msg)
             {
-                formatstring(s)("\f4[\f7Disc\f4]\f7 client \f1%s (\f7%s\f0)\f7 disconnected because: \f3%s", colorname(ci), getclienthostname(n), msg);
+                formatstring(s)("\f4[\f7Disc\f4]\f7 client \f1%s \f0(\f7%s\f0)\f7 disconnected because: \f3%s", colorname(ci), getclienthostname(n), msg);
                 sendservmsg(s);
             }
             if(!numclients(-1, false, true)) noclients(); // bans clear when server empties
