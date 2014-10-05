@@ -6740,9 +6740,13 @@ namespace server
         _addhiddenfunc("wpdefend", PRIV_MASTER, _wdefendfunc);
         _addfunc("share", PRIV_MASTER, _sharefunc);
         _addfunc("beer", PRIV_NONE, _beerfunc);
-        _addfunc("addbot", PRIV_ADMIN, _botfunc);
-        _addfunc("delbot", PRIV_ADMIN, _botdelfunc);
-        _addfunc("forcebot", PRIV_ADMIN, _forcebotfunc);
+        _addhiddenfunc("drink", PRIV_NONE, _beerfunc);
+        _addfunc("addbar", PRIV_ADMIN, _botfunc);
+        _addhiddenfunc("addbot", PRIV_ADMIN, _botfunc);
+        _addfunc("delbar", PRIV_ADMIN, _botdelfunc);
+        _addhiddenfunc("delbot", PRIV_ADMIN, _botdelfunc);
+        _addfunc("forcebar", PRIV_ADMIN, _forcebotfunc);
+        _addhiddenfunc("forcebot", PRIV_ADMIN, _forcebotfunc);
         _addfunc("fakesay", PRIV_ADMIN, _fakesayfunc);
         _addfunc("resume", PRIV_MASTER, _resumefunc);
         _addfunc("whois", PRIV_AUTH, _whoisfunc);
