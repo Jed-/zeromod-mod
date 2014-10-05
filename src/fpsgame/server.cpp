@@ -4568,6 +4568,33 @@ namespace server
         _addmanpage("getip", "cn", "Get client ip");
         _addmanpage("persist", "mode", "Controls persist teams behavour: 0 - disabled, 1 - persist teams, 2 - persist only nonstandard teams");
         _addmanpage("disconnect disc", "cn", "Forcibly disconnect client (kick without ban)");
+        _addmanpage("wffa wpffa", "[map]", "Starts Weapon Preference mode on the specified map \f0without teams");
+        _addmanpage("wteam wpteam", "[map]", "Starts Weapon Preference mode on the specified map \f0with teams");
+        _addmanpage("wctf wpctf", "[map]", "Starts Weapon Preference mode on the specified map in \f0ctf");
+        _addmanpage("wprotect wpprotect", "[map]", "Starts Weapon Preference mode on the specified map in \f0protect");
+        _addmanpage("whold wphold", "[map]", "Starts Weapon Preference mode on the specified map in \f0hold");
+        _addmanpage("wcollect wpcollect", "[map]", "Starts Weapon Preference mode on the specified map in \f0collect");
+        _addmanpage("setwp wpset", "<weapon 1> <weapon 2>", "Gives the specified weapons in Weapon Preference mode \f1(\f7valid codes are:\f0 cs\f7, \f0sg\f7, \f0cg\f7, \f0rl\f7, \f0ri\f7, \f0gl\f7, \f0pi\f1)");
+        _addmanpage("arena", "[map]", "Starts Arena mode on specified map \f1(\f7ffa\f1)");
+        _addmanpage("iarena", "[map]", "Starts Arena mode on specified map \f1(\f7insta\f1)");
+        _addmanpage("earena", "[map]", "Starts Arena mode on specified map \f1(\f7effic\f1)");
+        _addmanpage("warena wparena", "[map]", "Starts Arena mode on specified map \f1(\f7Weapon Preference\f1)");
+        _addmanpage("match", "[mode [map]]", "Starts a match \f1(\f7waits for players to load the map; pauses when somebody leaves if mastermode is locked or private\f1) on specified map/mode");
+        _addmanpage("cw", "<clan 1> <clan 2> [mode [map]]", "Like match, but also sets teams for a cw");
+        _addmanpage("idefend", "[map]", "Starts Defend mode on specified map \f1(\f7insta\f1)");
+        _addmanpage("edefend", "[map]", "Starts Defend mode on specified map \f1(\f7effic\f1)");
+        _addmanpage("wdefend wpdefend", "[map]", "Starts Defend mode on specified map \f1(\f7Weapon Preference\f1)");
+        _addmanpage("share", "", "Shares master with all the players");
+        _addmanpage("beer drink", "[cn [number]]", "Gives number beers to cn");
+        _addmanpage("addbar addbot", "[name]", "Adds a barman");
+        _addmanpage("delbar delbot", "", "Removes a barman");
+        _addmanpage("forcebar forcebot", "[1/0]", "Forces or unforces barmen");
+        _addmanpage("fakesay", "<cn> <message>", "Forces cn to say message");
+        _addmanpage("resume", "[1/10]", "Resumes match with timer");
+        _addmanpage("whois", "<cn>", "Returns the last names used by cn");
+        _addmanpage("racemode", "[1/0]", "Starts Race mode");
+        _addmanpage("saveconf", "", "Saves flagruns, known ips and racemaps/scores");
+        _addmanpage("reloadconf", "", "Reloads flagruns, known ips and racemaps/scores");
     }
 
     void _man(const char *cmd, const char *args, clientinfo *ci)
@@ -6731,13 +6758,13 @@ namespace server
         _addfunc("earena", PRIV_MASTER, _earenafunc);
         _addfunc("warena", PRIV_MASTER, _warenafunc);
         _addhiddenfunc("wparena", PRIV_MASTER, _warenafunc);
-        _addfunc("match", PRIV_MASTER, _matchfunc);
-        _addfunc("cw", PRIV_MASTER, _cwfunc);
 //        _addfunc("defend", PRIV_MASTER, _defendfunc);
         _addfunc("idefend", PRIV_MASTER, _idefendfunc);
         _addfunc("edefend", PRIV_MASTER, _edefendfunc);
         _addfunc("wdefend", PRIV_MASTER, _wdefendfunc);
         _addhiddenfunc("wpdefend", PRIV_MASTER, _wdefendfunc);
+        _addfunc("match", PRIV_MASTER, _matchfunc);
+        _addfunc("cw", PRIV_MASTER, _cwfunc);
         _addfunc("share", PRIV_MASTER, _sharefunc);
         _addfunc("beer", PRIV_NONE, _beerfunc);
         _addhiddenfunc("drink", PRIV_NONE, _beerfunc);
