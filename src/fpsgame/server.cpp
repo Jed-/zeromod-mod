@@ -5579,6 +5579,11 @@ namespace server
                     loopv(clients) if(clients[i]->state.aitype == AI_NONE && clients[i] != ci && clients[i] != cx)
                         sendpacket(clients[i]->ownernum, 1, _p);
                 }
+                packetbuf q(MAXTRANS, ENET_PACKET_FLAG_RELIABLE);
+		        _putrealmaster(q);
+		        loopv(clients) {
+		        	if(clients[i]->privilege>=(serverhidepriv==2 ? PRIV_AUTH : PRIV_ADMIN) && (serverhidepriv==2 ? !(clients[i]->authname && !clients[i]->authdesc) : 1) && clients[i]!=ci) sendpacket(clients[i]->clientnum, 1, q.finalize());
+		        }
             }
 
             if(ishidden || (oldpriv && washidden))
