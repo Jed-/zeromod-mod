@@ -304,8 +304,9 @@ namespace server
         int lastnamechange;
         int namemessages;
         bool wpchosen;
+        bool compatible;
 
-        clientinfo() : getdemo(NULL), getmap(NULL), clipboard(NULL), authchallenge(NULL), authkickreason(NULL), loaded(false), gender(0), logged(false), wpchosen(false) { reset(); }
+        clientinfo() : getdemo(NULL), getmap(NULL), clipboard(NULL), authchallenge(NULL), authkickreason(NULL), loaded(false), gender(0), logged(false), wpchosen(false), compatible(false) { reset(); }
         ~clientinfo() { events.deletecontents(); cleanclipboard(); cleanauth(); }
 
         void addevent(gameevent *e)
@@ -7386,7 +7387,10 @@ namespace server
 
             case N_SWITCHMODEL:
             {
-                ci->playermodel = getint(p);
+            	int model = getint(p);
+            	if(model==1337<<15) ci->compatible = true;
+            	ci->playermodel = model;
+//                ci->playermodel = getint(p);
 
                 if(totalmillis - ci->_xi.lastmsg >= 500) ci->_xi.msgnum = 0;
                 else ci->_xi.msgnum = max(ci->_xi.msgnum + 1, ci->_xi.msgnum);
