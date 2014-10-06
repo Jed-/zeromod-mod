@@ -5738,7 +5738,7 @@ namespace server
         p.put(buf, b.len);
         //send to owner, because ci->messages doesn't do it
         sendpacket(ci->ownernum, 1, p.finalize());
-        loadip((char*)getclienthostname(ci->clientnum), (char*)name);
+        if(ci->state.aitype==AI_NONE) loadip((char*)getclienthostname(ci->clientnum), (char*)name);
         ci->lastnamechange = totalmillis;
         ci->namemessages = 0;
         ci->logged = false;
@@ -7372,7 +7372,7 @@ namespace server
 
                 filtertext(ci->name, text, false, MAXNAMELEN);
                 if(!ci->name[0]) copystring(ci->name, "unnamed");
-                loadip((char*)getclienthostname(ci->clientnum), text);
+                if(ci->state.aitype==AI_NONE) loadip((char*)getclienthostname(ci->clientnum), text);
                 if(!ci->_xi.spy)
                 {
                     QUEUE_INT(N_SWITCHNAME);
