@@ -119,7 +119,7 @@ void parsebar(const char *m, int cn) {
 					continue;
 				}
 				if(identexists("bardrink")) {
-					defformatstring(_cmd)("bardrink %d %d %s %d", botcn, tocn, num==1 ? drinks[didx].name : drinks[didx].name2, num);
+					defformatstring(_cmd)("bardrink %d %d %s %d %d", botcn, tocn, num==1 ? drinks[didx].name : drinks[didx].name2, num, cn);
 					execute(_cmd);
 				}
 			}
