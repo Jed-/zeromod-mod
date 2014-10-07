@@ -2174,7 +2174,7 @@ namespace server
 				        	defformatstring(cmd)("barbeer %d %d %d", botcn, ci->clientnum, ci->privilege>=PRIV_ADMIN ? 3 : 1);
 				        	execute(cmd);
 				        	defformatstring(_a)("%d %d", ci->clientnum, ci->privilege>=PRIV_ADMIN ? 3 : 1);
-				        	_beerfunc("beer", _a, getinfo(botcn));
+//				        	_beerfunc("beer", _a, getinfo(botcn));
 				        }
 				    }
 		        }
