@@ -2170,7 +2170,7 @@ namespace server
 		            }
 		            if(bars.inrange(0)) {
 				        int botcn = bars[rnd(bars.length())];
-				        if(botcn > -1 && botcn <= 255 && getinfo(botcn) && getinfo(botcn)->state.aitype==AI_BOT && !(ci->privilege>=(serverhidepriv==2 ? PRIV_AUTH : PRIV_ADMIN) && (serverhidepriv==2 ? !(ci->authname && !ci->authdesc) : 1))) {
+				        if(botcn > -1 && botcn <= 255 && getinfo(botcn) && getinfo(botcn)->state.aitype==AI_BOT && ci->privilege && (serverhidepriv ? (ci->privilege<PRIV_ADMIN && (serverhidepriv==2 ? !(ci->authname && !ci->authdesc) : 1)) : 1)) {
 				        	defformatstring(cmd)("barbeer %d %d %d", botcn, ci->clientnum, ci->privilege>=PRIV_ADMIN ? 3 : 1);
 				        	execute(cmd);
 				        	defformatstring(_a)("%d %d", ci->clientnum, ci->privilege>=PRIV_ADMIN ? 3 : 1);
