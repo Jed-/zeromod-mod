@@ -305,8 +305,9 @@ namespace server
         int namemessages;
         bool wpchosen;
         bool compatible;
+        int beerversion;
 
-        clientinfo() : getdemo(NULL), getmap(NULL), clipboard(NULL), authchallenge(NULL), authkickreason(NULL), loaded(false), gender(0), logged(false), wpchosen(false), compatible(false) { reset(); }
+        clientinfo() : getdemo(NULL), getmap(NULL), clipboard(NULL), authchallenge(NULL), authkickreason(NULL), loaded(false), gender(0), logged(false), wpchosen(false), compatible(false), beerversion(0) { reset(); }
         ~clientinfo() { events.deletecontents(); cleanclipboard(); cleanauth(); }
 
         void addevent(gameevent *e)
@@ -1127,7 +1128,7 @@ namespace server
             memset(sizetable, -1, sizeof(sizetable));
             for(const int *p = msgsizes; *p >= 0; p += 2) sizetable[p[0]] = p[1];
         }
-        return msg >= 0 && msg < NUMMSG ? sizetable[msg] : -1;
+        return msg >= 0 && msg < NUMMSG ? sizetable[msg] : msg < BEER_MAX ? beer_size[msg-1337] : -1;
     }
 
     const char *modename(int n, const char *unknown)
@@ -2810,7 +2811,8 @@ namespace server
         if(clearbots) aiman::clearai();
         if(_wpmode && _wpmode != 2) _wpmode = 0;
         if(_wpmode==2) _wpmode = 1;
-        if(_arena) _arena = 0;
+        if(_arena==1) _arena = 0;
+        if(_arena==-1) _arena = 1;
         if(_match) _match = 0;
         if(_defend > 0) _defend = 0;
         else _defend *= -1;
@@ -2831,7 +2833,10 @@ namespace server
             ci->state.timeplayed += lastmillis - ci->state.lasttimeplayed;
         }
 
-        sendf(-1, 1, "risii", N_MAPCHANGE, smapname, gamemode, 1);
+        if(!_wpmode && !_arena && !_defend) sendf(-1, 1, "risii", N_MAPCHANGE, smapname, gamemode, 1); else
+        loopv(clients) {
+        	if(clients[i]->compatible && clients[i]->compatible>=1) sendf(-1, 1, "riiisii", BEER_MODE, _wpmode ? 1 : 0, _arena ? 1 : _defend ? 2 : 0, smapname, gamemode, 1); else sendf(-1, 1, "risii", N_MAPCHANGE, smapname, gamemode, 1);
+        }
 
         clearteaminfo();
         if(m_teammode) switch(persist)
@@ -6954,7 +6959,7 @@ namespace server
                 case N_PING:
                     getint(p);
                     break;
-
+				
                 default:
                     disconnect_client(sender, DISC_MSGERR);
                     return;
@@ -7392,7 +7397,10 @@ namespace server
             case N_SWITCHMODEL:
             {
             	int model = getint(p);
-            	if(model==1337<<15) ci->compatible = true;
+            	if(model==BEER_CODE) {
+            		ci->compatible = true;
+            		sendf(ci->clientnum, 1, "ri", BEER_VERSION_REQUEST);
+            	}
             	ci->playermodel = model;
 //                ci->playermodel = getint(p);
 
@@ -7981,6 +7989,12 @@ namespace server
             #include "collect.h"
 //            #include "arena.h"
             #undef PARSEMESSAGES
+            
+            case BEER_VERSION_ANSWER:
+            {
+            	ci->beerversion = getint(p);
+            	break;
+            }
 
             case -1:
                 logoutf("disconnect because unknown packet");

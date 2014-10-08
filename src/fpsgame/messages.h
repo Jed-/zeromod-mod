@@ -1,0 +1,12 @@
+#define BEER_CODE 1337<<15
+#define BEER_VERSION 1
+enum {
+	BEER_VERSION_REQUEST = 1337,
+	BEER_VERSION_ANSWER,
+	BEER_MODE,
+	BEER_MAX
+};
+
+static int beer_size[BEER_MAX-1337] = {
+	1, 2, 0
+};

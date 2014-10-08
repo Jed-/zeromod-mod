@@ -202,7 +202,7 @@ engine/worldio-standalone.o: shared/iengine.h shared/igame.h engine/world.h
 fpsgame/entities-standalone.o: fpsgame/game.h shared/cube.h shared/tools.h
 fpsgame/entities-standalone.o: shared/geom.h shared/ents.h shared/command.h
 fpsgame/entities-standalone.o: shared/iengine.h shared/igame.h fpsgame/ai.h
-fpsgame/server-standalone.o: fpsgame/game.h shared/cube.h shared/tools.h
+fpsgame/server-standalone.o: fpsgame/game.h shared/cube.h shared/tools.h fpsgame/messages.h
 fpsgame/server-standalone.o: shared/geom.h shared/ents.h shared/command.h
 fpsgame/server-standalone.o: shared/iengine.h shared/igame.h fpsgame/ai.h
 fpsgame/server-standalone.o: fpsgame/capture.h fpsgame/ctf.h

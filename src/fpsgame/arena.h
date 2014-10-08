@@ -1,6 +1,6 @@
 void startarena(const char *map, int mode) {
+	_arena = -1;
 	changemap(map, mode);
-	_arena = true;
 	_rounds = 0;
 	_startarena = 0;
 	_arenamsg = 0;

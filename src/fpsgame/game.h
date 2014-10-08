@@ -2,6 +2,7 @@
 #define __GAME_H__
 
 #include "cube.h"
+#include "messages.h"
 
 // console message types
 
@@ -96,7 +97,7 @@ enum
 static int _wpmode = 0;
 static bool _wpchosen = false;
 
-static bool _arena = false;
+static int _arena = 0;
 static int _startarena = 0;
 static int _rounds = 0;
 static int _arenamsg = 0;
