@@ -2173,8 +2173,6 @@ namespace server
 				        if(botcn > -1 && botcn <= 255 && getinfo(botcn) && getinfo(botcn)->state.aitype==AI_BOT && ci->privilege && (serverhidepriv ? (ci->privilege<PRIV_ADMIN && (serverhidepriv==2 ? !(ci->authname && !ci->authdesc) : 1)) : 1)) {
 				        	defformatstring(cmd)("barbeer %d %d %d", botcn, ci->clientnum, ci->privilege>=PRIV_ADMIN ? 3 : 1);
 				        	execute(cmd);
-				        	defformatstring(_a)("%d %d", ci->clientnum, ci->privilege>=PRIV_ADMIN ? 3 : 1);
-//				        	_beerfunc("beer", _a, getinfo(botcn));
 				        }
 				    }
 		        }
@@ -2182,19 +2180,21 @@ namespace server
             else {
             	formatstring(msg)("\f0[\f7Priv\f0]\f1 %s\f7 claimed %s as '\fs\f6%s\fr'%s",
                 colorname(ci), name, authname, !(ishidden || (oldpriv && washidden)) ? "" : " \f0(\f7hidden\f0)");
-                int botcn = -1;
-                loopv(bots) {
-                	if(bots[i] && bots[i]->state.state==CS_SPECTATOR) {
-                		botcn = bots[i]->clientnum;
-                		break;
-                	}
-                }
-                if(botcn > -1 && getinfo(botcn)) {
-                	defformatstring(cmd)("barbeer %d %d 2", botcn, ci->clientnum);
-                	execute(cmd);
-                	defformatstring(_a)("%d 2", ci->clientnum);
-                	_beerfunc("beer", _a, getinfo(botcn));
-                }
+                if(bots.inrange(0)) {
+		            vector<int>bars;
+		            loopv(bots) {
+		            	if(bots[i] && bots[i]->state.state==CS_SPECTATOR) {
+		            		bars.add(bots[i]->clientnum);
+		            	}
+		            }
+		            if(bars.inrange(0)) {
+				        int botcn = bars[rnd(bars.length())];
+				        if(botcn > -1 && botcn <= 255 && getinfo(botcn) && getinfo(botcn)->state.aitype==AI_BOT && ci->privilege && (serverhidepriv ? (ci->privilege<PRIV_ADMIN && (serverhidepriv==2 ? !(ci->authname && !ci->authdesc) : 1)) : 1)) {
+				        	defformatstring(cmd)("barbeer %d %d 2", botcn, ci->clientnum);
+				        	execute(cmd);
+				        }
+				    }
+		        }
             }
         }
         else formatstring(msg)("\f0[\f7Priv\f0]\f7 %s %s %s%s", colorname(ci), val ? "claimed" : "relinquished", name,
@@ -6537,7 +6537,7 @@ namespace server
     	int cn = -1;
     	if(!args || !argv[0] || !argv[0][0]) cn = ci->clientnum; else {
     		int _c = atoi(argv[0]);
-    		if(!getclientinfo(_c) || (_c==0 && strcmp(argv[0], "0"))) {
+    		if((ci->state.aitype==AI_BOT ? !getinfo(_c) : !getclientinfo(_c)) || (_c==0 && strcmp(argv[0], "0"))) {
     			defformatstring(cs)("%d", _c);
     			defformatstring(msg)("\f3[\f7Error\f3] \f7Unknown client: %s", (_c==0 && strcmp(argv[0], "0")) ? argv[0] : cs);
     			sendf(ci->clientnum, 1, "ris", N_SERVMSG, msg);
