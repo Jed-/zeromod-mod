@@ -5872,7 +5872,8 @@ namespace server
         ci->lastnamechange = totalmillis;
         ci->namemessages = 0;
         ci->logged = false;
-        if(protectedclanuserlogin(ci->clientnum, ci->authdesc) || protecteduserlogin(ci->clientnum, ci->authname)) ci->logged = true;
+//        if(protectedclanuserlogin(ci->clientnum, ci->authdesc) || protecteduserlogin(ci->clientnum, ci->authname)) ci->logged = true;
+		if(!protectedclanuserlogin(ci->clientnum, ci->authdesc)) protecteduserlogin(ci->clientnum, ci->authname);
     }
 
     void _renamefunc(const char *cmd, const char *args, clientinfo *ci)
@@ -7512,7 +7513,8 @@ namespace server
                 ci->lastnamechange = totalmillis;
                 ci->namemessages = 0;
                 ci->logged = false;
-                if(protectedclanuserlogin(ci->clientnum, ci->authdesc) || protecteduserlogin(ci->clientnum, ci->authname)) ci->logged = true;
+//                if(protectedclanuserlogin(ci->clientnum, ci->authdesc) || protecteduserlogin(ci->clientnum, ci->authname)) ci->logged = true;
+				if(!protectedclanuserlogin(ci->clientnum, ci->authdesc)) protecteduserlogin(ci->clientnum, ci->authname);
                 break;
             }
 
