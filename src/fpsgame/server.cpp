@@ -481,6 +481,9 @@ namespace server
     #define MM_PRIVSERV (MM_MODE | MM_AUTOAPPROVE)
     #define MM_PUBSERV ((1<<MM_OPEN) | (1<<MM_VETO))
     #define MM_COOPSERV (MM_AUTOAPPROVE | MM_PUBSERV | (1<<MM_LOCKED))
+    
+    VAR(scoreboard, 0, 1, 1);
+    SVAR(scoreboardxml, "/var/www/html/beer.xml");
 
     bool notgotitems = true;        // true when map has changed and waiting for clients to send item
     int gamemode = 0;
@@ -1197,6 +1200,7 @@ namespace server
         execfile("ip.cfg", false);
         execfile("racemaps.cfg", false);
         execfile("protection.cfg", false);
+        execfile("scores.cfg", false);
     }
 
     void _storeflagruns()
@@ -1353,6 +1357,8 @@ namespace server
         _storeips();
         _storeraces();
         storeprotection();
+        savescorescfg();
+        if(scoreboard && scoreboardxml) savescoresxml();
     }
 
     int numclients(int exclude = -1, bool nospec = true, bool noai = true, bool priv = false)
@@ -3259,6 +3265,7 @@ namespace server
         }
     }
 
+	void addclientscore(clientinfo *ci);
     void checkintermission()
     {
         if(gamemillis >= gamelimit && !interm)
@@ -3268,15 +3275,121 @@ namespace server
             changegamespeed(100);
             interm = gamemillis + serverintermission*1000;
             if(beststats && clients.length() > 0) printbeststats();
+            loopv(clients) if(clients[i]->state.state!=CS_SPECTATOR) addclientscore(clients[i]);
+            savescorescfg();
+            if(scoreboard && scoreboardxml) savescoresxml();
         }
     }
     
-    VAR(sendscores, 0, 0, 1);
+    /* VAR(sendscores, 0, 0, 1);
     SVAR(dlcmd, "wget -O .tmp --");
     SVAR(scoreboardurl, "");
-    SVAR(scoreboardpass, "");
-    
-    struct invalidCharType {
+    SVAR(scoreboardpass, ""); */
+    struct playerscore {
+    	string name;
+    	int frags, flags, deaths, totalshots, totaldamage, suicides, teamkills;
+    	playerscore() : frags(0), deaths(0), totalshots(0), totaldamage(0), suicides(0), teamkills(0) {}
+    };
+    vector<playerscore *> playerscores;
+    bool playerscoresort(playerscore *a, playerscore *b) {
+    	if(a->frags > b->frags) return true;
+    	if(a->frags < b->frags) return false;
+    	if(a->flags > b->flags) return true;
+    	if(a->flags < b->flags) return false;
+    	if((float)((float)a->frags/max((float)a->deaths, 1.f)) > (float)((float)b->frags/max((float)b->deaths, 1.f))) return true;
+    	if((float)((float)a->frags/max((float)a->deaths, 1.f)) < (float)((float)b->frags/max((float)b->deaths, 1.f))) return false;
+    	if(a->deaths < b->deaths) return true;
+    	if(a->deaths > b->deaths) return false;
+    	if((float)((float)a->totaldamage/max((float)a->totalshots, 1.f)) > (float)((float)b->totaldamage/max((float)b->totalshots, 1.f))) return true;
+    	if((float)((float)a->totaldamage/max((float)a->totalshots, 1.f)) < (float)((float)b->totaldamage/max((float)b->totalshots, 1.f))) return false;
+    	if(a->teamkills < b->teamkills) return true;
+    	if(a->teamkills > b->teamkills) return false;
+    	if(a->suicides < b->suicides) return true;
+    	if(a->suicides > b->suicides) return false;
+    	return strcmp(a->name, b->name) < 0;
+    }
+    playerscore *findplayerscore(char *name) {
+    	if(!playerscores.inrange(0)) return NULL;
+    	loopv(playerscores) {
+    		if(!strcmp(playerscores[i]->name, name)) return playerscores[i];
+    	}
+    	return NULL;
+    }
+    void clearplayerscores() {
+    	playerscores.shrink(0);
+    }
+    COMMAND(clearplayerscores, "");
+    void addplayerscore(char *name, int frags, int flags, int deaths, int totalshots, int totaldamage, int suicides, int teamkills) {
+    	playerscore *p = findplayerscore(name);
+    	if(!p) {
+    		p = new playerscore();
+    		copystring(p->name, name, MAXNAMELEN+1);
+    		p->frags = frags;
+    		p->deaths = deaths;
+    		p->totalshots = totalshots;
+    		p->totaldamage = totaldamage;
+    		p->suicides = suicides;
+    		p->teamkills = teamkills;
+    		playerscores.add(p);
+    	} else {
+    		p->frags += frags;
+    		p->deaths += deaths;
+    		p->totalshots += totalshots;
+    		p->totaldamage += totaldamage;
+    		p->suicides += suicides;
+    		p->teamkills += teamkills;
+    	}
+    }
+    ICOMMAND(addplayerscore, "siiiiiii", (char *name, int *frags, int *flags, int *deaths, int *totalshots, int *totaldamage, int *suicides, int *teamkills), addplayerscore(name, *frags, *flags, *deaths, *totalshots, *totaldamage, *suicides, *teamkills));
+    void addclientscore(clientinfo *ci) {
+    	if(ci) {
+    		addplayerscore(ci->name, ci->state.frags, ci->state.flags, ci->state.deaths, ci->state.shotdamage, ci->state.damage, ci->state._suicides, ci->state.teamkills);
+    	}
+    }
+    int getrank(clientinfo *ci) {
+    	playerscores.sort(playerscoresort);
+    	string name;
+    	copystring(name, ci->name, MAXNAMELEN+1);
+    	loopv(playerscores) {
+    		if(!strcmp(playerscores[i]->name, name)) return i+1;
+    	}
+    	return 0;
+    }
+    void savescorescfg() {
+    	playerscores.sort(playerscoresort);
+    	stream *f = openutf8file(path("scores.cfg", true), "w");
+        if(f)
+        {
+            f->printf("// List of all the players with their scores\n");
+            loopv(playerscores)
+                f->printf("\naddplayerscore %s %i %i %i %i %i %i %i",
+                	playerscores[i]->name, playerscores[i]->frags, playerscores[i]->flags, playerscores[i]->deaths, playerscores[i]->totalshots, playerscores[i]->totaldamage, playerscores[i]->suicides, playerscores[i]->teamkills);
+            delete f;
+        }
+    }
+    void savescoresxml() {
+    	playerscores.sort(playerscoresort);
+    	stream *f = openutf8file(path(scoreboardxml, true), "w");
+    	if(f) {
+    		f->printf("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n");
+    		f->printf("<scoreboard>\n");
+    		loopv(playerscores) {
+    			f->printf("\t<player>\n");
+    			f->printf("\t\t<name>%s</name>\n", playerscores[i]->name);
+    			f->printf("\t\t<frags>%d</frags>\n", playerscores[i]->frags);
+    			f->printf("\t\t<flags>%d</flags>\n", playerscores[i]->flags);
+    			f->printf("\t\t<deaths>%d</deaths>\n", playerscores[i]->deaths);
+    			f->printf("\t\t<totalshots>%d</totalshots>\n", playerscores[i]->totalshots);
+    			f->printf("\t\t<totaldamage>%d</totaldamage>\n", playerscores[i]->totaldamage);
+    			f->printf("\t\t<suicides>%d</suicides>\n", playerscores[i]->suicides);
+    			f->printf("\t\t<teamkills>%d</teamkills>\n", playerscores[i]->teamkills);
+    			f->printf("\t</player>\n");
+    		}
+    		f->printf("</scoreboard>");
+    		delete f;
+    	}
+    }
+    /* struct invalidCharType {
 		char invalidChar;
 		string charReplacement;
 	};
@@ -3307,7 +3420,7 @@ namespace server
 			id++;
 		}
 		return id;
-	}
+	} */
 
     void startintermission() {
     	gamelimit = min(gamelimit, gamemillis);
@@ -3316,7 +3429,7 @@ namespace server
     	if(_match) _match = 0;
     	if(_defend) _defend = 0;
     	checkintermission();
-    	if(sendscores && dlcmd && dlcmd[0] && scoreboardurl && scoreboardurl[0] && !m_edit) {
+/*    	if(sendscores && dlcmd && dlcmd[0] && scoreboardurl && scoreboardurl[0] && !m_edit) {
     		loopv(clients) {
     			if(clients[i]->state.aitype!=AI_NONE || clients[i]->state.state==CS_SPECTATOR) continue;
     			clientinfo *ci = clients[i];
@@ -3334,7 +3447,7 @@ namespace server
     			defformatstring(cmd)("%s \"%s?a=g&p=%s&n=%s&k=%d&d=%d&tots=%d&totd=%d&s=%d&t=%d&l=%d\" &", dlcmd, scoreboardurl, scoreboardpass, name, ci->state.frags, ci->state.deaths, ci->state.shotdamage, ci->state.damage, ci->state._suicides, ci->state.teamkills, ci->state.flags);
     			system(cmd);
     		}
-    	}
+    	} */
     }
 
     VAR(allowmultikill, 0, 0, 1);
@@ -3501,7 +3614,7 @@ namespace server
             loopj(i) if(hits[j].target==h.target) { dup = true; break; }
             if(h.dist < 0 || h.dist > guns[gun].exprad || dup)
             {
-                _cheater(ci, "gunhack::explosioin", AC_GUNHACK, 100);
+                _cheater(ci, "gunhack::explosion", AC_GUNHACK, 100);
                 break;
             }
             int damage = guns[gun].damage;
@@ -6668,10 +6781,11 @@ namespace server
 		loopv(clients) if(clients[i]->privilege>=PRIV_ADMIN) sendf(clients[i]->clientnum, 1, "ris", N_SERVMSG, "\f0[\f7Info\f0]\f7 Server configuration \f6saved\f7!");
 	}
 	void _reloadconffunc(const char *cmd, const char *args, clientinfo *ci) {
-		execfile("flagruns.cfg", false);
+		if(serverflagruns) execfile("flagruns.cfg", false);
 		execfile("ip.cfg", false);
 		execfile("racemaps.cfg", false);
 		execfile("protection.cfg", false);
+		execfile("scores.cfg", false);
 		sendf(-1, 1, "ris", N_SERVMSG, "\f0[\f7Info\f0]\f7 Server configuration \f6reloaded\f7!");
 	}
 //  >>> Server internals

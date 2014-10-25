@@ -934,6 +934,8 @@ namespace server
     extern void _forcespeccn(int cn, int spec);
     extern void _storeraces();
     extern void sendracecn(int cn);
+    extern void savescorescfg();
+    extern void savescoresxml();
 
     //zeromod functions
     extern bool _readsnvars(const char *name, char *out, size_t s);
