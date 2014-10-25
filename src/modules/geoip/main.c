@@ -157,6 +157,8 @@ int on_connect(struct hookparam *hp)
     strcpy(connmsg, name);
 //    z_getext = (getexttype)getext;
     char *connstr = (char *) z_getext("connectmsg");
+//    int rank = 0;
+//    if(hp->args[5]) rank = *(int *)hp->args[5];
 //    strcat(connmsg, " \f1connected from \f0");
 	strcat(connmsg, " \f1");
 	strcat(connmsg, connstr);
@@ -186,6 +188,15 @@ int on_connect(struct hookparam *hp)
         else strcat(connmsg, "\f1, \f0");
         strcat(connmsg, country);
     }
+    
+//    if(rank) {
+		const char *rnk = "";
+    	if(hp->args[6]) rnk = (const char *)hp->args[6];
+    	if(rnk && rnk[0]) {
+			strcat(connmsg, "\f7 - \f1rank\f6 ");
+			strcat(connmsg, rnk);
+		}
+//    }
 
     if(!first) notifypriv(connmsg, PRIV_NONE, PRIV_AUTH);
 

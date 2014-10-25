@@ -3343,7 +3343,7 @@ namespace server
     ICOMMAND(addplayerscore, "siiiiiii", (char *name, int *frags, int *flags, int *deaths, int *totalshots, int *totaldamage, int *suicides, int *teamkills), addplayerscore(name, *frags, *flags, *deaths, *totalshots, *totaldamage, *suicides, *teamkills));
     void addclientscore(clientinfo *ci) {
     	if(ci) {
-    		addplayerscore(ci->name, ci->state.frags, ci->state.flags, ci->state.deaths, ci->state.shotdamage, ci->state.damage, ci->state._suicides, ci->state.teamkills);
+    		addplayerscore(ci->name, ci->state.frags, (m_ctf || m_protect || m_hold || m_collect) ? ci->state.flags : 0, ci->state.deaths, ci->state.shotdamage, ci->state.damage, ci->state._suicides, ci->state.teamkills);
     	}
     }
     int getrank(clientinfo *ci) {
@@ -3363,7 +3363,7 @@ namespace server
             f->printf("// List of all the players with their scores\n");
             f->printf("clearplayerscores\n");
             loopv(playerscores)
-                f->printf("\naddplayerscore %s %i %i %i %i %i %i %i",
+                f->printf("\naddplayerscore \"%s\" %i %i %i %i %i %i %i",
                 	playerscores[i]->name, playerscores[i]->frags, playerscores[i]->flags, playerscores[i]->deaths, playerscores[i]->totalshots, playerscores[i]->totaldamage, playerscores[i]->suicides, playerscores[i]->teamkills);
             delete f;
         }
@@ -4465,7 +4465,6 @@ namespace server
             uint ip = getclientip(ci->clientnum);
             _hp.args[2] = &ip;
             _hp.args[3] = (void *)getclienthostname(ci->clientnum);
-            _exechook("connected");
             if(_hp.args[4])
             {
                 if(((const char *)_hp.args[4])[0])
@@ -4482,6 +4481,11 @@ namespace server
                 _schedule_disconnect(ci->ownernum, DISC_KICK);
                 return false;
             }
+            int rank = getrank(ci);
+            _hp.args[5] = &rank;
+            defformatstring(rnk)("%d", rank);
+            _hp.args[6] = (void *)rnk;
+            _exechook("connected");
         }
 
         if(servermotd[0]) sendf(ci->clientnum, 1, "ris", N_SERVMSG, servermotd);
