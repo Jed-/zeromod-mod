@@ -3361,6 +3361,7 @@ namespace server
         if(f)
         {
             f->printf("// List of all the players with their scores\n");
+            f->printf("clearplayerscores\n");
             loopv(playerscores)
                 f->printf("\naddplayerscore %s %i %i %i %i %i %i %i",
                 	playerscores[i]->name, playerscores[i]->frags, playerscores[i]->flags, playerscores[i]->deaths, playerscores[i]->totalshots, playerscores[i]->totaldamage, playerscores[i]->suicides, playerscores[i]->teamkills);
