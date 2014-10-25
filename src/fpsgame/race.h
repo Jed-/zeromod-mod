@@ -129,7 +129,7 @@ void checkrace() {
 		}
 		if(clients[i]->state.state==CS_ALIVE && !gamepaused) {
 			racemap *r = getracemap(smapname);
-			if(clients[i]->state.o.dist(r->win) <= 32) {
+			if(clients[i]->state.o.dist(r->win) <= 32 && !_racewon) {
 				// race won?
 				int _racetime = totalmillis - _racestart;
 				_raceend = totalmillis;
@@ -146,13 +146,13 @@ void checkrace() {
 							defformatstring(msg)("\f1[\f7Race\f1]\f0 %s\f6 has won\f7 the race in \f0%.3f\f7 seconds \f0(\f7new best\f0)\f7!", colorname(clients[i]), ((float)_racetime-10000.f)/1000.f);
 							sendf(-1, 1, "ris", N_SERVMSG, msg);
 						} else {
-							defformatstring(msg)("\f1[\f7Race\f1]\f0 %s\f6 has won\f7 the race in \f0%.3f\f7 seconds \f0(\f7new best - old best: %s %.3fs\f0)\f7!", colorname(clients[i]), ((float)_racetime-10000.f)/1000.f, r->bestname, r->besttime/1000.f);
+							defformatstring(msg)("\f1[\f7Race\f1]\f0 %s\f6 has won\f7 the race in \f0%.3f\f7 seconds \f0(\f7new best - old best: %s %.3f secs\f0)\f7!", colorname(clients[i]), ((float)_racetime-10000.f)/1000.f, r->bestname, r->besttime/1000.f);
 							sendf(-1, 1, "ris", N_SERVMSG, msg);
 						}
 						r->besttime = _racetime-10000;
 						copystring(r->bestname, clients[i]->name, MAXNAMELEN+1);
 					} else {
-						defformatstring(msg)("\f1[\f7Race\f1]\f0 %s\f6 has won\f7 the race in \f6%.3f\f7 seconds \f0(\f7best: %s %.3f\f0)\f7!", colorname(clients[i]), ((float)_racetime-10000.f)/1000.f, r->bestname, r->besttime/1000.f);
+						defformatstring(msg)("\f1[\f7Race\f1]\f0 %s\f6 has won\f7 the race in \f6%.3f\f7 seconds \f0(\f7best: %s %.3f secs\f0)\f7!", colorname(clients[i]), ((float)_racetime-10000.f)/1000.f, r->bestname, r->besttime/1000.f);
 						sendf(-1, 1, "ris", N_SERVMSG, msg);
 					}
 				}
