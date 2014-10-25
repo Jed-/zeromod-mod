@@ -3364,9 +3364,10 @@ namespace server
         {
             f->printf("// List of all the players with their scores\n");
             f->printf("clearplayerscores\n");
-            loopv(playerscores)
+            loopv(playerscores) {
                 f->printf("\naddplayerscore \"%s\" %i %i %i %i %i %i %i",
-                	playerscores[i]->name, playerscores[i]->frags, playerscores[i]->flags, playerscores[i]->deaths, playerscores[i]->totalshots, playerscores[i]->totaldamage, playerscores[i]->suicides, playerscores[i]->teamkills);
+                	strreplace(playerscores[i]->name, "\"", "^\""), playerscores[i]->frags, playerscores[i]->flags, playerscores[i]->deaths, playerscores[i]->totalshots, playerscores[i]->totaldamage, playerscores[i]->suicides, playerscores[i]->teamkills);
+			}
             delete f;
         }
     }
