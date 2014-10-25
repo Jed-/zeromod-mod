@@ -192,7 +192,7 @@ int on_connect(struct hookparam *hp)
 //    if(rank) {
 		const char *rnk = "";
     	if(hp->args[6]) rnk = (const char *)hp->args[6];
-    	if(rnk && rnk[0]) {
+    	if(rnk && rnk[0] && strcmp(rnk, "0")) {
 			strcat(connmsg, "\f7 - \f1rank\f6 ");
 			strcat(connmsg, rnk);
 		}

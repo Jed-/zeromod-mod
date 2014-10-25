@@ -3275,7 +3275,7 @@ namespace server
             changegamespeed(100);
             interm = gamemillis + serverintermission*1000;
             if(beststats && clients.length() > 0) printbeststats();
-            loopv(clients) if(clients[i]->state.state!=CS_SPECTATOR) addclientscore(clients[i]);
+            loopv(clients) if(clients[i]->state.state!=CS_SPECTATOR && clients[i]->state.aitype==AI_NONE && !((isreservedname(clients[i]->name) || isreservedclan(clients[i]->name)) && !clients[i]->logged)) addclientscore(clients[i]);
             savescorescfg();
             if(scoreboard && scoreboardxml) savescoresxml();
         }
@@ -3325,6 +3325,7 @@ namespace server
     		p = new playerscore();
     		copystring(p->name, name, MAXNAMELEN+1);
     		p->frags = frags;
+    		p->flags = flags;
     		p->deaths = deaths;
     		p->totalshots = totalshots;
     		p->totaldamage = totaldamage;
@@ -3333,6 +3334,7 @@ namespace server
     		playerscores.add(p);
     	} else {
     		p->frags += frags;
+    		p->flags += flags;
     		p->deaths += deaths;
     		p->totalshots += totalshots;
     		p->totaldamage += totaldamage;
