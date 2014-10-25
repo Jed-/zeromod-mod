@@ -12,3 +12,4 @@ src/sauer_server
 *.o
 sauer_master
 src/sauer_master
+src/genauthkey/genauthkey
