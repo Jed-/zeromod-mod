@@ -2837,6 +2837,8 @@ namespace server
         {
             clientinfo *ci = clients[i];
             ci->state.timeplayed += lastmillis - ci->state.lasttimeplayed;
+//			ci->state.timeplayed = 0;
+//			ci->state.lasttimeplayed = lastmillis;
         }
 
         if(!_wpmode && !_arena && !_defend) sendf(-1, 1, "risii", N_MAPCHANGE, smapname, gamemode, 1); else
@@ -3287,8 +3289,8 @@ namespace server
     SVAR(scoreboardpass, ""); */
     struct playerscore {
     	string name;
-    	int frags, flags, deaths, totalshots, totaldamage, suicides, teamkills;
-    	playerscore() : frags(0), deaths(0), totalshots(0), totaldamage(0), suicides(0), teamkills(0) {}
+    	int frags, flags, deaths, totalshots, totaldamage, suicides, teamkills, timeplayed, matches;
+    	playerscore() : frags(0), deaths(0), totalshots(0), totaldamage(0), suicides(0), teamkills(0), timeplayed(0), matches(0) {}
     };
     vector<playerscore *> playerscores;
     bool playerscoresort(playerscore *a, playerscore *b) {
@@ -3319,7 +3321,7 @@ namespace server
     	playerscores.shrink(0);
     }
     COMMAND(clearplayerscores, "");
-    void addplayerscore(char *name, int frags, int flags, int deaths, int totalshots, int totaldamage, int suicides, int teamkills) {
+    void addplayerscore(char *name, int frags, int flags, int deaths, int totalshots, int totaldamage, int suicides, int teamkills, int timeplayed, int matches) {
     	playerscore *p = findplayerscore(name);
     	if(!p) {
     		p = new playerscore();
@@ -3331,6 +3333,8 @@ namespace server
     		p->totaldamage = totaldamage;
     		p->suicides = suicides;
     		p->teamkills = teamkills;
+    		p->timeplayed = timeplayed;
+    		p->matches = matches;
     		playerscores.add(p);
     	} else {
     		p->frags += frags;
@@ -3340,15 +3344,19 @@ namespace server
     		p->totaldamage += totaldamage;
     		p->suicides += suicides;
     		p->teamkills += teamkills;
+    		p->timeplayed += timeplayed;
+    		p->matches += matches;
     	}
     }
-    ICOMMAND(addplayerscore, "siiiiiii", (char *name, int *frags, int *flags, int *deaths, int *totalshots, int *totaldamage, int *suicides, int *teamkills), addplayerscore(name, *frags, *flags, *deaths, *totalshots, *totaldamage, *suicides, *teamkills));
+    ICOMMAND(addplayerscore, "siiiiiii", (char *name, int *frags, int *flags, int *deaths, int *totalshots, int *totaldamage, int *suicides, int *teamkills), addplayerscore(name, *frags, *flags, *deaths, *totalshots, *totaldamage, *suicides, *teamkills, 0, 0));
+    ICOMMAND(addplayerscore2, "sii", (char *name, int *timeplayed, int *matches), addplayerscore(name, 0, 0, 0, 0, 0, 0, 0, *timeplayed, *matches))
     void addclientscore(clientinfo *ci) {
     	if(ci) {
-    		addplayerscore(ci->name, ci->state.frags, (m_ctf || m_protect || m_hold || m_collect) ? ci->state.flags : 0, ci->state.deaths, ci->state.shotdamage, ci->state.damage, ci->state._suicides, ci->state.teamkills);
+    		addplayerscore(ci->name, ci->state.frags, (m_ctf || m_protect || m_hold || m_collect) ? ci->state.flags : 0, ci->state.deaths, ci->state.shotdamage, ci->state.damage, ci->state._suicides, ci->state.teamkills, gamemillis, 1);
     	}
     }
     int getrank(clientinfo *ci) {
+    	if(!scoreboard || !scoreboardxml) return 0;
     	playerscores.sort(playerscoresort);
     	string name;
     	copystring(name, ci->name, MAXNAMELEN+1);
@@ -3367,6 +3375,7 @@ namespace server
             loopv(playerscores) {
                 f->printf("\naddplayerscore \"%s\" %i %i %i %i %i %i %i",
                 	strreplace(playerscores[i]->name, "\"", "^\""), playerscores[i]->frags, playerscores[i]->flags, playerscores[i]->deaths, playerscores[i]->totalshots, playerscores[i]->totaldamage, playerscores[i]->suicides, playerscores[i]->teamkills);
+                f->printf("\naddplayerscore2 \"%s\" %i %i", playerscores[i]->name, playerscores[i]->timeplayed, playerscores[i]->matches);
 			}
             delete f;
         }
@@ -3387,6 +3396,8 @@ namespace server
     			f->printf("\t\t<totaldamage>%d</totaldamage>\n", playerscores[i]->totaldamage);
     			f->printf("\t\t<suicides>%d</suicides>\n", playerscores[i]->suicides);
     			f->printf("\t\t<teamkills>%d</teamkills>\n", playerscores[i]->teamkills);
+    			f->printf("\t\t<timeplayed>%d</timeplayed>\n", playerscores[i]->timeplayed);
+    			f->printf("\t\t<matches>%d</matches>\n", playerscores[i]->matches);
     			f->printf("\t</player>\n");
     		}
     		f->printf("</scoreboard>");
@@ -7018,6 +7029,10 @@ namespace server
         if(!ci) return; //zeromod: should never happen
         if(!ci->connected)
         {
+        	if(ci->state.state!=CS_SPECTATOR) {
+        		ci->state.timeplayed += lastmillis - ci->state.lasttimeplayed;
+        	}
+            	ci->state.lasttimeplayed = lastmillis;
             if(chan==0) return;
             else if(chan!=1) { disconnect_client(sender, DISC_MSGERR); return; }
             else while(p.length() < p.maxlen) switch(checktype(getint(p), ci))
