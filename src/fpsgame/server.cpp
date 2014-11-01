@@ -3369,6 +3369,14 @@ namespace server
     	}
     	return 0;
     }
+    playerscore *getclientscore(clientinfo *ci) {
+    	string name;
+    	copystring(name, ci->name, MAXNAMELEN+1);
+    	loopv(playerscores) {
+    		if(!strcmp(playerscores[i]->name, name)) return playerscores[i];
+    	}
+    	return NULL;
+    }
     void savescorescfg() {
     	playerscores.sort(playerscoresort);
     	stream *f = openutf8file(path("scores.cfg", true), "w");
@@ -4693,6 +4701,7 @@ namespace server
         _addmanpage("spec spectate", "[cn] [mode]", "Spectates one or all players; mode can be: 0-unspectate, 1-spectate for this map, 2-perm");
         _addmanpage("unspec unspectate", "[cn]", "Unspectates one or all players");
         _addmanpage("stats", "[cn]", "Gives stats of you or another user, use -1 to see stats of all players");
+        _addmanpage("gstats", "[cn]", "Gives the global stats for cn");
         _addmanpage("pm", "<cn>[,cn,...] <message>", "Sends message to specified clients");
         _addmanpage("editmute", "[cn] [mode]", "Mutes one or all players editing; mode can be: 0-unmute, 1-mute for this map, 2-perm");
         _addmanpage("editunmute", "[cn]", "Unmutes one or all players editing");
@@ -6802,7 +6811,7 @@ namespace server
 	}
 	void _saveconffunc(const char *cmd, const char *args, clientinfo *ci) {
 		serverclose();
-		loopv(clients) if(clients[i]->privilege>=PRIV_ADMIN) sendf(clients[i]->clientnum, 1, "ris", N_SERVMSG, "\f0[\f7Info\f0]\f7 Server configuration \f6saved\f7!");
+		loopv(clients) if(clients[i]->privilege>=PRIV_ADMIN) sendf(clients[i]->clientnum, 1, "ris", N_SERVMSG, "\f0[\f7Info\f0]\f7 server configuration \f6saved\f7!");
 	}
 	void _reloadconffunc(const char *cmd, const char *args, clientinfo *ci) {
 		if(serverflagruns) execfile("flagruns.cfg", false);
@@ -6810,7 +6819,36 @@ namespace server
 		execfile("racemaps.cfg", false);
 		execfile("protection.cfg", false);
 		execfile("scores.cfg", false);
-		sendf(-1, 1, "ris", N_SERVMSG, "\f0[\f7Info\f0]\f7 Server configuration \f6reloaded\f7!");
+		sendf(-1, 1, "ris", N_SERVMSG, "\f0[\f7Info\f0]\f7 server configuration \f6reloaded\f7!");
+	}
+	void _gstatsfunc(const char *cmd, const char *args, clientinfo *ci) {
+		if(!scoreboard) sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f0[\f7Info\f0]\f7 global stats are disabled on this server");
+		int cn = -1;
+		if(!args || !args[0]) cn = ci->clientnum;
+		else
+		{
+			if(atoi(args)<0 || atoi(args)>255 || (atoi(args)==0 && strcmp(args, "0")) || !getinfo(atoi(args)) || getinfo(atoi(args))->state.aitype!=AI_NONE) {
+				defformatstring(msg)("\f3[\f7Error\f3]\f7 unknown client number: %s", args);
+				sendf(ci->clientnum, 1, "ris", N_SERVMSG, msg);
+				return;
+			}
+			cn = atoi(args);
+		}
+		if(cn < 0 || cn > 255) return;
+		clientinfo *c = getinfo(cn);
+		if(!c) return;
+		playerscore *ps = getclientscore(c);
+		if(!ps) {
+			defformatstring(msg)("\f0[\f7Info\f0]\f7 no global stats saved for %s!", colorname(c));
+			sendf(ci->clientnum, 1, "ris", N_SERVMSG, msg);
+			return;
+		}
+		defformatstring(msg)("\f0[\f7Stats\f0]\f7 global stats for \f6%s\f0 (\f7rank \f6%d\f0)\f7:\nfrags: \f6%d\f7, flags: \f6%d\f7, deaths: \f6%d\f7, KpD: \f6%3.2f\f7\ntotal shots: \f6%d\f7, total damage: \f6%d\f7, accuracy: \f6%3.2f\f7%%\nteamkills: \f6%d\f7, suicides: \f6%d\f7\ntotal matches: \f6%d\f7, time played: \f6%d min%s", colorname(c), getrank(c),
+		ps->frags, ps->flags, ps->deaths, (float)ps->frags/max((float)ps->deaths, 1.f),
+		ps->totalshots, ps->totaldamage, (float)ps->totaldamage/max((float)ps->totalshots, 1.f)*100.f,
+		ps->teamkills, ps->suicides,
+		ps->matches, ps->timeplayed/60000, (ps->timeplayed/60000)==1 ? "" : "s");
+		sendf(ci->clientnum, 1, "ris", N_SERVMSG, msg);
 	}
 //  >>> Server internals
 
@@ -6861,6 +6899,7 @@ namespace server
         _addfunc("pm", 0, _pm);
         _addfunc("exec", PRIV_ROOT, _exec);
         _addfunc("stats", 0, _stats);
+        _addfunc("gstats", PRIV_NONE, _gstatsfunc);
         _addfunc("load reload unload", PRIV_ROOT, _load);
         _addfunc("getip", PRIV_AUTH, _getip);
         _addfunc("priv setpriv setmaster givemaster", PRIV_MASTER, _setpriv);
