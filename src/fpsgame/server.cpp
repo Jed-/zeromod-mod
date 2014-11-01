@@ -3308,6 +3308,10 @@ namespace server
     	if(a->teamkills > b->teamkills) return false;
     	if(a->suicides < b->suicides) return true;
     	if(a->suicides > b->suicides) return false;
+    	if(a->matches > b->matches) return true;
+    	if(a->matches < b->matches) return false;
+    	if(a->timeplayed > b->timeplayed) return true;
+    	if(a->timeplayed < b->timeplayed) return false;
     	return strcmp(a->name, b->name) < 0;
     }
     playerscore *findplayerscore(char *name) {
