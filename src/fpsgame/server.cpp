@@ -306,8 +306,9 @@ namespace server
         bool wpchosen;
         bool compatible;
         int beerversion;
+        int connmillis;
 
-        clientinfo() : getdemo(NULL), getmap(NULL), clipboard(NULL), authchallenge(NULL), authkickreason(NULL), loaded(false), gender(0), logged(false), wpchosen(false), compatible(false), beerversion(0) { reset(); }
+        clientinfo() : getdemo(NULL), getmap(NULL), clipboard(NULL), authchallenge(NULL), authkickreason(NULL), loaded(false), gender(0), logged(false), wpchosen(false), compatible(false), beerversion(0), connmillis(0) { reset(); }
         ~clientinfo() { events.deletecontents(); cleanclipboard(); cleanauth(); }
 
         void addevent(gameevent *e)
@@ -429,6 +430,7 @@ namespace server
             lastnamechange = totalmillis;
             namemessages = 0;
             wpchosen = 0;
+            connmillis = 0;
             mapchange();
         }
 
@@ -2839,6 +2841,7 @@ namespace server
             ci->state.timeplayed += lastmillis - ci->state.lasttimeplayed;
 //			ci->state.timeplayed = 0;
 //			ci->state.lasttimeplayed = lastmillis;
+			ci->connmillis = 0;
         }
 
         if(!_wpmode && !_arena && !_defend) sendf(-1, 1, "risii", N_MAPCHANGE, smapname, gamemode, 1); else
@@ -3356,7 +3359,7 @@ namespace server
     ICOMMAND(addplayerscore2, "sii", (char *name, int *timeplayed, int *matches), addplayerscore(name, 0, 0, 0, 0, 0, 0, 0, *timeplayed, *matches))
     void addclientscore(clientinfo *ci) {
     	if(ci) {
-    		addplayerscore(ci->name, ci->state.frags, (m_ctf || m_protect || m_hold || m_collect) ? ci->state.flags : 0, ci->state.deaths, ci->state.shotdamage, ci->state.damage, ci->state._suicides, ci->state.teamkills, gamemillis, 1);
+    		addplayerscore(ci->name, ci->state.frags, (m_ctf || m_protect || m_hold || m_collect) ? ci->state.flags : 0, ci->state.deaths, ci->state.shotdamage, ci->state.damage, ci->state._suicides, ci->state.teamkills, gamemillis - ci->connmillis, 1);
     	}
     }
     int getrank(clientinfo *ci) {
@@ -7092,6 +7095,7 @@ namespace server
             {
                 case N_CONNECT:
                 {
+                	ci->connmillis = gamemillis;
                     getstring(text, p);
                     filtertext(text, text, false, MAXNAMELEN);
                     if(!text[0]) copystring(text, "unnamed");
