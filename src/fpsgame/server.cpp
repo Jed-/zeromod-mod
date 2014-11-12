@@ -3403,7 +3403,8 @@ namespace server
     		f->printf("<scoreboard>\n");
     		loopv(playerscores) {
     			f->printf("\t<player>\n");
-    			f->printf("\t\t<name>%s</name>\n", strreplace(strreplace(playerscores[i]->name, "<", "&amp;lt;"), ">", "&amp;gt;"));
+    			char *n = strreplace(playerscores[i]->name, "<", "&amp;lt;");
+    			f->printf("\t\t<name>%s</name>\n", strreplace(n, ">", "&amp;gt;"));
     			f->printf("\t\t<frags>%d</frags>\n", playerscores[i]->frags);
     			f->printf("\t\t<flags>%d</flags>\n", playerscores[i]->flags);
     			f->printf("\t\t<deaths>%d</deaths>\n", playerscores[i]->deaths);
