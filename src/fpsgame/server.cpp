@@ -4756,6 +4756,7 @@ namespace server
         _addmanpage("racemode", "[1/0]", "Starts Race mode");
         _addmanpage("saveconf", "", "Saves flagruns, known ips and racemaps/scores");
         _addmanpage("reloadconf", "", "Reloads flagruns, known ips and racemaps/scores");
+        _addmanpage("kill", "<cn>", "Kills cn");
     }
 
     void _man(const char *cmd, const char *args, clientinfo *ci)
@@ -6866,6 +6867,27 @@ namespace server
 		sendf(ci->clientnum, 1, "ris", N_SERVMSG, msg4);
 		sendf(ci->clientnum, 1, "ris", N_SERVMSG, msg5);
 	}
+	void _killfunc(const char *cmd, const char *args, clientinfo *ci) {
+		if(!args || !args[0]) {
+			sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Error\f3]\f7 usage: #kill <cn>");
+			return;
+		}
+		if((atoi(args)==0 && strcmp(args, "0")) || atoi(args)<0 || atoi(args)>255) {
+			defformatstring(msg)("\f3[\f7Error\f3]\f7 unknown client: %s", args);
+			sendf(ci->clientnum, 1, "ris", N_SERVMSG, msg);
+			return;
+		}
+		clientinfo *c = getinfo(atoi(args));
+		if(!c) {
+			defformatstring(msg)("\f3[\f7Error\f3]\f7 unknown client: %s", args);
+			sendf(ci->clientnum, 1, "ris", N_SERVMSG, msg);
+			return;
+		}
+//		c->state.state = CS_DEAD;
+//		c->state.respawn();
+		c->state.state = CS_DEAD;
+		sendf(-1, 1, "rii", N_FORCEDEATH, c->clientnum);
+	}
 //  >>> Server internals
 
     static void _addfunc(const char *s, int priv, void (*_func)(const char *cmd, const char *args, clientinfo *ci))
@@ -6988,6 +7010,7 @@ namespace server
         _addfunc("racemode", PRIV_AUTH, _racemodefunc);
         _addfunc("saveconf", PRIV_ROOT, _saveconffunc);
         _addfunc("reloadconf", PRIV_ROOT, _reloadconffunc);
+        _addfunc("kill", PRIV_AUTH, _killfunc);
     }
 
     void _privfail(clientinfo *ci)
