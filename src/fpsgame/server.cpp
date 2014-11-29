@@ -2083,10 +2083,10 @@ namespace server
                             !(ci->privilege == PRIV_AUTH && ci->authname[0] && !ci->authdesc[0])) ||
                             ci->_xi.spy;
         bool hasmaster = false;
-		    loopv(clients) if(clients[i]->privilege >= PRIV_MASTER && !clients[i]->_xi.spy &&
+		    loopv(clients) if(clients[i]->privilege >= PRIV_MASTER /*&& !clients[i]->_xi.spy &&
 		    	(!serverhidepriv || clients[i]->privilege < (
 		    		serverhidepriv==1 ? PRIV_ADMIN : PRIV_AUTH
-		    	))
+		    	)) */
 		    ) { hasmaster = true; break; }
 
         if(val)
