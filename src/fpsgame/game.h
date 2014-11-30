@@ -132,6 +132,8 @@ static int _raceend = 0;
 static bool _raceloaded = false;
 static int _raceidx = 0;
 
+static bool _football = false;
+
 static struct gamemodeinfo
 {
     const char *name;
