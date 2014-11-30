@@ -373,6 +373,10 @@ struct ctfclientmode : clientmode
         flag &f = flags[i];
         if((m_hold ? f.spawnindex < 0 : !ctfflagteam(f.team)) || f.owner>=0 || f.version != version || (f.droptime && f.dropper == ci->clientnum && f.dropcount >= 1)) return;
         int team = ctfteamflag(ci->team);
+        if(_football) {
+        	returnflag(i);
+        	return;
+        }
         if(m_hold || m_protect == (f.team==team))
         {
             loopvj(flags) if(flags[j].owner==ci->clientnum) return;
