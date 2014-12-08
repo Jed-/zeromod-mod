@@ -3461,6 +3461,7 @@ namespace server
     	if(_wpmode) _wpmode = 0;
     	if(_match) _match = 0;
     	if(_defend) _defend = 0;
+    	if(_football) _football = 0;
     	checkintermission();
 /*    	if(sendscores && dlcmd && dlcmd[0] && scoreboardurl && scoreboardurl[0] && !m_edit) {
     		loopv(clients) {
@@ -4006,6 +4007,7 @@ namespace server
         _nodamage = 0;
         defformatstring(_a)("%d", servergamelimit);
         _timefunc("time", _a, NULL);
+        _football = 0;
 //        smapname[0] = '\0';
 //        gamemode = defaultgamemode;
     }
@@ -6890,13 +6892,13 @@ namespace server
 	}
 	void _footballfunc(const char *cmd, const char *args, clientinfo *ci) {
 		if(!args || !args[0] || (atoi(args)==0 && args[0]!='0')) {
-			defformatstring(msg)("\f0[\f7Info\f0]\f7 Football is \f%d%s", _football ? 0 : 4, _football ? "enabled" : "disabled");
+			defformatstring(msg)("\f0[\f7Info\f0]\f7 Football support is \f%d%s", _football ? 0 : 4, _football ? "enabled" : "disabled");
 			sendf(ci->clientnum, 1, "ris", N_SERVMSG, msg);
 			return;
 		}
 		_football = clamp(atoi(args), 0, 1);
-		defformatstring(msg)("\f0[\f7Info\f0]\f7 Football is \f%d%s", _football ? 0 : 4, _football ? "enabled" : "disabled");
-		sendf(ci->clientnum, 1, "ris", N_SERVMSG, msg);
+		defformatstring(msg)("\f0[\f7Info\f0]\f7 Football support \f%d%s", _football ? 0 : 4, _football ? "enabled" : "disabled");
+		sendf(-1, 1, "ris", N_SERVMSG, msg);
 	}
 //  >>> Server internals
 
