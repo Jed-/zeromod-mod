@@ -3502,7 +3502,7 @@ namespace server
     {
         gamestate &ts = target->state;
         //zeromod
-        if(!m_edit || !_nodamage || (_nodamage == 1 ? 0 : (target->_xi.editmute && actor->_xi.editmute))) ts.dodamage(_arena && ctfmode.hasflag(target->clientnum) ? (int)((float)damage * 0.75f) : damage);
+        if(!_football && (!m_edit || !_nodamage || (_nodamage == 1 ? 0 : (target->_xi.editmute && actor->_xi.editmute)))) ts.dodamage(_arena && ctfmode.hasflag(target->clientnum) ? (int)((float)damage * 0.75f) : damage);
         if(target!=actor && !isteam(target->team, actor->team)) actor->state.damage += damage;
         sendf(-1, 1, "ri6", N_DAMAGE, target->clientnum, actor->clientnum, damage, ts.armour, ts.health);
         if(target==actor) target->setpushed();
