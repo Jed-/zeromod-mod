@@ -6719,13 +6719,13 @@ namespace server
 			clientinfo *to = (clientinfo*)getclientinfo(cn);
 			loopv(clients) {
 				if(clients[i]==to) continue;
-				defformatstring(msg)("\f1[\f7Bar\f1] \f3%s\f7 offers \f3%s\f%d %s\f7 %s%s!", colorname(ci), colorname(to), numbeers==1 ? 7 : 0, numbeers==1 ? "a" : beers, (argv[2] && argv[2][0] && ci->state.aitype!=AI_NONE) ? argv[2] : "beer", numbeers==1 ? "" : ci->state.aitype==AI_NONE ? "s" : "");
+				defformatstring(msg)("\f1[\f7Bar\f1] \f3%s\f7 offers \f3%s\f%d %s\f7 %s%s!", colorname(ci), colorname(to), numbeers==1 ? 7 : 0, numbeers==1 ? "a" : beers, (argv[2] && argv[2][0] && (ci->state.aitype!=AI_NONE || _offering)) ? argv[2] : "beer", numbeers==1 ? "" : ci->state.aitype==AI_NONE ? "s" : "");
 				sendf(clients[i]->clientnum, 1, "ris", N_SERVMSG, msg);
 			}
-			defformatstring(msg)("\f1[\f7Bar\f1] \f3%s\f7 offers \f3you\f%d %s\f7 %s%s!", colorname(ci), numbeers==1 ? 7 : 0, numbeers==1 ? "a" : beers, (argv[2] && argv[2][0] && ci->state.aitype!=AI_NONE) ? argv[2] : "beer", numbeers==1 ? "" : ci->state.aitype==AI_NONE ? "s" : "");
+			defformatstring(msg)("\f1[\f7Bar\f1] \f3%s\f7 offers \f3you\f%d %s\f7 %s%s!", colorname(ci), numbeers==1 ? 7 : 0, numbeers==1 ? "a" : beers, (argv[2] && argv[2][0] && (ci->state.aitype!=AI_NONE || _offering)) ? argv[2] : "beer", numbeers==1 ? "" : ci->state.aitype==AI_NONE ? "s" : "");
 			sendf(cn, 1, "ris", N_SERVMSG, msg);
 		} else {
-			defformatstring(msg)("\f1[\f7Bar\f1] \f3%s\f7 drinks\f%d %s\f7 %s%s!", colorname(ci), numbeers==1 ? 7 : 0, numbeers==1 ? "a" : beers, (argv[2] && argv[2][0] && ci->state.aitype!=AI_NONE) ? argv[2] : "beer", numbeers==1 ? "" : ci->state.aitype==AI_NONE ? "s" : "");
+			defformatstring(msg)("\f1[\f7Bar\f1] \f3%s\f7 drinks\f%d %s\f7 %s%s!", colorname(ci), numbeers==1 ? 7 : 0, numbeers==1 ? "a" : beers, (argv[2] && argv[2][0] && (ci->state.aitype!=AI_NONE || _offering)) ? argv[2] : "beer", numbeers==1 ? "" : ci->state.aitype==AI_NONE ? "s" : "");
 			sendf(-1, 1, "ris", N_SERVMSG, msg);
 		}
 	}

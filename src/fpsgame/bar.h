@@ -18,7 +18,9 @@ void offer(int whocn, int tocn, char *what = (char*)"beer", int howmuch = 1) {
 	clientinfo *to = getinfo(tocn);
 	if(!to) return;
 	defformatstring(args)("%d %d %s", to->clientnum, howmuch, what);
+	_offering = true;
 	_beerfunc("beer", args, who);
+	_offering = false;
 }
 ICOMMAND(offer, "iisi", (int *whocn, int *tocn, char *what, int *howmuch), offer(*whocn, *tocn, what, *howmuch));
 void parsebar(const char *m, int cn) {

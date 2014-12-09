@@ -134,6 +134,8 @@ static int _raceidx = 0;
 
 static bool _football = false;
 
+static bool _offering = false; // used with 'offer' command by barmen
+
 static struct gamemodeinfo
 {
     const char *name;
