@@ -6572,7 +6572,7 @@ namespace server
 		loopi(7) if(w1 && w1[0] && !strcmp(w1, wpcodes[i])) {_w1 = i; break;}
 		loopi(7) if(w2 && w2[0] && !strcmp(w2, wpcodes[i])) {_w2 = i; break;}
 		if(_w1 <= -1 || _w2 <= -1) {
-			sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Error\f3]\f7 kwnown weapon codes: cs, sg, cg, rl, ri, gl, pi");
+			sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Error\f3]\f7 known weapon codes: cs, sg, cg, rl, ri, gl, pi");
 			return;
 		}
     	ci->state.wp1 = _w1; ci->state.wp2 = _w2;
