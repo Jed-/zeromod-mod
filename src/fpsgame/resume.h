@@ -16,7 +16,7 @@ void checkresume() {
 	int rem = (_resumemillis - totalmillis) / 1000;
 	if(_resumemsg > rem) {
 		_resumemsg--;
-		defformatstring(msg)("\f1[\f7Resume\f1]\f7 resuming in \f1%d\f7 secs", rem+1);
+		defformatstring(msg)("\f1[\f7Resume\f1]\f7 resuming in \f1%d\f7 sec%s", rem+1, rem==0 ? "" : "s");
 		sendf(-1, 1, "ris", N_SERVMSG, msg);
 	}
 }
