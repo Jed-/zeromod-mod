@@ -29,7 +29,7 @@ namespace aiman
         vector<teamscore> teams;
         calcteams(teams);
         vector<clientinfo *> reassign;
-        loopv(bots) if(bots[i]) reassign.add(bots[i]);
+        loopv(bots) if(bots[i] && bots[i]->state.state!=CS_SPECTATOR) reassign.add(bots[i]);
         while(reassign.length() && teams.length() && teams[0].score > teams.last().score + 1)
         {
             teamscore &t = teams.last();
@@ -345,7 +345,7 @@ namespace aiman
         if(ci && !ci->local && !ci->privilege) return;
         botbalance = balance ? 1 : 0;
         dorefresh = true;
-        defformatstring(msg)("bot team balancing is now %s", botbalance ? "enabled" : "disabled");
+        defformatstring(msg)("\f0[\f7Info\f0]\f7 bot team balancing is now %s", botbalance ? "\f0enabled" : "\f4disabled");
         sendservmsg(msg);
     }
 
