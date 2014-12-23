@@ -4760,6 +4760,9 @@ namespace server
         _addmanpage("saveconf", "", "Saves flagruns, known ips and racemaps/scores");
         _addmanpage("reloadconf", "", "Reloads flagruns, known ips and racemaps/scores");
         _addmanpage("kill", "<cn>", "Kills cn");
+        _addmanpage("football", "[1/0]", "Enables/disables football support \f1(\f7allowing/blocking coop-edit messages in other modes\f1)");
+        _addmanpage("register", "<nickname> <authname>", "Registers nickname");
+        _addmanpage("clanregister", "<clantag> <authdesc>", "Registers clantag");
     }
 
     void _man(const char *cmd, const char *args, clientinfo *ci)
@@ -6893,12 +6896,46 @@ namespace server
 	}
 	void _footballfunc(const char *cmd, const char *args, clientinfo *ci) {
 		if(!args || !args[0] || (atoi(args)==0 && args[0]!='0')) {
-			defformatstring(msg)("\f0[\f7Info\f0]\f7 Football support is \f%d%s", _football ? 0 : 4, _football ? "enabled" : "disabled");
+			defformatstring(msg)("\f0[\f7Info\f0]\f7 football support is \f%d%s", _football ? 0 : 4, _football ? "enabled" : "disabled");
 			sendf(ci->clientnum, 1, "ris", N_SERVMSG, msg);
 			return;
 		}
 		_football = clamp(atoi(args), 0, 1);
-		defformatstring(msg)("\f0[\f7Info\f0]\f7 Football support \f%d%s", _football ? 0 : 4, _football ? "enabled" : "disabled");
+		defformatstring(msg)("\f0[\f7Info\f0]\f7 football support \f%d%s", _football ? 0 : 4, _football ? "enabled" : "disabled");
+		sendf(-1, 1, "ris", N_SERVMSG, msg);
+	}
+	void _registerfunc(const char *cmd, const char *args, clientinfo *ci) {
+		if(!args || !args[0]) {
+			sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Error\f3]\f7 usage: #register <nickname> <authname>");
+			return;
+		}
+		string buf;
+		copystring(buf, args);
+		char *argv[2];
+		_argsep(buf, 2, argv);
+		if(!argv[0] || !argv[1]) {
+			sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Error\f3]\f7 usage: #register <nickname> <authname>");
+			return;
+		}
+		addreservedname(argv[0], argv[1]);
+		defformatstring(msg)("\f0[\f7Info\f0]\f7 added reserved name \f0%s\f7 for user \f6%s\f7!", argv[0], argv[1]);
+		sendf(-1, 1, "ris", N_SERVMSG, msg);
+	}
+	void _clanregisterfunc(const char *cmd, const char *args, clientinfo *ci) {
+		if(!args || !args[0]) {
+			sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Error\f3]\f7 usage: #clanregister <clantag> <authdesc>");
+			return;
+		}
+		string buf;
+		copystring(buf, args);
+		char *argv[2];
+		_argsep(buf, 2, argv);
+		if(!argv[0] || !argv[1]) {
+			sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Error\f3]\f7 usage: #clanregister <clantag> <authdesc>");
+			return;
+		}
+		addreservedname(argv[0], argv[1]);
+		defformatstring(msg)("\f0[\f7Info\f0]\f7 added reserved clantag \f0%s\f7 for clan \f6%s\f7!", argv[0], argv[1]);
 		sendf(-1, 1, "ris", N_SERVMSG, msg);
 	}
 //  >>> Server internals
@@ -7025,6 +7062,8 @@ namespace server
         _addfunc("reloadconf", PRIV_ROOT, _reloadconffunc);
         _addfunc("kill", PRIV_AUTH, _killfunc);
         _addfunc("football", PRIV_AUTH, _footballfunc);
+        _addfunc("register", PRIV_ADMIN, _registerfunc);
+        _addfunc("clanregister", PRIV_ADMIN, _clanregisterfunc);
     }
 
     void _privfail(clientinfo *ci)
