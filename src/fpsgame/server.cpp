@@ -4763,6 +4763,7 @@ namespace server
         _addmanpage("football", "[1/0]", "Enables/disables football support \f1(\f7allowing/blocking coop-edit messages in other modes\f1)");
         _addmanpage("register", "<nickname> <authname>", "Registers nickname");
         _addmanpage("clanregister", "<clantag> <authdesc>", "Registers clantag");
+        _addmanpage("flagrun", "[\"delete\"]", "Shows the best flagrun for the game/mode. If \"delete\" is given as argument, and the player has AUTH privilege, the flagrun is removed");
     }
 
     void _man(const char *cmd, const char *args, clientinfo *ci)
@@ -6938,6 +6939,40 @@ namespace server
 		defformatstring(msg)("\f0[\f7Info\f0]\f7 added reserved clantag \f0%s\f7 for clan \f6%s\f7!", argv[0], argv[1]);
 		sendf(-1, 1, "ris", N_SERVMSG, msg);
 	}
+	void _flagrunfunc(const char *cmd, const char *args, clientinfo *ci) {
+		if(args && args[0] && !strcmp(args, "delete")) {
+			if(ci->privilege>=PRIV_AUTH) {
+				int fi = -1;
+				loopv(_flagruns) {
+					if(_flagruns[i].gamemode==gamemode && !strcmp(_flagruns[i].map, smapname)) fi = i;
+				}
+				if(fi>=0 && _flagruns.inrange(fi)) {
+					_flagruns.remove(fi);
+					sendf(-1, 1, "ris", N_SERVMSG, "\f0[\f7Info\f0]\f7 flagrun \f3removed\f7 for this map/mode!");
+					return;
+				} else {
+					sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Error\f3]\f7 flagrun for this map/mode could \f3not\f7 be found!");
+					return;
+				}
+			} else {
+				sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Error\f3]\f7 you do not have enough \f6privileges\f7 to delete this flagrun!");
+				return;
+			}
+		} else {
+			int fi = -1;
+			loopv(_flagruns) {
+				if(_flagruns[i].gamemode==gamemode && !strcmp(_flagruns[i].map, smapname)) fi = i;
+			}
+			if(fi>=0 && _flagruns.inrange(fi)) {
+				defformatstring(msg)("\f0[\f7Flagrun\f0]\f7 best flagrun for \f0%s %s\f7: \f6%s \f1%.2f \f7secs", gamemodes[_flagruns[fi].gamemode-STARTGAMEMODE].name, _flagruns[fi].map, _flagruns[fi].name, float(_flagruns[fi].timeused) / 1000.f);
+				sendf(ci->clientnum, 1, "ris", N_SERVMSG, msg);
+				return;
+			} else {
+				sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Error\f3]\f7 flagrun for this map/mode could \f3not\f7 be found!");
+					return;
+			}
+		}
+	}
 //  >>> Server internals
 
     static void _addfunc(const char *s, int priv, void (*_func)(const char *cmd, const char *args, clientinfo *ci))
@@ -7064,6 +7099,7 @@ namespace server
         _addfunc("football", PRIV_AUTH, _footballfunc);
         _addfunc("register", PRIV_ADMIN, _registerfunc);
         _addfunc("clanregister", PRIV_ADMIN, _clanregisterfunc);
+        _addfunc("flagrun", PRIV_NONE, _flagrunfunc);
     }
 
     void _privfail(clientinfo *ci)
