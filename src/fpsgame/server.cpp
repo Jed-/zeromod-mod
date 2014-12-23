@@ -7017,7 +7017,8 @@ namespace server
 
     void _initfuncs()
     {
-        _addfunc("wall announce", PRIV_AUTH, _wall);
+        _addfunc("wall", PRIV_AUTH, _wall);
+        _addhiddenfunc("announce", PRIV_AUTH, _wall);
         _addfunc("help", 0, _man);
         _addhiddenfunc("man", 0, _man);
         _addfunc("info", 0, _info);
@@ -7028,9 +7029,12 @@ namespace server
         _addfunc("gstats", PRIV_NONE, _gstatsfunc);
         _addfunc("load reload unload", PRIV_ROOT, _load);
         _addfunc("getip", PRIV_AUTH, _getip);
-        _addfunc("priv setpriv setmaster givemaster", PRIV_MASTER, _setpriv);
-        _addfunc("setadmin giveadmin", PRIV_ADMIN, _setpriv);
-        _addfunc("spec spectate unspec unspectate", PRIV_MASTER, _spectfunc);
+        _addfunc("priv givemaster", PRIV_MASTER, _setpriv);
+        _addhiddenfunc("setpriv setmaster", PRIV_MASTER, _setpriv);
+        _addfunc("giveadmin", PRIV_ADMIN, _setpriv);
+        _addhiddenfunc("setadmin", PRIV_ADMIN, _setpriv);
+        _addfunc("spec unspec", PRIV_MASTER, _spectfunc);
+        _addhiddenfunc("spectate unspectate", PRIV_MASTER, _spectfunc);
         _addfunc("mute unmute", PRIV_AUTH, _mutefunc);
         _addfunc("editmute editunmute", PRIV_MASTER, _editmutefunc);
         _addhiddenfunc("uneditmute", PRIV_MASTER, _editmutefunc);
@@ -7041,11 +7045,12 @@ namespace server
         _addfunc("spy", PRIV_ADMIN, _spyfunc);
         _addfunc("np", PRIV_NONE, _np);
         _addhiddenfunc("forgive fg", PRIV_NONE, _np);
-        _addfunc("interm intermission", PRIV_MASTER, _interm);
+        _addfunc("interm", PRIV_MASTER, _interm);
+        _addhiddenfunc("intermission", PRIV_MASTER, _interm);
         _addfunc("time", PRIV_MASTER, _timefunc);
         _addfunc("ban", PRIV_ADMIN, _ban);
-        _addfunc("disconnect", PRIV_MASTER, _disc);
-        _addhiddenfunc("disc", PRIV_MASTER, _disc);
+        _addfunc("disc", PRIV_MASTER, _disc);
+        _addhiddenfunc("disconnect", PRIV_MASTER, _disc);
         _addfunc("votekick", PRIV_NONE, _votekickfunc);
         _addfunc("sendto", PRIV_MASTER, _sendto);
         _addfunc("rename", PRIV_AUTH, _renamefunc);
