@@ -3283,7 +3283,10 @@ namespace server
             if(beststats && clients.length() > 0) printbeststats();
             loopv(clients) if(clients[i]->state.state!=CS_SPECTATOR && clients[i]->state.aitype==AI_NONE && !((isreservedname(clients[i]->name) || isreservedclan(clients[i]->name)) && !clients[i]->logged)) addclientscore(clients[i]);
             savescorescfg();
-            if(scoreboard && scoreboardxml) savescoresxml();
+            if(scoreboard && scoreboardxml) {
+            	savescoresxml();
+            	savescorescfg();
+            }
         }
     }
     
@@ -6969,7 +6972,7 @@ namespace server
 				return;
 			} else {
 				sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Error\f3]\f7 flagrun for this map/mode could \f3not\f7 be found!");
-					return;
+				return;
 			}
 		}
 	}
