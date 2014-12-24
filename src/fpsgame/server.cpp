@@ -7191,11 +7191,14 @@ namespace server
         sendf(ci->ownernum, 1, "ris", N_SERVMSG, msg);
 
     }
+    
+    static int clockrealbase = 0, clockvirtbase = 0;
 
     ICOMMAND(zexec, "C", (char *cmd), _servcmd(cmd, 0));
     ICOMMAND(zload, "C", (char *modulename), _load("load", modulename, 0));
     ICOMMAND(zwall, "C", (char *message), _wall(0, message, 0));
     ICOMMAND(announce, "C", (char *message), _wall(0, message, 0));
+    ICOMMAND(time, "", (), intret(int(time(NULL))));
 
 // ****************************************************************************************
 
