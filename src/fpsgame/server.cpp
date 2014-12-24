@@ -7195,21 +7195,22 @@ namespace server
         sendf(ci->ownernum, 1, "ris", N_SERVMSG, msg);
 
     }
-
+	
+	int firstbar() {
+		loopv(bots) {
+			if(bots[i] && bots[i]->state.state==CS_SPECTATOR) {
+				return bots[i]->clientnum;
+			}
+		}
+		return -1;
+	}
+	
     ICOMMAND(zexec, "C", (char *cmd), _servcmd(cmd, 0));
     ICOMMAND(zload, "C", (char *modulename), _load("load", modulename, 0));
     ICOMMAND(zwall, "C", (char *message), _wall(0, message, 0));
     ICOMMAND(announce, "C", (char *message), _wall(0, message, 0));
     ICOMMAND(time, "", (), intret(int(time(NULL))));
-    ICOMMAND(firstbar, "", (), {
-    	loopv(bots) {
-    		if(bots[i]->state.state==CS_SPECTATOR) {
-    			intret(bots[i]->clientnum);
-    			return;
-    		}
-    	}
-    	intret(-1);
-    });
+    ICOMMAND(firstbar, "", (), intret(firstbar()));
 
 // ****************************************************************************************
 
