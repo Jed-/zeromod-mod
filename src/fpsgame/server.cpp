@@ -4524,10 +4524,6 @@ namespace server
             defformatstring(rnk)("%d", rank);
             _hp.args[6] = (void *)rnk;
             _exechook("connected");
-            if(identexists("onconnect")) {
-            	defformatstring(cmd)("onconnect %d", ci->clientnum);
-            	execute(cmd);
-            }
         }
 
         if(servermotd[0]) sendf(ci->clientnum, 1, "ris", N_SERVMSG, servermotd);
@@ -4546,6 +4542,10 @@ namespace server
         }
         if(_defend) {
         	sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f1[\f7Defend\f1]\f7 this is \f6defend\f7: capture all the bases, no ammo or health bonus standing close to a base, capture bases faster");
+        }
+        if(identexists("onconnect")) {
+        	defformatstring(cmd)("onconnect %d", ci->clientnum);
+        	execute(cmd);
         }
         return true;
     }
@@ -6691,14 +6691,14 @@ namespace server
     }
     void _forcebotfunc(const char *cmd, const char *args, clientinfo *ci) {
     	if(!args || !args[0]) {
-    		defformatstring(msg)("\f1[\f7Bot\f1]\f7 force bot is %s", _force_bot ? "\f0on" : "\f3off");
+    		defformatstring(msg)("\f1[\f7Bar\f1]\f7 force barman is %s", _force_bot ? "\f0on" : "\f3off");
     		sendf(ci->clientnum, 1, "ris", N_SERVMSG, msg);
     		return;
     	}
     	int f = atoi(args);
     	int _f = clamp(f, 0, 1);
     	_force_bot = _f ? true : false;
-    	defformatstring(msg)("\f1[\f7Bot\f1]\f7 force bot %s", _force_bot ? "\f0on" : "\f3off");
+    	defformatstring(msg)("\f1[\f7Bar\f1]\f7 force barman %s", _force_bot ? "\f0on" : "\f3off");
     	sendf(-1, 1, "ris", N_SERVMSG, msg);
     }
     void _beerfunc(const char *cmd, const char *args, clientinfo *ci) {
