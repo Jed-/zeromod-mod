@@ -4524,6 +4524,10 @@ namespace server
             defformatstring(rnk)("%d", rank);
             _hp.args[6] = (void *)rnk;
             _exechook("connected");
+            if(identexists("onconnect")) {
+            	defformatstring(cmd)("onconnect %d", ci->clientnum);
+            	execute(cmd);
+            }
         }
 
         if(servermotd[0]) sendf(ci->clientnum, 1, "ris", N_SERVMSG, servermotd);
