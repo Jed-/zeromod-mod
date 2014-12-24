@@ -7191,8 +7191,6 @@ namespace server
         sendf(ci->ownernum, 1, "ris", N_SERVMSG, msg);
 
     }
-    
-    static int clockrealbase = 0, clockvirtbase = 0;
 
     ICOMMAND(zexec, "C", (char *cmd), _servcmd(cmd, 0));
     ICOMMAND(zload, "C", (char *modulename), _load("load", modulename, 0));
