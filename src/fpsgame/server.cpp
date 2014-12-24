@@ -7201,6 +7201,15 @@ namespace server
     ICOMMAND(zwall, "C", (char *message), _wall(0, message, 0));
     ICOMMAND(announce, "C", (char *message), _wall(0, message, 0));
     ICOMMAND(time, "", (), intret(int(time(NULL))));
+    ICOMMAND(firstbar, "", (), {
+    	loopv(bots) {
+    		if(bots[i]->state.state==CS_SPECTATOR) {
+    			intret(bots[i]->clientnum);
+    			return;
+    		}
+    	}
+    	intret(-1);
+    });
 
 // ****************************************************************************************
 
