@@ -5916,7 +5916,7 @@ namespace server
         if(ci->state.aitype==AI_NONE) loadip((char*)getclienthostname(ci->clientnum), (char*)name);
         ci->lastnamechange = totalmillis;
         ci->namemessages = 0;
-        ci->logged = false;
+//        ci->logged = false;
 //        if(protectedclanuserlogin(ci->clientnum, ci->authdesc) || protecteduserlogin(ci->clientnum, ci->authname)) ci->logged = true;
 		if(!protectedclanuserlogin(ci->clientnum, ci->authdesc)) protecteduserlogin(ci->clientnum, ci->authname);
     }
@@ -7722,7 +7722,7 @@ namespace server
                 }
                 ci->lastnamechange = totalmillis;
                 ci->namemessages = 0;
-                ci->logged = false;
+//                ci->logged = false;
 //                if(protectedclanuserlogin(ci->clientnum, ci->authdesc) || protecteduserlogin(ci->clientnum, ci->authname)) ci->logged = true;
 				if(!protectedclanuserlogin(ci->clientnum, ci->authdesc)) protecteduserlogin(ci->clientnum, ci->authname);
                 break;
