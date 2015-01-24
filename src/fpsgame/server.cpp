@@ -2813,6 +2813,7 @@ namespace server
         _wpchosen = false;
         loopv(clients) clients[i]->loaded = false;
         loopv(clients) clients[i]->wpchosen = false;
+        if(_resuming) _resuming = false;
         pausegame(false);
         changegamespeed(servergamespeed);
         if(smode) smode->cleanup();
@@ -3851,7 +3852,7 @@ namespace server
     	if(_force_bot && botcn <= -1 && _n) {
     		aiman::addservai(_bname);
     	}
-    	if(!_n) {_wpmode = false; _arena = false; _match = false; _defend = 0; if(gamepaused) pausegame(false);}
+    	if(!_n) {_wpmode = false; _arena = false; _match = false; _defend = 0; if(_resuming) _resuming = false; if(gamepaused) pausegame(false);}
         if(shouldstep && !gamepaused)
         {
             gamemillis += curtime;
@@ -8215,7 +8216,7 @@ namespace server
             {
                 int val = getint(p);
                 if(ci->privilege < (restrictpausegame ? PRIV_ADMIN : PRIV_MASTER)) break;
-                if(val) pausegame(val > 0, ci); else doresume(5);
+                if(val) {if(_resuming) _resuming = false; pausegame(val > 0, ci);} else doresume(5);
                 break;
             }
 

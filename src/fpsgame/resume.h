@@ -1,5 +1,10 @@
 void doresume(int secs) {
-	if(_resuming || !gamepaused) return;
+	if(_resuming) {
+		_resuming = false;
+		sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Resume\f1]\f7 game is \f3paused\f7!");
+		return;
+	}
+	if(/*_resuming || */!gamepaused || (_arena && _startarena && _roundstart && (totalmillis - _roundstart) <= 5000) || (_match && _matchstart && (totalmillis - _matchstart) <= 5000)) return;
 	secs = clamp(secs, 0, 10);
 	_resuming = true;
 	_startresume = totalmillis;
