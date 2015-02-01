@@ -5769,7 +5769,7 @@ namespace server
                 putint(q, N_SERVMSG);
                 sendstring(msg, q);
                 _putrealmaster(q);
-                _putrealmaster(q);
+//                _putrealmaster(q);
                 ENetPacket *_q = q.finalize();
                 sendpacket(cx->ownernum, 1, _q);
                 if(ci && ci != cx) sendpacket(ci->ownernum, 1, _q);
@@ -5781,6 +5781,11 @@ namespace server
             checkpausegame();
         }
         else _privfail(ci);
+        packetbuf q(MAXTRANS, ENET_PACKET_FLAG_RELIABLE);
+        _putrealmaster(q);
+        loopv(clients) {
+        	if(clients[i]->privilege>=(serverhidepriv==2 ? PRIV_AUTH : PRIV_ADMIN) && (serverhidepriv==2 ? !(clients[i]->authname && !clients[i]->authdesc) : 1) && clients[i]!=ci) sendpacket(clients[i]->clientnum, 1, q.finalize());
+        }
     }
 
     void _exec(const char *cmd, const char *args, clientinfo *ci)
