@@ -118,14 +118,14 @@ struct captureclientmode : clientmode
 
         bool addammo(int i)
         {
-            if(ammo>=MAXAMMO || _defend) return false;
+            if(ammo>=MAXAMMO || _defend==-2 || _defend==2) return false;
             ammo = min(ammo+i, int(MAXAMMO));
             return true;
         }
 
         bool takeammo(const char *team)
         {
-            if(strcmp(owner, team) || ammo<=0 || _defend) return false;
+            if(strcmp(owner, team) || ammo<=0 || _defend==-2 || _defend==2) return false;
             ammo--;
             return true;
         }
@@ -946,7 +946,7 @@ ICOMMAND(insidebases, "", (),
                 else
                 {
                     int ammo = b.capturetime/AMMOSECS - (b.capturetime-t)/AMMOSECS;
-                    if(!_defend && ammo && b.addammo(ammo)) sendbaseinfo(i);
+                    if(_defend!=-2&& _defend!=2 && ammo && b.addammo(ammo)) sendbaseinfo(i);
                 }
             }
         }
