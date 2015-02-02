@@ -7738,6 +7738,9 @@ namespace server
             {
             	int model = getint(p);
             	if(model==BEER_CODE) {
+            		if(!ci->compatible) { // first time we receive this packet from the client
+            			if(_wpmode || _arena || _defend) sendf(ci->clientnum, 1, "riiisii", BEER_MODE, _wpmode ? 1 : 0, _arena ? 1 : _defend ? 2 : 0, smapname, gamemode, 1);
+            		}
             		ci->compatible = true;
             		sendf(ci->clientnum, 1, "ri", BEER_VERSION_REQUEST);
             	}
