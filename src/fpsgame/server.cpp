@@ -2848,7 +2848,7 @@ namespace server
         if(!_wpmode && !_arena && !_defend) sendf(-1, 1, "risii", N_MAPCHANGE, smapname, gamemode, 1); else
         loopv(clients) {
         	if(clients[i]->state.aitype==AI_NONE) {
-        	if(clients[i]->compatible && clients[i]->compatible>=1) sendf(clients[i]->clientnum, 1, "riiisii", BEER_MODE, _wpmode ? 1 : 0, _arena ? 1 : _defend ? 2 : 0, smapname, gamemode, 1); else sendf(-1, 1, "risii", N_MAPCHANGE, smapname, gamemode, 1);}
+        	if(clients[i]->compatible && clients[i]->compatible>=1) sendf(clients[i]->clientnum, 1, "riiisii", BEER_MODE, _wpmode ? 1 : 0, _arena ? 1 : _defend ? 2 : 0, smapname, gamemode, 1); else sendf(clients[i]->clientnum, 1, "risii", N_MAPCHANGE, smapname, gamemode, 1);}
         }
 
         clearteaminfo();
