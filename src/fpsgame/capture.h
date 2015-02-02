@@ -111,7 +111,7 @@ struct captureclientmode : clientmode
                 if(converted<=0) noenemy();
                 return -1;
             }
-            else if(converted<(owner[0] ? (_defend ? 6 : int(OCCUPYENEMYLIMIT)) : (_defend ? 6 : int(OCCUPYNEUTRALLIMIT)))) return -1;
+            else if(converted<(owner[0] ? (_defend ? 10 : int(OCCUPYENEMYLIMIT)) : (_defend ? 10 : int(OCCUPYNEUTRALLIMIT)))) return -1;
             if(owner[0]) { owner[0] = '\0'; converted = 0; copystring(enemy, team); return 0; }
             else { copystring(owner, team); ammo = 0; capturetime = 0; owners = enemies; noenemy(); return 1; }
         }
