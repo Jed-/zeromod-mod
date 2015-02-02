@@ -8332,11 +8332,7 @@ namespace server
             
             case BEER_VERSION_ANSWER:
             {
-            	int v = getint(p);
-            	if(ci->beerversion==0) {
-            		if(_wpmode || _arena || _defend) sendf(ci->clientnum, 1, "riiisii", BEER_MODE, _wpmode ? 1 : 0, _arena ? 1 : _defend ? 2 : 0, smapname, gamemode, 1);
-            	}
-            	ci->beerversion = v;
+            	ci->beerversion = getint(p);
             	break;
             }
 
