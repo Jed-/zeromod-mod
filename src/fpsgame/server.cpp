@@ -2388,9 +2388,9 @@ namespace server
             // server-only messages
             case 1: return ci ? -1 : type;
             // only allowed in coop-edit
-            case 2: if(m_edit || _football) break; return -1;
+            case 2: if(m_edit) break; return -1;
             // only allowed in coop-edit, no overflow check
-            case 3: return (m_edit || _football) ? type : -1;
+            case 3: return (m_edit) ? type : -1;
             // no overflow check
             case 4: return type;
         }
