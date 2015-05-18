@@ -132,7 +132,7 @@ static int _raceend = 0;
 static bool _raceloaded = false;
 static int _raceidx = 0;
 
-static bool _football = false;
+static int _football = 0;
 
 static bool _offering = false; // used with 'offer' command by barmen
 
@@ -942,6 +942,9 @@ namespace server
     extern void sendracecn(int cn);
     extern void savescorescfg();
     extern void savescoresxml();
+    extern void startfootball();
+    extern void endfootball();
+    extern void updatefootball();
 
     //zeromod functions
     extern bool _readsnvars(const char *name, char *out, size_t s);

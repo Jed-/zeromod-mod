@@ -13,3 +13,4 @@ src/sauer_server
 sauer_master
 src/sauer_master
 src/genauthkey/genauthkey
+football/*

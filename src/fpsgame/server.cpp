@@ -307,8 +307,9 @@ namespace server
         bool compatible;
         int beerversion;
         int connmillis;
+        float yaw, pitch;
 
-        clientinfo() : getdemo(NULL), getmap(NULL), clipboard(NULL), authchallenge(NULL), authkickreason(NULL), loaded(false), gender(0), logged(false), wpchosen(false), compatible(false), beerversion(0), connmillis(0) { reset(); }
+        clientinfo() : getdemo(NULL), getmap(NULL), clipboard(NULL), authchallenge(NULL), authkickreason(NULL), loaded(false), gender(0), logged(false), wpchosen(false), compatible(false), beerversion(0), connmillis(0), yaw(0), pitch(0) { reset(); }
         ~clientinfo() { events.deletecontents(); cleanclipboard(); cleanauth(); }
 
         void addevent(gameevent *e)
@@ -3844,6 +3845,7 @@ namespace server
     			break;
     		}
     	}
+    	if(_football) updatefootball();
     	loopv(clients) {
     		if(isreservedclan(clients[i]->name) && !clients[i]->logged) checkreservedclan(clients[i]->clientnum); else
     		if(isreservedname(clients[i]->name) && !clients[i]->logged) checkreservedname(clients[i]->clientnum);
@@ -4768,7 +4770,7 @@ namespace server
         _addmanpage("saveconf", "", "Saves flagruns, known ips and racemaps/scores");
         _addmanpage("reloadconf", "", "Reloads flagruns, known ips and racemaps/scores");
         _addmanpage("kill", "<cn>", "Kills cn");
-        _addmanpage("football", "[1/0]", "Enables/disables football support \f1(\f7allowing/blocking coop-edit messages in other modes\f1)");
+        _addmanpage("football", "[0/1/2]", "Disables/enables football, 1 = coop edit, 2 = ctf");
         _addmanpage("register", "<nickname> <authname>", "Registers nickname");
         _addmanpage("clanregister", "<clantag> <authdesc>", "Registers clantag");
         _addmanpage("flagrun", "[\"delete\"]", "Shows the best flagrun for the game/mode. If \"delete\" is given as argument, and the player has AUTH privilege, the flagrun is removed");
@@ -6910,12 +6912,14 @@ namespace server
 	}
 	void _footballfunc(const char *cmd, const char *args, clientinfo *ci) {
 		if(!args || !args[0] || (atoi(args)==0 && args[0]!='0')) {
-			defformatstring(msg)("\f0[\f7Info\f0]\f7 football support is \f%d%s", _football ? 0 : 4, _football ? "enabled" : "disabled");
+			defformatstring(msg)("\f0[\f7Info\f0]\f7 football is \f%d%s", _football ? 0 : 4, _football ? "on" : "off");
 			sendf(ci->clientnum, 1, "ris", N_SERVMSG, msg);
 			return;
 		}
-		_football = clamp(atoi(args), 0, 1);
-		defformatstring(msg)("\f0[\f7Info\f0]\f7 football support \f%d%s", _football ? 0 : 4, _football ? "enabled" : "disabled");
+		_football = clamp(atoi(args), 0, 2);
+		defformatstring(msg)("\f0[\f7Info\f0]\f7 football \f%d%s", _football ? 0 : 4, _football ? "on" : "off");
+		if(_football) startfootball();
+		else endfootball();
 		sendf(-1, 1, "ris", N_SERVMSG, msg);
 	}
 	void _registerfunc(const char *cmd, const char *args, clientinfo *ci) {
@@ -6986,6 +6990,22 @@ namespace server
 			}
 		}
 	}
+/*	void fakesay(int *cn, char *msg)
+    {
+        clientinfo *ci = getinfo(*cn);
+        if(!ci || ci->privilege >= PRIV_AUTH || (!enablefakesay && ci->state.aitype==AI_NONE)) return;
+        flushserver(true);
+        uchar buf[MAXTRANS];
+        ucharbuf b(buf, sizeof(buf));
+        putint(b, N_TEXT);
+        sendstring(msg, b);
+        packetbuf p(MAXTRANS, ENET_PACKET_FLAG_RELIABLE);
+        putint(p, N_CLIENT);
+        putint(p, *cn);
+        putint(p, b.len);
+        p.put(buf, b.len);
+        sendpacket(-1, 1, p.finalize());
+    } */
 //  >>> Server internals
 
     static void _addfunc(const char *s, int priv, void (*_func)(const char *cmd, const char *args, clientinfo *ci))
@@ -7339,7 +7359,11 @@ namespace server
                     int n = p.get(); n |= p.get()<<8; if(flags&(1<<k)) { n |= p.get()<<16; if(n&0x800000) n |= -1<<24; }
                     pos[k] = n/DMF;
                 }
-                loopk(3) p.get();
+                //loopk(3) p.get();
+                int _dir = p.get(); _dir |= p.get()<<8;
+                ci->yaw = _dir%360;
+                ci->pitch = clamp(_dir/360, 0, 180)-90;
+                p.get();
                 int mag = p.get(); if(flags&(1<<3)) mag |= p.get()<<8;
                 int dir = p.get(); dir |= p.get()<<8;
                 float yaw = dir%360;
@@ -8403,5 +8427,6 @@ namespace server
     #include "resume.h"
     #include "protection.h"
     #include "race.h"
+    #include "football.h"
 }
 
