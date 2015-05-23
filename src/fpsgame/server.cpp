@@ -2171,7 +2171,7 @@ namespace server
                 if(isreservedname(ci->name) && !ci->logged && protecteduserlogin(ci->clientnum, (char*)authname)) {defformatstring(_msg)("\f0[\f7Protection\f0]\f1 %s \f7is \f0verified\f7 as '\f6%s\f7' \f0[\f7%s\f0]", colorname(ci), authname, authdesc); if(!ci->_xi.spy) sendf(-1, 1, "ris", N_SERVMSG, _msg); else loopv(clients) {
                 	if(clients[i]->privilege>=PRIV_ADMIN) sendf(clients[i]->clientnum, 1, "ris", N_SERVMSG, _msg);
                 }}
-                if(bots.inrange(0)) {
+                /* if(bots.inrange(0)) {
 		            vector<int>bars;
 		            loopv(bots) {
 		            	if(bots[i] && bots[i]->state.state==CS_SPECTATOR) {
@@ -2185,12 +2185,12 @@ namespace server
 				        	execute(cmd);
 				        }
 				    }
-		        }
+		        } */
             }
             else {
             	formatstring(msg)("\f0[\f7Priv\f0]\f1 %s\f7 claimed %s as '\fs\f6%s\fr'%s",
                 colorname(ci), name, authname, !(ishidden || (oldpriv && washidden)) ? "" : " \f0(\f7hidden\f0)");
-                if(bots.inrange(0)) {
+                /* if(bots.inrange(0)) {
 		            vector<int>bars;
 		            loopv(bots) {
 		            	if(bots[i] && bots[i]->state.state==CS_SPECTATOR) {
@@ -2204,7 +2204,7 @@ namespace server
 				        	execute(cmd);
 				        }
 				    }
-		        }
+		        } */
             }
         }
         else formatstring(msg)("\f0[\f7Priv\f0]\f7 %s %s %s%s", colorname(ci), val ? "claimed" : "relinquished", name,
