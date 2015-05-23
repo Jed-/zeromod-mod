@@ -6297,7 +6297,7 @@ namespace server
         {
             clientinfo *cx = cns[i];
 
-            formatstring(msg)("\f1[\f7stats for \f6%s\f0] \f1frags: \f0%i \f1deaths: \f0%i \f1suicides: \f0%i \f1kpd: \f0%.2f \f1acc: \f0%i%%",
+            formatstring(msg)("\f1[\f7stats for \f6%s\f1] \f1frags: \f0%i \f1deaths: \f0%i \f1suicides: \f0%i \f1kpd: \f0%.2f \f1acc: \f0%i%%",
                 colorname(cx), cx->state.frags, cx->state.deaths, cx->state._suicides,
                 (float(cx->state.frags)/float(max(cx->state.deaths, 1))), cx->state.damage*100/max(cx->state.shotdamage,1));
 
@@ -6878,7 +6878,7 @@ namespace server
 		ps->teamkills, ps->suicides,
 		ps->matches, ps->timeplayed/60000, (ps->timeplayed/60000)==1 ? "" : "s");
 		sendf(ci->clientnum, 1, "ris", N_SERVMSG, msg); */
-		defformatstring(msg1)("\f0[\f7Stats\f0]\f7 global stats for \f6%s\f0 (\f7rank \f6%d\f0)\f7:", colorname(c), getrank(c));
+		defformatstring(msg1)("\f1[\f7Stats\f1]\f7 global stats for \f6%s\f0 (\f7rank \f6%d\f0)\f7:", colorname(c), getrank(c));
 		defformatstring(msg2)("frags: \f6%d\f7, flags: \f6%d\f7, deaths: \f6%d\f7, KpD: \f6%3.2f\f7", ps->frags, ps->flags, ps->deaths, (float)ps->frags/max((float)ps->deaths, 1.f));
 		defformatstring(msg3)("total shots: \f6%d\f7, total damage: \f6%d\f7, accuracy: \f6%3.2f\f7", ps->totalshots, ps->totaldamage, (float)ps->totaldamage/max((float)ps->totalshots, 1.f)*100.f);
 		defformatstring(msg4)("teamkills: \f6%d\f7, suicides: \f6%d\f7", ps->teamkills, ps->suicides);
