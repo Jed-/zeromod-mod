@@ -4126,8 +4126,11 @@ namespace server
     void addgban(int master, const char *name)
     {
         union { uchar b[sizeof(enet_uint32)]; enet_uint32 i; } ip, mask;
+        char *cidr;
         ip.i = 0;
         mask.i = 0;
+        cidr = strchr((char *)name, '/');
+        if(cidr) *cidr++ = '\0';
         loopi(4)
         {
             char *end = NULL;
@@ -4136,6 +4139,16 @@ namespace server
             if(end > name) { ip.b[i] = n; mask.b[i] = 0xFF; }
             name = end;
             while(*name && *name++ != '.');
+        }
+        if(cidr && *cidr)
+        {
+            char *end = NULL;
+            int r = (int)strtol(cidr, &end, 10);
+            if(end > cidr && r > 0)
+            {
+                mask.i = ENET_HOST_TO_NET_32(0xFFffFFff << (32 - min(r, 32)));
+                ip.i &= mask.i;
+            }
         }
         gbaninfo &ban = gbans.add();
         ban.ip = ip.i;
@@ -4865,19 +4878,20 @@ namespace server
 
     void _showgbans(const char *cmd, const char *args, clientinfo *ci)
     {
-        union { uchar b[sizeof(enet_uint32)]; enet_uint32 i; } ip, mask;
+        union { uchar b[sizeof(enet_uint32)]; enet_uint32 i; } ip;
         string msg;
         if(!ci) return;
         int sender = ci->ownernum;
         sendf(sender, 1, "ris", N_SERVMSG, "\f3[\f7Gbans\f3]");
         loopv(gbans)
         {
-            int x = 0;
             ip.i = gbans[i].ip;
-            mask.i = gbans[i].mask;
-            while(x < 4 && mask.b[x]) x++;
+            int mask = ~ENET_NET_TO_HOST_32(gbans[i].mask);
+            int range = 32;
+            for(; (mask & 0xFF) == 0xFF; mask >>= 8, range -= 8);
+            for(; mask & 1; mask >>= 1, range --);
             formatstring(msg)("%i.%i.%i.%i/%i",
-                int(ip.b[0]), int(ip.b[1]), int(ip.b[2]), int(ip.b[3]), x << 3);
+                int(ip.b[0]), int(ip.b[1]), int(ip.b[2]), int(ip.b[3]), range);
             sendf(sender, 1, "ris", N_SERVMSG, msg);
         }
     }
