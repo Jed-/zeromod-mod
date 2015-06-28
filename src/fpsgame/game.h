@@ -936,6 +936,7 @@ namespace server
     extern void addreservedclan(char *tag, char *authdesc);
     extern void storeprotection();
     extern void startrace();
+    extern void startracemap_();
     extern int raceindex(char *map);
     extern void checkrace();
     extern void _forcespeccn(int cn, int spec);

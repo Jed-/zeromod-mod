@@ -2826,10 +2826,14 @@ namespace server
         if(_match) _match = 0;
         if(_defend > 0) _defend = 0;
         else _defend *= -1;
+        bool newrace = false;
         if(_racemode) { // allow changing map in racemode
         	mode = 1;
         	int raceidx = raceindex((char*)s);
-        	if(raceidx > -1) _raceidx = raceidx;
+        	if(raceidx > -1) {
+        		_raceidx = raceidx;
+        		newrace = true;
+        	}
         	else {
         		return;
         	}
@@ -2906,6 +2910,7 @@ namespace server
         }
 
         if(smode) smode->setup();
+        if(newrace) startracemap_();
     }
 
     void rotatemap(bool next)

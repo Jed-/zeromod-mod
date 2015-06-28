@@ -72,6 +72,18 @@ void startracemap(char *map) {
 	loopv(clients) clients[i]->clientmap[0] = '\0';
 	sendrace(map);
 }
+void startracemap_() { // when a client forces map change
+	_racemode = true;
+	_racewon = false;
+	_racemsg = 0;
+	_racewonmsg = 0;
+	_racestart = 0;
+	_raceend = 0;
+	_raceloaded = false;
+	pausegame(true);
+	loopv(clients) clients[i]->clientmap[0] = '\0';
+	sendrace(smapname);
+}
 void startrace() {
 	_racemode = true;
 	_racewon = false;
