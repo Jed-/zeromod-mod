@@ -3019,7 +3019,7 @@ namespace server
         if(ci->modevote != reqmode) { ci->modevote = reqmode; changed = true; }
         if(ci->privilege && mastermode>=MM_VETO)
         {
-        	if(_racemode && raceindex(ci->mapvote) < -1) {
+        	if(_racemode && raceindex(ci->mapvote) <= -1) {
             	defformatstring(MSG)("\f3[\f7Error\f3]\f6 %s\f7 is not a valid race map", ci->mapvote);
             	sendf(ci->clientnum, 1, "ris", N_SERVMSG, MSG);
             	return;
@@ -3030,7 +3030,7 @@ namespace server
         }
         else
         {
-        	if(_racemode && raceindex(ci->mapvote) < -1) {
+        	if(_racemode && raceindex(ci->mapvote) <= -1) {
             	defformatstring(MSG)("\f3[\f7Error\f3]\f6 %s\f7 is not a valid race map", ci->mapvote);
             	sendf(ci->clientnum, 1, "ris", N_SERVMSG, MSG);
             	return;
