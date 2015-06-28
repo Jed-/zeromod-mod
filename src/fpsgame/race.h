@@ -116,6 +116,10 @@ void checkrace() {
 	if(!_raceloaded) return;
 	if(!_racestart) _racestart = totalmillis;
 	int time = totalmillis - _racestart;
+	if(time < 10000) {
+		if(_resuming) _resuming = 0;
+		if(!gamepaused) pausegame(true);
+	}
 	if(_racemsg==0) {
 		_racemsg++;
 		sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Race\f1]\f7 race starts in \f010\f7...");
