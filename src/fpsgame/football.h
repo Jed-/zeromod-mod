@@ -1,7 +1,7 @@
 void sendpart(int index, float x, float y, float z, int attr1, int attr2, int attr3, int attr4, int attr5) {
 	clientinfo *ci;
-	if(firstbar() > -1) ci = (clientinfo *)getclientinfo(firstbar());
-	else if(clients[0]) ci = clients[0];
+//	if(firstbar() > -1) ci = (clientinfo *)getclientinfo(firstbar());
+	if(clients[0]) ci = clients[0];
 	if(!ci) return;
 	flushserver(true);
 	uchar buf[MAXTRANS];
