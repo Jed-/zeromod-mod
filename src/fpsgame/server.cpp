@@ -6871,8 +6871,8 @@ namespace server
 			sendf(ci->clientnum, 1, "ris", N_SERVMSG, msg);
 			return;
 		}
-		if(_v) startrace(); else _racemode = 0;
 		defformatstring(msg)("\f1[\f7Race\f1]\f7 racemode \f%d%s", _v ? 0 : 4, _v ? "on" : "off");
+		if(_v) startrace(); else _racemode = 0;
 		sendf(-1, 1, "ris", N_SERVMSG, msg);
 	}
 	void _saveconffunc(const char *cmd, const char *args, clientinfo *ci) {
