@@ -129,6 +129,7 @@ static int _racemsg = 0;
 static int _racewonmsg = 0;
 static int _racestart = 0;
 static int _raceend = 0;
+static bool _racestarted = false;
 static bool _raceloaded = false;
 static int _raceidx = 0;
 

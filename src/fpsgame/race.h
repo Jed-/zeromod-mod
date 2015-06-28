@@ -42,6 +42,7 @@ int raceindex(char *map) {
 	return -1;
 }
 bool loaded() {
+	if(_racestarted) return true;
 	loopv(clients) if(clients[i]->state.state!=CS_SPECTATOR && (clients[i]->clientmap[0] == '\0' || !clients[i]->clientmap[0])) return false;
 	return true;
 }
@@ -66,6 +67,7 @@ void startracemap(char *map) {
 	_racewonmsg = 0;
 	_racestart = 0;
 	_raceend = 0;
+	_racestarted = false;
 	_raceloaded = false;
 	changemap(map, 1);
 	pausegame(true);
@@ -79,6 +81,7 @@ void startracemap_() { // when a client forces map change
 	_racewonmsg = 0;
 	_racestart = 0;
 	_raceend = 0;
+	_racestarted = false;
 	_raceloaded = false;
 	pausegame(true);
 	loopv(clients) clients[i]->clientmap[0] = '\0';
@@ -91,6 +94,7 @@ void startrace() {
 	_racewonmsg = 0;
 	_racestart = 0;
 	_raceend = 0;
+	_racestarted = false;
 	_raceloaded = false;
 	_raceidx = 0;
 	if(!racemaps.inrange(0)) {
@@ -132,6 +136,7 @@ void checkrace() {
 		sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Race\f1]\f7 race starts in \f01\f7...");
 	} else if(_racemsg==6 && time >= 10000) {
 		_racemsg++;
+		_racestarted = true;
 		pausegame(false);
 		sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Race\f1]\f7 race \f0started\f7!");
 	}
