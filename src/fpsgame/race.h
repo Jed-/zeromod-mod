@@ -27,6 +27,13 @@ void loadrace(const char *name, int mintime, int x, int y, int z, const char *be
 	}
 }
 ICOMMAND(loadrace, "siiiisi", (const char *name, int *mintime, int *x, int *y, int *z, const char *bestname, int *besttime), loadrace(name, *mintime, *x, *y, *z, bestname, *besttime));
+void resetraces() {
+	loopv(racemaps) {
+		racemap *r = racemaps[i];
+		copystring(r->bestname, "[no best]", MAXNAMELEN+1);
+		r->besttime = 0;
+	}
+}
 void _storeraces() {
 	stream *f = openutf8file(path("racemaps.cfg", true), "w");
 	if(f) {
@@ -167,7 +174,7 @@ void checkrace() {
 				if((_racetime-10000) >= r->mintime && !_racewon) {
 					_racewon = 1;
 					if(_racetime-10000 < r->besttime || !r->besttime || !strcmp(r->bestname, "[no best]")) {
-						if(!strcmp(r->bestname, "[no best]") && !r->besttime) {
+						if(!strcmp(r->bestname, "[no best]") || !r->besttime) {
 							defformatstring(msg)("\f1[\f7Race\f1]\f0 %s\f6 has won\f7 the race in \f0%.3f\f7 seconds \f0(\f7new best\f0)\f7!", colorname(clients[i]), ((float)_racetime-10000.f)/1000.f);
 							sendf(-1, 1, "ris", N_SERVMSG, msg);
 						} else {

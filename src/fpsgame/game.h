@@ -940,6 +940,7 @@ namespace server
     extern void startracemap_();
     extern int raceindex(char *map);
     extern void checkrace();
+    extern void resetraces();
     extern void _forcespeccn(int cn, int spec);
     extern void _storeraces();
     extern void sendracecn(int cn);

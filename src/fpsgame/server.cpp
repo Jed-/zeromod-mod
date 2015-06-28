@@ -4809,7 +4809,8 @@ namespace server
         _addmanpage("football", "[0/1/2]", "Disables/enables football, 1 = coop edit, 2 = ctf");
         _addmanpage("register", "<nickname> <authname>", "Registers nickname");
         _addmanpage("clanregister", "<clantag> <authdesc>", "Registers clantag");
-        _addmanpage("flagrun", "[\"delete\"]", "Shows the best flagrun for the game/mode. If \"delete\" is given as argument, and the player has AUTH privilege, the flagrun is removed");
+        _addmanpage("flagrun", "[\"delete\"]", "Shows the best flagrun for the game/mode. If \"delete\" is given as argument, and the player has at least AUTH, the flagrun is removed");
+        _addmanpage("resetraces", "", "Resets best times on all racemaps");
     }
 
     void _man(const char *cmd, const char *args, clientinfo *ci)
@@ -7086,6 +7087,10 @@ namespace server
 			}
 		}
 	}
+	void _resetraces(const char *cmd, const char *args, clientinfo *ci) {
+		resetraces();
+		if(ci) sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f0[\f7Info\f0]\f7 race maps ^f3RESET^f7!");
+	}
 /*	void fakesay(int *cn, char *msg)
     {
         clientinfo *ci = getinfo(*cn);
@@ -7234,6 +7239,7 @@ namespace server
         _addfunc("register", PRIV_ADMIN, _registerfunc);
         _addfunc("clanregister", PRIV_ADMIN, _clanregisterfunc);
         _addfunc("flagrun", PRIV_NONE, _flagrunfunc);
+        _addfunc("resetraces", PRIV_ADMIN, _resetraces);
     }
 
     void _privfail(clientinfo *ci)
