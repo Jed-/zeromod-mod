@@ -6571,20 +6571,6 @@ namespace server
         startmatch(mode, map && map[0] ? map : smapname);
     }
     void _wffa(const char *cmd, const char *args, clientinfo *ci) {
-/*    	char *mode = strtok((char*)args, " ");
-        char *map = strtok(NULL, " ");
-        int modenum = -1;
-        const char *_modenames[] = {"ffa", "coop", "teamplay", "insta", "instateam", "effic", "efficteam", "tac", "tacteam", "capture", "regencapture", "ctf", "instactf", "protect", "instaprotect", "hold", "instahold", "efficctf", "efficprotect", "effichold", "collect", "instacollect", "efficcollect"};
-        loopi(23) {
-        	if(mode && mode[0] && !strcmp(_modenames[i], mode)) {
-        		modenum = i;
-        		break;
-        	}
-        }
-        _wpmode = 2;
-        startmatch(modenum != 1 && modenum >= 0 ? modenum : gamemode, map && map[0] ? map : smapname);
-//        _wpmode = 1;
-		*/
 		if(_racemode) {
 			if(ci) sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Warning\f3]\f7 racemode is \f3on\f7. Turn racemode \f4off\f7 before changing gamemode!");
 			return;
@@ -6645,8 +6631,12 @@ namespace server
         	sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Error\f3]\f7 you must specify \f02\f7 weapons \f6(\f7cs, sg, cg, rl, ri, gl, pi\f6)\f7!");
         	return;
         }
-    	char *w1 = strtok((char*)args, " ");
-    	char *w2 = strtok(NULL, " ");
+		char *argv[2];
+		string buf;
+		copystring(buf, args);
+		_argsep(buf, 2, argv);
+		char *w1 = argv[0];
+		char *w2 = argv[1];
     	const char *wpcodes[7] = {"cs", "sg", "cg", "rl", "ri", "gl", "pi"};
     	int _w1 = -1;
     	int _w2 = -1;
@@ -6699,8 +6689,12 @@ namespace server
 			if(ci) sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Warning\f3]\f7 racemode is \f3on\f7. Turn racemode \f4off\f7 before changing gamemode!");
 			return;
 		}
-    	char *mode = strtok((char*)args, " ");
-    	char *map = strtok(NULL, " ");
+		char *argv[2];
+		string buf;
+		copystring(buf, args);
+		_argsep(buf, 2, argv);
+		char *mode = argv[0];
+		char *map = argv[1];
     	int modenum = -1;
         const char *_modenames[] = {"ffa", "coop", "teamplay", "insta", "instateam", "effic", "efficteam", "tac", "tacteam", "capture", "regencapture", "ctf", "instactf", "protect", "instaprotect", "hold", "instahold", "efficctf", "efficprotect", "effichold", "collect", "instacollect", "efficcollect"};
         loopi(23) {
@@ -6718,10 +6712,14 @@ namespace server
 			if(ci) sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Warning\f3]\f7 racemode is \f3on\f7. Turn racemode \f4off\f7 before changing gamemode!");
 			return;
 		}
-    	char *c1 = strtok((char*)args, " ");
-    	char *c2 = strtok(NULL, " ");
-    	char *mode = strtok(NULL, " ");
-    	char *map = strtok(NULL, " ");
+    	char *argv[4];
+    	string buf;
+    	copystring(buf, args);
+    	_argsep(buf, 4, argv);
+    	char *c1 = argv[0];
+    	char *c2 = argv[1];
+    	char *mode = argv[2];
+    	char *map = argv[3];
     	int modenum = -1;
     	if(!c1 || !c1[0] || !c2 || !c2[0]) {
     		sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Error\f3]\f7 you must specify \f32\f7 clans! Usage: \f0#cw\f1 clan1\f2 clan2\f0 [\f7mode\f0 [\f7map\f0]]");
@@ -6770,7 +6768,10 @@ namespace server
     	sendf(-1, 1, "ris", N_SERVMSG, msg);
     }
     void _botfunc(const char *cmd, const char *args, clientinfo *ci) {
-    	const char *n = strtok((char*)args, " ");
+		char *argv[1];
+		string buf; copystring(buf, args);
+		_argsep(buf, 1, argv);
+		const char *n = argv[0];
     	aiman::addservai(n);
     }
     void _botdelfunc(const char *cmd, const char *args, clientinfo *ci) {

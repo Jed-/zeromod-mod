@@ -97,14 +97,6 @@ namespace aiman
 	ICOMMAND(botname, "si", (char *n, int *g), addbotname(n, *g));
 	
 	void _botname(clientinfo *ci) {
-/*		if(!getalias("botnames") || !identexists("botnames")) {
-			copystring(ci->name, "bot", MAXNAMELEN+1);
-			return;
-		}
-		const char *_botnames = getalias("botnames");
-		vector<char*> botnames;
-		botnames.add(strtok((char*)_botnames, " "));
-		loopi(atoi(getalias("listlen $botnames"))-1) botnames.add(strtok(NULL, " ")); */
 		if(!botnames.length()) copystring(ci->name, "bot", MAXNAMELEN+1); else {
 			int _n = rnd(botnames.length());
 			copystring(ci->name, botnames[_n].name, MAXNAMELEN+1);
