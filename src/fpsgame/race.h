@@ -37,6 +37,10 @@ void _storeraces() {
 		delete f;
 	}
 }
+int raceindex(char *map) {
+	loopv(racemaps) if(!strcmp(racemaps[i]->name, map)) return i;
+	return -1;
+}
 bool loaded() {
 	loopv(clients) if(clients[i]->state.state!=CS_SPECTATOR && (clients[i]->clientmap[0] == '\0' || !clients[i]->clientmap[0])) return false;
 	return true;

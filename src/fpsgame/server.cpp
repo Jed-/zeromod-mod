@@ -2826,6 +2826,14 @@ namespace server
         if(_match) _match = 0;
         if(_defend > 0) _defend = 0;
         else _defend *= -1;
+        if(_racemode) { // allow changing map in racemode
+        	mode = 1;
+        	int raceidx = raceindex((char*)s);
+        	if(raceidx > -1) _raceidx = raceidx;
+        	else {
+        		return;
+        	}
+        }
 
         gamemode = mode;
         gamemillis = 0;
@@ -3006,12 +3014,22 @@ namespace server
         if(ci->modevote != reqmode) { ci->modevote = reqmode; changed = true; }
         if(ci->privilege && mastermode>=MM_VETO)
         {
+        	if(_racemode && raceindex(ci->mapvote) < -1) {
+            	defformatstring(MSG)("\f3[\f7Error\f3]\f6 %s\f7 is not a valid race map", ci->mapvote);
+            	sendf(ci->clientnum, 1, "ris", N_SERVMSG, MSG);
+            	return;
+            }
             if(demorecord) enddemorecord();
             sendservmsgf("%s forced %s on map %s", colorname(ci), modename(ci->modevote), ci->mapvote[0] ? ci->mapvote : "[new map]");
             changemap(ci->mapvote, ci->modevote);
         }
         else
         {
+        	if(_racemode && raceindex(ci->mapvote) < -1) {
+            	defformatstring(MSG)("\f3[\f7Error\f3]\f6 %s\f7 is not a valid race map", ci->mapvote);
+            	sendf(ci->clientnum, 1, "ris", N_SERVMSG, MSG);
+            	return;
+            }
             if(changed)
                 sendservmsgf("%s suggests %s on map %s (select map to vote)", colorname(ci), modename(reqmode), map[0] ? map : "[new map]");
             checkvotes();
