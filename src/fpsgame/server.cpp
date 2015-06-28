@@ -6585,32 +6585,56 @@ namespace server
         startmatch(modenum != 1 && modenum >= 0 ? modenum : gamemode, map && map[0] ? map : smapname);
 //        _wpmode = 1;
 		*/
+		if(_racemode) {
+			if(ci) sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Warning\f3]\f7 racemode is \f3on\f7. Turn racemode \f4off\f7 before changing gamemode!");
+			return;
+		}
 		dowp(5, args && args[0] ? args : smapname);
     	sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Wp\f1]\f7 weapon preference: use \f0#setwp\f7 when you're dead to get \f62\f7 weapons! - Codes: cs, sg, cg, rl, ri, gl, pi");
     }
     void _wteam(const char *cmd, const char *args, clientinfo *ci) {
+    	if(_racemode) {
+			if(ci) sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Warning\f3]\f7 racemode is \f3on\f7. Turn racemode \f4off\f7 before changing gamemode!");
+			return;
+		}
     	dowp(6, args && args[0] ? args : smapname);
     	sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Wp\f1]\f7 weapon preference: use \f0#setwp\f7 when you're dead to get \f62\f7 weapons! - Codes: cs, sg, cg, rl, ri, gl, pi");
     }
     void _wctf(const char *cmd, const char *args, clientinfo *ci) {
+    	if(_racemode) {
+			if(ci) sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Warning\f3]\f7 racemode is \f3on\f7. Turn racemode \f4off\f7 before changing gamemode!");
+			return;
+		}
     	dowp(17, args && args[0] ? args : smapname);
     	sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Wp\f1]\f7 weapon preference: use \f0#setwp\f7 when you're dead to get \f62\f7 weapons! - Codes: cs, sg, cg, rl, ri, gl, pi");
     }
     void _wprotect(const char *cmd, const char *args, clientinfo *ci) {
+    	if(_racemode) {
+			if(ci) sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Warning\f3]\f7 racemode is \f3on\f7. Turn racemode \f4off\f7 before changing gamemode!");
+			return;
+		}
     	dowp(18, args && args[0] ? args : smapname);
     	sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Wp\f1]\f7 weapon preference: use \f0#setwp\f7 when you're dead to get \f62\f7 weapons! - Codes: cs, sg, cg, rl, ri, gl, pi");
     }
     void _whold(const char *cmd, const char *args, clientinfo *ci) {
+    	if(_racemode) {
+			if(ci) sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Warning\f3]\f7 racemode is \f3on\f7. Turn racemode \f4off\f7 before changing gamemode!");
+			return;
+		}
     	dowp(19, args && args[0] ? args : smapname);
     	sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Wp\f1]\f7 weapon preference: use \f0#setwp\f7 when you're dead to get \f62\f7 weapons! - Codes: cs, sg, cg, rl, ri, gl, pi");
     }
     void _wcollect(const char *cmd, const char *args, clientinfo *ci) {
+    	if(_racemode) {
+			if(ci) sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Warning\f3]\f7 racemode is \f3on\f7. Turn racemode \f4off\f7 before changing gamemode!");
+			return;
+		}
     	dowp(22, args && args[0] ? args : smapname);
     	sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Wp\f1]\f7 weapon preference: use \f0#setwp\f7 when you're dead to get \f62\f7 weapons! - Codes: cs, sg, cg, rl, ri, gl, pi");
     }
     void _reqwfunc(const char *cmd, const char *args, clientinfo *ci) {
     	if(!_wpmode) {
-    		sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Error\f3]\f7 weapon preference is \f4disabled\f7!");
+    		sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Error\f3]\f7 weapon preference mode is \f4disabled\f7!");
         	return;
     	}
     	if(ci->state.state==CS_ALIVE && ci->wpchosen) {
@@ -6618,7 +6642,7 @@ namespace server
         	return;
     	}
         if(!args || !strchr(args,' ')) {
-        	sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Error\f3]\f7 you must specify \f02\f7 weapons (\f00\f7-\f06\f7)!");
+        	sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Error\f3]\f7 you must specify \f02\f7 weapons \f6(\f7cs, sg, cg, rl, ri, gl, pi\f6)\f7!");
         	return;
         }
     	char *w1 = strtok((char*)args, " ");
@@ -6629,7 +6653,7 @@ namespace server
 		loopi(7) if(w1 && w1[0] && !strcmp(w1, wpcodes[i])) {_w1 = i; break;}
 		loopi(7) if(w2 && w2[0] && !strcmp(w2, wpcodes[i])) {_w2 = i; break;}
 		if(_w1 <= -1 || _w2 <= -1) {
-			sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Error\f3]\f7 known weapon codes: cs, sg, cg, rl, ri, gl, pi");
+			sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Error\f3]\f7 weapons are: cs, sg, cg, rl, ri, gl, pi");
 			return;
 		}
     	ci->state.wp1 = _w1; ci->state.wp2 = _w2;
@@ -6641,20 +6665,40 @@ namespace server
 		}
     }
     void _arenafunc(const char *cmd, const char *args, clientinfo *ci) {
+    	if(_racemode) {
+			if(ci) sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Warning\f3]\f7 racemode is \f3on\f7. Turn racemode \f4off\f7 before changing gamemode!");
+			return;
+		}
     	startarena(args && args[0] ? args : smapname, 11);
     }
     void _iarenafunc(const char *cmd, const char *args, clientinfo *ci) {
+    	if(_racemode) {
+			if(ci) sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Warning\f3]\f7 racemode is \f3on\f7. Turn racemode \f4off\f7 before changing gamemode!");
+			return;
+		}
     	startarena(args && args[0] ? args : smapname, 12);
     }
     void _earenafunc(const char *cmd, const char *args, clientinfo *ci) {
+    	if(_racemode) {
+			if(ci) sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Warning\f3]\f7 racemode is \f3on\f7. Turn racemode \f4off\f7 before changing gamemode!");
+			return;
+		}
     	startarena(args && args[0] ? args : smapname, 17);
     }
     void _warenafunc(const char *cmd, const char *args, clientinfo *ci) {
+    	if(_racemode) {
+			if(ci) sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Warning\f3]\f7 racemode is \f3on\f7. Turn racemode \f4off\f7 before changing gamemode!");
+			return;
+		}
     	_wpmode = 2;
     	startarena(args && args[0] ? args : smapname, 17);
     	sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Wp\f1]\f7 weapon preference: use \f0#setwp\f7 when you're dead to get \f62\f7 weapons! - Codes: cs, sg, cg, rl, ri, gl, pi");
     }
     void _matchfunc(const char *cmd, const char *args, clientinfo *ci) {
+    	if(_racemode) {
+			if(ci) sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Warning\f3]\f7 racemode is \f3on\f7. Turn racemode \f4off\f7 before changing gamemode!");
+			return;
+		}
     	char *mode = strtok((char*)args, " ");
     	char *map = strtok(NULL, " ");
     	int modenum = -1;
@@ -6670,6 +6714,10 @@ namespace server
         startmatch(modenum >= 0 && modenum != 1 ? modenum : gamemode, map && map[0] ? map : smapname);
     }
     void _cwfunc(const char *cmd, const char *args, clientinfo *ci) {
+    	if(_racemode) {
+			if(ci) sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Warning\f3]\f7 racemode is \f3on\f7. Turn racemode \f4off\f7 before changing gamemode!");
+			return;
+		}
     	char *c1 = strtok((char*)args, " ");
     	char *c2 = strtok(NULL, " ");
     	char *mode = strtok(NULL, " ");
@@ -6841,23 +6889,29 @@ namespace server
 		}
 		sendf(ci->clientnum, 1, "ris", N_SERVMSG, msg2);
 	}
-/*	void _defendfunc(const char *cmd, const char *args, clientinfo *ci) {
-//        const char *_modenames[] = {"ffa", "coop", "teamplay", "insta", "instateam", "effic", "efficteam", "tac", "tacteam", "capture", "regencapture", "ctf", "instactf", "protect", "instaprotect", "hold", "instahold", "efficctf", "efficprotect", "effichold", "collect", "instacollect", "efficcollect"};
-        _defend = -1;
-        startmatch(10, args && args[0] ? args : smapname);
-        sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Defend\f1]\f7 this is \f6defend\f7: capture all the bases, no ammo or health bonus standing close to a base, capture bases faster");
-	} */ // clients couldn't see the items
 	void _idefendfunc(const char *cmd, const char *args, clientinfo *ci) {
+		if(_racemode) {
+			if(ci) sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Warning\f3]\f7 racemode is \f3on\f7. Turn racemode \f4off\f7 before changing gamemode!");
+			return;
+		}
         _defend = -2;
         startmatch(9, args && args[0] ? args : smapname);
         sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Defend\f1]\f7 this is \f6defend\f7: capture all the bases, no ammo or health bonus standing close to a base, capture bases faster");
 	}
 	void _edefendfunc(const char *cmd, const char *args, clientinfo *ci) {
+		if(_racemode) {
+			if(ci) sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Warning\f3]\f7 racemode is \f3on\f7. Turn racemode \f4off\f7 before changing gamemode!");
+			return;
+		}
         _defend = -3;
         startmatch(9, args && args[0] ? args : smapname);
         sendf(-1, 1, "ris", N_SERVMSG, "\f1[\f7Defend\f1]\f7 this is \f6defend\f7: capture all the bases, no ammo or health bonus standing close to a base, capture bases faster");
 	}
 	void _wdefendfunc(const char *cmd, const char *args, clientinfo *ci) {
+		if(_racemode) {
+			if(ci) sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Warning\f3]\f7 racemode is \f3on\f7. Turn racemode \f4off\f7 before changing gamemode!");
+			return;
+		}
         _defend = -3;
         _wpmode = 2;
         startmatch(9, args && args[0] ? args : smapname);
@@ -6948,6 +7002,10 @@ namespace server
 		sendf(-1, 1, "rii", N_FORCEDEATH, c->clientnum);
 	}
 	void _footballfunc(const char *cmd, const char *args, clientinfo *ci) {
+		if(_racemode) {
+			sendf(-1, 1, "ris", N_SERVMSG, "\f0[\f7Info\f0]\f7 racemode \f4off");
+			_racemode = 0;
+		}
 		if(!args || !args[0] || (atoi(args)==0 && args[0]!='0')) {
 			defformatstring(msg)("\f0[\f7Info\f0]\f7 football is \f%d%s", _football ? 0 : 4, _football ? "on" : "off");
 			sendf(ci->clientnum, 1, "ris", N_SERVMSG, msg);
