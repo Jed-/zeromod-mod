@@ -27,6 +27,10 @@ void loadrace(const char *name, int mintime, int x, int y, int z, const char *be
 	}
 }
 ICOMMAND(loadrace, "siiiisi", (const char *name, int *mintime, int *x, int *y, int *z, const char *bestname, int *besttime), loadrace(name, *mintime, *x, *y, *z, bestname, *besttime));
+void clearraces() {
+	racemaps.shrink(0);
+}
+ICOMMAND(clearraces, "", (), clearraces());
 void resetraces() {
 	loopv(racemaps) {
 		racemap *r = racemaps[i];
@@ -38,6 +42,7 @@ void _storeraces() {
 	stream *f = openutf8file(path("racemaps.cfg", true), "w");
 	if(f) {
 		f->printf("// List of the default racemaps");
+		f->printf("\nclearraces");
 		loopv(racemaps) {
 			f->printf("\nloadrace %s %d %d %d %d \"%s\" %d", racemaps[i]->name, racemaps[i]->mintime, (int)racemaps[i]->win.x, (int)racemaps[i]->win.y, (int)racemaps[i]->win.z, racemaps[i]->bestname, racemaps[i]->besttime);
 		}
