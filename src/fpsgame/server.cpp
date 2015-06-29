@@ -7089,7 +7089,7 @@ namespace server
 	}
 	void _resetraces(const char *cmd, const char *args, clientinfo *ci) {
 		resetraces();
-		if(ci) sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f0[\f7Info\f0]\f7 race maps ^f3RESET^f7!");
+		if(ci) sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f0[\f7Info\f0]\f7 race maps \f3RESET\f7!");
 	}
 /*	void fakesay(int *cn, char *msg)
     {
