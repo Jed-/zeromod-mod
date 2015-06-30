@@ -110,7 +110,7 @@ namespace aiman
 		loopv(bots)
         {
             clientinfo *ci = bots[i];
-            if(!ci || ci->ownernum < 0) { if(cn < 0) cn = i; continue; }
+            if((!ci || ci->ownernum < 0) && !(ci && ci->state.state==CS_SPECTATOR)) { if(cn < 0) cn = i; continue; }
 			numai++;
 		}
 		if(numai >= maxai) return false;
@@ -157,7 +157,7 @@ namespace aiman
 		loopv(bots)
         {
             clientinfo *ci = bots[i];
-            if(!ci || ci->ownernum < 0) { if(cn < 0) cn = i; continue; }
+            if((!ci || ci->ownernum < 0) && !(ci && ci->state.state==CS_SPECTATOR)) { if(cn < 0) cn = i; continue; }
 			numai++;
 		}
 		if(numai >= maxai) return false;
@@ -201,6 +201,22 @@ namespace aiman
 	}
 
 	void deleteai(clientinfo *ci)
+	{
+		int numbots = 0;
+		loopv(clients) if(clients[i]->state.aitype==AI_BOT) numbots++;
+		if(ci && ci->state.state==CS_SPECTATOR) return; // copystring(_bname, ci->name, MAXNAMELEN+1);
+        int cn = ci->clientnum - MAXCLIENTS;
+        if(!bots.inrange(cn)) return;
+        if(smode) smode->leavegame(ci, true);
+        sendf(-1, 1, "ri2", N_CDIS, ci->clientnum);
+        clientinfo *owner = (clientinfo *)getclientinfo(ci->ownernum);
+        if(owner) owner->bots.removeobj(ci);
+        clients.removeobj(ci);
+        loopv(clients) if(clients[i]->_xi.tkiller == ci) clients[i]->_xi.tkiller = 0;
+        DELETEP(bots[cn]);
+		dorefresh = true;
+	}
+	void deletebar(clientinfo *ci)
 	{
 		int numbots = 0;
 		loopv(clients) if(clients[i]->state.aitype==AI_BOT) numbots++;
@@ -320,7 +336,12 @@ namespace aiman
 		clientinfo *ci = getinfo(cn);
 		if(!ci || ci->state.aitype!=AI_BOT) return;
 		deleteai(ci);
-		
+	}
+	void reqdelbar(int cn) {
+		if(cn < 0 || cn > 255) return;
+		clientinfo *ci = getinfo(cn);
+		if(!ci || ci->state.aitype!=AI_BOT) return;
+		deletebar(ci);
 	}
 
     void setbotlimit(clientinfo *ci, int limit)
