@@ -31,6 +31,7 @@
 
     void extinfoplayer(ucharbuf &p, clientinfo *ci)
     {
+    	if(ci->_xi.spy) return;
         ucharbuf q = p;
         putint(q, EXT_PLAYERSTATS_RESP_STATS); // send player stats following
         putint(q, ci->clientnum); //add player id
