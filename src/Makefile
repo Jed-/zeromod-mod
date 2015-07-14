@@ -207,7 +207,7 @@ fpsgame/server-standalone.o: shared/geom.h shared/ents.h shared/command.h
 fpsgame/server-standalone.o: shared/iengine.h shared/igame.h fpsgame/ai.h
 fpsgame/server-standalone.o: fpsgame/capture.h fpsgame/ctf.h
 fpsgame/server-standalone.o: fpsgame/collect.h fpsgame/extinfo.h
-fpsgame/server-standalone.o: fpsgame/aiman.h fpsgame/anticheat.h fpsgame/arena.h fpsgame/match.h fpsgame/loadmap.h fpsgame/bar.h fpsgame/resume.h fpsgame/protection.h fpsgame/race.h fpsgame/football.h
+fpsgame/server-standalone.o: fpsgame/aiman.h fpsgame/anticheat.h fpsgame/arena.h fpsgame/match.h fpsgame/loadmap.h fpsgame/resume.h fpsgame/protection.h fpsgame/race.h fpsgame/football.h
 fpsgame/modules-standalone.o: fpsgame/modules.h
 
 # masterserver objects dependencies

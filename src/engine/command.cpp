@@ -364,6 +364,7 @@ static inline bool checknumber(const char *s)
         default: return false;
     }
 }
+ICOMMAND(checknumber, "s", (char *s), intret(checknumber(s) ? 1 : 0));
 
 ident *newident(const char *name, int flags)
 {

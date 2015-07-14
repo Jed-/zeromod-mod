@@ -6805,7 +6805,7 @@ namespace server
     	int cn = -1;
     	if(!args || !argv[0] || !argv[0][0]) cn = ci->clientnum; else {
     		int _c = atoi(argv[0]);
-    		if((ci->state.aitype==AI_BOT ? !getinfo(_c) : !getclientinfo(_c)) || (_c==0 && strcmp(argv[0], "0"))) {
+    		if(!getinfo(_c) || (_c==0 && strcmp(argv[0], "0"))) {
     			defformatstring(cs)("%d", _c);
     			defformatstring(msg)("\f3[\f7Error\f3] \f7Unknown client: %s", (_c==0 && strcmp(argv[0], "0")) ? argv[0] : cs);
     			sendf(ci->clientnum, 1, "ris", N_SERVMSG, msg);
@@ -6824,16 +6824,16 @@ namespace server
 		}
 		defformatstring(beers)("%d", numbeers);
 		if(cn!=ci->clientnum) {
-			clientinfo *to = (clientinfo*)getclientinfo(cn);
+			clientinfo *to = getinfo(cn);
 			loopv(clients) {
 				if(clients[i]==to) continue;
-				defformatstring(msg)("\f1[\f7Bar\f1] \f3%s\f7 offers \f3%s\f%d %s\f7 %s%s!", colorname(ci), colorname(to), numbeers==1 ? 7 : 0, numbeers==1 ? "a" : beers, (argv[2] && argv[2][0] && (ci->state.aitype!=AI_NONE || _offering)) ? argv[2] : "beer", numbeers==1 ? "" : ci->state.aitype==AI_NONE ? "s" : "");
+				defformatstring(msg)("\f1[\f7Bar\f1] \f3%s\f7 offers \f3%s\f%d %s\f7 %s!", colorname(ci), colorname(to), numbeers==1 ? 7 : 0, numbeers==1 ? "a" : beers, (argv[2] && argv[2][0] && (ci->state.aitype!=AI_NONE || _offering)) ? argv[2] : "beer");
 				sendf(clients[i]->clientnum, 1, "ris", N_SERVMSG, msg);
 			}
-			defformatstring(msg)("\f1[\f7Bar\f1] \f3%s\f7 offers \f3you\f%d %s\f7 %s%s!", colorname(ci), numbeers==1 ? 7 : 0, numbeers==1 ? "a" : beers, (argv[2] && argv[2][0] && (ci->state.aitype!=AI_NONE || _offering)) ? argv[2] : "beer", numbeers==1 ? "" : ci->state.aitype==AI_NONE ? "s" : "");
+			defformatstring(msg)("\f1[\f7Bar\f1] \f3%s\f7 offers \f3you\f%d %s\f7 %s!", colorname(ci), numbeers==1 ? 7 : 0, numbeers==1 ? "a" : beers, (argv[2] && argv[2][0] && (ci->state.aitype!=AI_NONE || _offering)) ? argv[2] : "beer");
 			sendf(cn, 1, "ris", N_SERVMSG, msg);
 		} else {
-			defformatstring(msg)("\f1[\f7Bar\f1] \f3%s\f7 drinks\f%d %s\f7 %s%s!", colorname(ci), numbeers==1 ? 7 : 0, numbeers==1 ? "a" : beers, (argv[2] && argv[2][0] && (ci->state.aitype!=AI_NONE || _offering)) ? argv[2] : "beer", numbeers==1 ? "" : ci->state.aitype==AI_NONE ? "s" : "");
+			defformatstring(msg)("\f1[\f7Bar\f1] \f3%s\f7 drinks\f%d %s\f7 %s!", colorname(ci), numbeers==1 ? 7 : 0, numbeers==1 ? "a" : beers, (argv[2] && argv[2][0] && (ci->state.aitype!=AI_NONE || _offering)) ? argv[2] : "beer");
 			sendf(-1, 1, "ris", N_SERVMSG, msg);
 		}
 	}
@@ -7776,7 +7776,9 @@ namespace server
                         QUEUE_AI;
                         QUEUE_INT(N_TEXT);
                         QUEUE_STR(ftext);
-                        parsebar(ftext, cq->clientnum);
+//                        parsebar(ftext, cq->clientnum);
+						defformatstring(cmd)("onchat %d %s", cq->clientnum, escapestring(ftext));
+						if(identexists("onchat")) execute(cmd);
                     }
                 }
                 break;
@@ -8521,12 +8523,60 @@ namespace server
     {
         return attr.length() && attr[0]==PROTOCOL_VERSION;
     }
+    char *listclients() {
+    	string out;
+    	copystring(out, "", MAXSTRLEN);
+    	loopv(clients) {
+    		defformatstring(str)("%d ", clients[i]->clientnum);
+    		if(!out[0]) {
+    			copystring(out, str, MAXSTRLEN);
+    		} else {
+    			concatstring(out, str, MAXSTRLEN);
+    		}
+    	}
+    	return newstring(out);
+    }
+    ICOMMAND(listclients, "", (), result(listclients()));
+    int isai(int cn) {
+    	clientinfo *ci = getinfo(cn);
+    	if(ci) {
+    		return ci->state.aitype==AI_NONE ? 0 : 1;
+    	}
+    	return 0;
+    }
+    ICOMMAND(isai, "i", (int *cn), intret(isai(*cn)));
+    int isspectator(int cn) {
+    	clientinfo *ci = getinfo(cn);
+    	if(ci) {
+    		return ci->state.state==CS_SPECTATOR ? 1 : 0;
+    	}
+    	return 0;
+    }
+    ICOMMAND(isspectator, "i", (int *cn), intret(isspectator(*cn)));
+	char *lowerstring(char *arg) {
+		string s;
+		copystring(s, arg, sizeof(s));
+		for (int i=0; s[i]; i++) s[i] = tolower(s[i]);
+		return newstring(s);
+	}
+	ICOMMAND(lowerstring, "s", (char *arg), result(lowerstring(arg)));
+	void offer(int whocn, int tocn, char *what = (char*)"beer", int howmuch = 1) {
+		if(!howmuch) return;
+		clientinfo *who = getinfo(whocn);
+		if(!who) return;
+		clientinfo *to = getinfo(tocn);
+		if(!to) return;
+		defformatstring(args)("%d %d %s", to->clientnum, howmuch, what);
+		_offering = true;
+		_beerfunc("beer", args, who);
+		_offering = false;
+	}
+	ICOMMAND(offer, "iisi", (int *whocn, int *tocn, char *what, int *howmuch), offer(*whocn, *tocn, what, *howmuch));
 
     #include "aiman.h"
     #include "arena.h"
     #include "match.h"
     #include "loadmap.h"
-    #include "bar.h"
     #include "resume.h"
     #include "protection.h"
     #include "race.h"
