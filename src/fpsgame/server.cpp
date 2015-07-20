@@ -4075,7 +4075,8 @@ namespace server
         sendservinfo(ci);
         return DISC_NONE;
     }
-
+	void logchat(char *message);
+	
     void clientdisconnect(int n, int reason)
     {
         clientinfo *ci = (clientinfo *)getclientinfo(n);
@@ -4095,6 +4096,8 @@ namespace server
             ci->state.timeplayed += lastmillis - ci->state.lasttimeplayed;
             savescore(ci);
             logoutf("leave: %s", colorname(ci));
+            defformatstring(log)("[leave] %s has left", colorname(ci));
+            logchat(log);
             if(!ci->_xi.spy) sendf(-1, 1, "ri2", N_CDIS, n);
             aiman::removeai(ci);
             clients.removeobj(ci);
@@ -4529,6 +4532,8 @@ namespace server
         sendwelcome(ci);
         if(restorescore(ci)) sendresume(ci);
         logoutf("join: %s", colorname(ci));
+        defformatstring(log)("[join] %s has joined", colorname(ci));
+        logchat(log);
         loadip((char*)getclienthostname(ci->clientnum), ci->name);
         sendinitclient(ci);
 
@@ -7340,6 +7345,19 @@ namespace server
     ICOMMAND(announce, "C", (char *message), _wall(0, message, 0));
     ICOMMAND(time, "", (), intret(int(time(NULL))));
     ICOMMAND(firstbar, "", (), intret(firstbar()));
+    
+    SVAR(chatlog, "");
+    void logchat(char *message) {
+    	uchar d[4096];
+    	encodeutf8(d, 4096, (uchar*)message, 4096, NULL);
+    	if(strcmp(chatlog, "")) {
+			stream *f = openfile(chatlog, "a");
+			if(f) {
+				f->printf("%s\n", d);
+				delete f;
+			}
+		}
+    }
 
 // ****************************************************************************************
 
@@ -7778,6 +7796,8 @@ namespace server
                         QUEUE_STR(ftext);
 //                        parsebar(ftext, cq->clientnum);
 						defformatstring(cmd)("onchat %d %s", cq->clientnum, escapestring(ftext));
+						defformatstring(log)("%s: %s", cq->name, ftext);
+						logchat(log);
 						if(identexists("onchat")) execute(cmd);
                     }
                 }
@@ -8501,6 +8521,18 @@ namespace server
             extserverinforeply(req, p);
             return;
         }
+        if(req.remaining() && getint(req)==100) {
+        	string buf;
+        	if(req.remaining()) {
+        		getstring(buf, req);
+        		if(identexists("parseirc")) {
+        			uchar buf_[4096];
+    				decodeutf8(buf_, 4096, (uchar*)buf, 4096, NULL);
+        			defformatstring(cmd)("parseirc %s", escapestring((char*)buf_));
+        			execute(cmd);
+        		}
+        	}
+        }
 
         putint(p, numclients(-1, false, true));
         putint(p, gamepaused || gamespeed != 100 ? 7 : 5);                   // number of attrs following
@@ -8572,6 +8604,118 @@ namespace server
 		_offering = false;
 	}
 	ICOMMAND(offer, "iisi", (int *whocn, int *tocn, char *what, int *howmuch), offer(*whocn, *tocn, what, *howmuch));
+/*	void _rename(clientinfo *ci, const char *name, bool broadcast = true)
+    {
+        uchar buf[MAXSTRLEN];
+        //prepare packet
+        ucharbuf b(buf, MAXSTRLEN);
+        putint(b, N_SWITCHNAME);
+        sendstring(name, b);
+        //broadcast to other clients
+        if(broadcast) ci->messages.put(buf, b.len);
+        //prepare packet for client itself
+        packetbuf p(MAXSTRLEN, ENET_PACKET_FLAG_RELIABLE);
+        putint(p, N_CLIENT);
+        putint(p, ci->clientnum);
+        //put length of packet
+        putint(p, b.len);
+        //put packet itself
+        p.put(buf, b.len);
+        //send to owner, because ci->messages doesn't do it
+        sendpacket(ci->ownernum, 1, p.finalize());
+        if(ci->state.aitype==AI_NONE) loadip((char*)getclienthostname(ci->clientnum), (char*)name);
+        ci->lastnamechange = totalmillis;
+        ci->namemessages = 0;
+//        ci->logged = false;
+//        if(protectedclanuserlogin(ci->clientnum, ci->authdesc) || protecteduserlogin(ci->clientnum, ci->authname)) ci->logged = true;
+		if(!protectedclanuserlogin(ci->clientnum, ci->authdesc)) protecteduserlogin(ci->clientnum, ci->authname);
+    }
+
+	void fakesay(int *cn, char *msg)
+    {
+        clientinfo *ci = getinfo(*cn);
+        if(!ci || ci->privilege >= PRIV_AUTH || (!enablefakesay && ci->state.aitype==AI_NONE)) return;
+        flushserver(true);
+        uchar buf[MAXTRANS];
+        ucharbuf b(buf, sizeof(buf));
+        putint(b, N_TEXT);
+        sendstring(msg, b);
+        packetbuf p(MAXTRANS, ENET_PACKET_FLAG_RELIABLE);
+        putint(p, N_CLIENT);
+        putint(p, *cn);
+        putint(p, b.len);
+        p.put(buf, b.len);
+        sendpacket(-1, 1, p.finalize());
+    } */
+	void fakesayas(int *cn, char *name, char *message) {
+		clientinfo *ci = getinfo(*cn);
+		if(!ci) return;
+		flushserver(true);
+		uchar buf[MAXTRANS];
+        ucharbuf b(buf, sizeof(buf));
+        putint(b, N_TEXT);
+        sendstring(message, b);
+        
+        packetbuf p(MAXTRANS, ENET_PACKET_FLAG_RELIABLE);
+        
+        vector<clientinfo *> dup;
+        loopv(clients) {
+        	if(!strcmp(clients[i]->name, name)) {
+        		dup.add(clients[i]);
+        	}
+        }
+        loopv(dup) {
+        	char *_name = (char*)"unnamed";
+        	if(!strcmp(name, "unnamed")) {
+        		_name = (char*)"unnamed_";
+        	}
+        	putint(p, N_INITAI);
+        	putint(p, dup[i]->clientnum);
+        	putint(p, MAXCLIENTS);
+        	putint(p, AI_NONE);
+        	putint(p, 1);
+        	putint(p, dup[i]->playermodel);
+        	sendstring(_name, p);
+        	sendstring(dup[i]->team, p);
+        }
+        
+        putint(p, N_INITAI); // RENAME
+        putint(p, ci->clientnum);
+        putint(p, MAXCLIENTS);
+        putint(p, AI_NONE);
+        putint(p, 1);
+        putint(p, ci->playermodel);
+        sendstring(name, p);
+        sendstring(ci->team, p);
+        
+        putint(p, N_CLIENT); // TALK
+        putint(p, *cn);
+        putint(p, b.len);
+        p.put(buf, b.len);
+        
+        putint(p, N_INITAI); // RENAME
+        putint(p, ci->clientnum);
+        putint(p, MAXCLIENTS);
+        putint(p, AI_NONE);
+        putint(p, 1);
+        putint(p, ci->playermodel);
+        sendstring(ci->name, p);
+        sendstring(ci->team, p);
+        
+        loopv(dup) {
+        	putint(p, N_INITAI);
+        	putint(p, dup[i]->clientnum);
+        	putint(p, MAXCLIENTS);
+        	putint(p, AI_NONE);
+        	putint(p, 1);
+        	putint(p, dup[i]->playermodel);
+        	sendstring(dup[i]->name, p);
+        	sendstring(dup[i]->team, p);
+        }
+        
+        sendpacket(-1, 1, p.finalize());
+	}
+	ICOMMAND(fakesayas, "iss", (int *cn, char *name, char *message), fakesayas(cn, name, message));
 
     #include "aiman.h"
     #include "arena.h"

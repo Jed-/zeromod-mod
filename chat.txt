@@ -1,0 +1,30 @@
+:j #bud
+[join] Jed has joined
+Jed: a
+Jed: è
+Jed: ß
+Jed: a
+Jed: b
+[leave] Jed has left
+[join] Jed has joined
+Jed: a
+[leave] Jed has left
+[join] Jed has joined
+[leave] Jed has left
+[join] Jed has joined
+Jed: parla
+Jed: worka
+Jed: anche se.. aspetta
+Jed: faccio un piccolo fix
+[leave] Jed has left
+[join] Jed has joined
+Jed: ok parla
+Jed: e uffa mi loadda i waypoints
+[leave] Jed has left
+[join] Jed has joined
+Jed: parla
+Jed: e worka
+[leave] Jed has left
+[join] Jed has joined
+Jed: ok parla
+[leave] Jed has left

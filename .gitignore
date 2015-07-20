@@ -9,6 +9,8 @@ protection.cfg
 races/*
 sauer_server
 src/sauer_server
+*.o
+*.a
 sauer_master
 src/sauer_master
 src/genauthkey/genauthkey
