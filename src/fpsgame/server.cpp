@@ -2914,6 +2914,14 @@ namespace server
 
         if(smode) smode->setup();
         if(newrace) startracemap_();
+        int firstbar = -1;
+        loopv(clients) {
+        	if(clients[i]->state.aitype!=AI_NONE && clients[i]->state.state==CS_SPECTATOR) firstbar = clients[i]->clientnum;
+        }
+        if(firstbar>=MAXCLIENTS) {
+        	clientinfo *ci = getinfo(firstbar);
+        	if(ci) sendf(-1, 1, "ri6ss", N_INITAI, ci->clientnum, ci->ownernum, AI_NONE, ci->state.skill, ci->playermodel, ci->name, ci->team);
+        }
     }
 
     void rotatemap(bool next)
