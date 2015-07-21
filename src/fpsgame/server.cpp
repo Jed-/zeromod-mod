@@ -2236,7 +2236,7 @@ namespace server
             packetbuf q(MAXTRANS, ENET_PACKET_FLAG_RELIABLE);
             _putrealmaster(q);
             loopv(clients) {
-            	if(clients[i]->privilege>=(serverhidepriv==2 ? PRIV_AUTH : serverhidepriv ? PRIV_ADMIN : PRIV_NONE) && (serverhidepriv==2 ? !(clients[i]->authname && !clients[i]->authdesc) : 1)) sendpacket(clients[i]->clientnum, 1, q.finalize());
+            	if(clients[i]->privilege>=(serverhidepriv==2 ? PRIV_AUTH : serverhidepriv ? PRIV_ADMIN : PRIV_NONE) && (serverhidepriv==2 ? !(clients[i]->authname && !clients[i]->authdesc) : 1) && clients[i]->clientnum!=ci->clientnum) sendpacket(clients[i]->clientnum, 1, q.finalize());
             }
         }
 
@@ -5804,14 +5804,14 @@ namespace server
                     loopv(clients) if(clients[i]->state.aitype == AI_NONE && clients[i] != ci && clients[i] != cx)
                         sendpacket(clients[i]->ownernum, 1, _p);
                 }
-                packetbuf q(MAXTRANS, ENET_PACKET_FLAG_RELIABLE);
+/*                packetbuf q(MAXTRANS, ENET_PACKET_FLAG_RELIABLE);
 		        _putrealmaster(q);
 		        loopv(clients) {
 		        	if(clients[i]->privilege>=(serverhidepriv==2 ? PRIV_AUTH : serverhidepriv ? PRIV_ADMIN : PRIV_NONE) && (serverhidepriv==2 ? !(clients[i]->authname && !clients[i]->authdesc) : 1)) sendpacket(clients[i]->clientnum, 1, q.finalize());
-		        }
+		        } */
             }
 
-            if(ishidden || (oldpriv && washidden))
+/*            if(ishidden || (oldpriv && washidden))
             {
                 packetbuf q(MAXTRANS, ENET_PACKET_FLAG_RELIABLE);
                 putint(q, N_SERVMSG);
@@ -5824,7 +5824,7 @@ namespace server
                 loopv(clients) {
                 	if(clients[i]->privilege>=(serverhidepriv==2 ? PRIV_AUTH : serverhidepriv ? PRIV_ADMIN : PRIV_NONE) && (serverhidepriv==2 ? !(clients[i]->authname && !clients[i]->authdesc) : 1)) sendpacket(clients[i]->clientnum, 1, _q);
                 }
-            }
+            } */
 
             checkpausegame();
         }
