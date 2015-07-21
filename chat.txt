@@ -1,0 +1,2 @@
+[join] Jed has joined
+[leave] Jed has left

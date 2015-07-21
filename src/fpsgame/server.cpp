@@ -2827,6 +2827,8 @@ namespace server
         if(_match) _match = 0;
         if(_defend > 0) _defend = 0;
         else _defend *= -1;
+        if(_football > 0) _football = 0;
+        else _football *= -1;
         bool newrace = false;
         if(_racemode) { // allow changing map in racemode
         	mode = 1;
@@ -7020,6 +7022,7 @@ namespace server
 			return;
 		}
 		_football = clamp(atoi(args), 0, 2);
+		_football *= -1;
 		defformatstring(msg)("\f0[\f7Info\f0]\f7 football \f%d%s", _football ? 0 : 4, _football ? "on" : "off");
 		if(_football) startfootball();
 		else endfootball();
