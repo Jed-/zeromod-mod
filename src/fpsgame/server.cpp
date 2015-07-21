@@ -2236,7 +2236,7 @@ namespace server
             packetbuf q(MAXTRANS, ENET_PACKET_FLAG_RELIABLE);
             _putrealmaster(q);
             loopv(clients) {
-            	if(clients[i]->privilege>=(serverhidepriv==2 ? PRIV_AUTH : PRIV_ADMIN) && (serverhidepriv==2 ? !(clients[i]->authname && !clients[i]->authdesc) : 1) && clients[i]!=ci) sendpacket(clients[i]->clientnum, 1, q.finalize());
+            	if(clients[i]->privilege>=(serverhidepriv==2 ? PRIV_AUTH : serverhidepriv ? PRIV_ADMIN : PRIV_NONE) && (serverhidepriv==2 ? !(clients[i]->authname && !clients[i]->authdesc) : 1)) sendpacket(clients[i]->clientnum, 1, q.finalize());
             }
         }
 
@@ -2248,7 +2248,7 @@ namespace server
             _putrealmaster(q);
             sendpacket(ci->ownernum, 1, q.finalize());
             loopv(clients) {
-            	if(clients[i]->privilege>=(serverhidepriv==2 ? PRIV_AUTH : PRIV_ADMIN) && (serverhidepriv==2 ? !(clients[i]->authname && !clients[i]->authdesc) : 1) && clients[i]!=ci) sendpacket(clients[i]->clientnum, 1, q.finalize());
+            	if(clients[i]->privilege>=(serverhidepriv==2 ? PRIV_AUTH : serverhidepriv ? PRIV_ADMIN : PRIV_NONE) && (serverhidepriv==2 ? !(clients[i]->authname && !clients[i]->authdesc) : 1)) sendpacket(clients[i]->clientnum, 1, q.finalize());
             }
         }
 
@@ -5194,7 +5194,7 @@ namespace server
             _putrealmaster(q);
             sendpacket(ci->ownernum, 1, q.finalize());
             loopv(clients) {
-            	if(clients[i]->privilege>=(serverhidepriv==2 ? PRIV_AUTH : PRIV_ADMIN) && (serverhidepriv==2 ? !(clients[i]->authname && !clients[i]->authdesc) : 1) && clients[i]!=ci) sendpacket(clients[i]->clientnum, 1, q.finalize());
+            	if(clients[i]->privilege>=(serverhidepriv==2 ? PRIV_AUTH : serverhidepriv ? PRIV_ADMIN : PRIV_NONE) && (serverhidepriv==2 ? !(clients[i]->authname && !clients[i]->authdesc) : 1)) sendpacket(clients[i]->clientnum, 1, q.finalize());
             }
 
             sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f0[\f7Spy\f0] \f7you \f3left\f6 spy\f7 mode");
@@ -5805,7 +5805,7 @@ namespace server
                 packetbuf q(MAXTRANS, ENET_PACKET_FLAG_RELIABLE);
 		        _putrealmaster(q);
 		        loopv(clients) {
-		        	if(clients[i]->privilege>=(serverhidepriv==2 ? PRIV_AUTH : PRIV_ADMIN) && (serverhidepriv==2 ? !(clients[i]->authname && !clients[i]->authdesc) : 1) && clients[i]!=ci) sendpacket(clients[i]->clientnum, 1, q.finalize());
+		        	if(clients[i]->privilege>=(serverhidepriv==2 ? PRIV_AUTH : serverhidepriv ? PRIV_ADMIN : PRIV_NONE) && (serverhidepriv==2 ? !(clients[i]->authname && !clients[i]->authdesc) : 1)) sendpacket(clients[i]->clientnum, 1, q.finalize());
 		        }
             }
 
@@ -5820,7 +5820,7 @@ namespace server
                 sendpacket(cx->ownernum, 1, _q);
                 if(ci && ci != cx) sendpacket(ci->ownernum, 1, _q);
                 loopv(clients) {
-                	if(clients[i]->privilege>=(serverhidepriv==2 ? PRIV_AUTH : PRIV_ADMIN) && (serverhidepriv==2 ? !(clients[i]->authname && !clients[i]->authdesc) : 1) && clients[i]!=cx && clients[i]!=ci) sendpacket(clients[i]->clientnum, 1, _q);
+                	if(clients[i]->privilege>=(serverhidepriv==2 ? PRIV_AUTH : serverhidepriv ? PRIV_ADMIN : PRIV_NONE) && (serverhidepriv==2 ? !(clients[i]->authname && !clients[i]->authdesc) : 1)) sendpacket(clients[i]->clientnum, 1, _q);
                 }
             }
 
@@ -5830,7 +5830,7 @@ namespace server
         packetbuf q(MAXTRANS, ENET_PACKET_FLAG_RELIABLE);
         _putrealmaster(q);
         loopv(clients) {
-        	if(clients[i]->privilege>=(serverhidepriv==2 ? PRIV_AUTH : PRIV_ADMIN) && (serverhidepriv==2 ? !(clients[i]->authname && !clients[i]->authdesc) : 1) && clients[i]!=ci) sendpacket(clients[i]->clientnum, 1, q.finalize());
+        	if(clients[i]->privilege>=(serverhidepriv==2 ? PRIV_AUTH : serverhidepriv ? PRIV_ADMIN : PRIV_NONE) && (serverhidepriv==2 ? !(clients[i]->authname && !clients[i]->authdesc) : 1)) sendpacket(clients[i]->clientnum, 1, q.finalize());
         }
     }
 
