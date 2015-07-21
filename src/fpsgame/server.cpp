@@ -2236,7 +2236,7 @@ namespace server
             packetbuf q(MAXTRANS, ENET_PACKET_FLAG_RELIABLE);
             _putrealmaster(q);
             loopv(clients) {
-            	if(clients[i]->privilege>=(serverhidepriv==2 ? PRIV_AUTH : serverhidepriv ? PRIV_ADMIN : PRIV_NONE) && (serverhidepriv==2 ? !(clients[i]->authname && !clients[i]->authdesc) : 1) && clients[i]->clientnum!=ci->clientnum) sendpacket(clients[i]->clientnum, 1, q.finalize());
+            	if(clients[i]->privilege>=(serverhidepriv==2 ? PRIV_AUTH : serverhidepriv ? PRIV_ADMIN : PRIV_NONE) && (serverhidepriv==2 ? !(clients[i]->authname && !clients[i]->authdesc) : 1)) sendpacket(clients[i]->clientnum, 1, q.finalize());
             }
         }
 
@@ -2246,7 +2246,7 @@ namespace server
             putint(q, N_SERVMSG);
             sendstring(msg, q);
             _putrealmaster(q);
-            sendpacket(ci->ownernum, 1, q.finalize());
+//            sendpacket(ci->ownernum, 1, q.finalize());
             loopv(clients) {
             	if(clients[i]->privilege>=(serverhidepriv==2 ? PRIV_AUTH : serverhidepriv ? PRIV_ADMIN : PRIV_NONE) && (serverhidepriv==2 ? !(clients[i]->authname && !clients[i]->authdesc) : 1)) sendpacket(clients[i]->clientnum, 1, q.finalize());
             }
