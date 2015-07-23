@@ -2588,10 +2588,25 @@ namespace server
     {
         gamestate &gs = ci->state;
         spawnstate(ci);
-        sendf(ci->ownernum, 1, "rii7v", N_SPAWNSTATE, ci->clientnum, gs.lifesequence,
-            gs.health, gs.maxhealth,
-            gs.armour, gs.armourtype,
-            gs.gunselect, GUN_PISTOL-GUN_SG+1, &gs.ammo[GUN_SG]);
+        if(_wpmode && ci->state.aitype!=AI_NONE) {
+        	int w1 = rnd(5)+1;
+        	int w2 = 0;
+        	do {
+        		w2 = rnd(5)+1;
+        	} while(!w2 || w2==w1);
+        	gs.gunselect = w1;
+        	gs.baseammo(w1);
+        	gs.baseammo(w2);
+        	sendf(ci->ownernum, 1, "rii7v", N_SPAWNSTATE, ci->clientnum, gs.lifesequence,
+        	gs.health, gs.maxhealth,
+        	gs.armour, gs.armourtype,
+        	gs.gunselect, GUN_PISTOL-GUN_SG+1, &gs.ammo[GUN_SG]);
+        } else {
+		    sendf(ci->ownernum, 1, "rii7v", N_SPAWNSTATE, ci->clientnum, gs.lifesequence,
+		        gs.health, gs.maxhealth,
+		        gs.armour, gs.armourtype,
+		        gs.gunselect, GUN_PISTOL-GUN_SG+1, &gs.ammo[GUN_SG]);
+		}
         gs.lastspawn = gamemillis;
     }
 
@@ -6640,10 +6655,10 @@ namespace server
     		sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Error\f3]\f7 weapon preference mode is \f4disabled\f7!");
         	return;
     	}
-    	if(ci->state.state==CS_ALIVE && ci->wpchosen) {
+/*    	if(ci->state.state==CS_ALIVE && ci->wpchosen) {
     		sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Error\f3]\f7 you \f3can't\f7 change your weapons when you're \f0alive\f7!");
         	return;
-    	}
+    	} */
         if(!args || !strchr(args,' ')) {
         	sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Error\f3]\f7 you must specify \f02\f7 weapons \f6(\f7cs, sg, cg, rl, ri, gl, pi\f6)\f7!");
         	return;
@@ -6665,9 +6680,11 @@ namespace server
 		}
     	ci->state.wp1 = _w1; ci->state.wp2 = _w2;
 		if(!ci->wpchosen) {
-			ci->state.respawn();
-			ci->state.state=CS_ALIVE;
-			sendspawn(ci);
+			if(ci->state.state==CS_DEAD || (_arena && (totalmillis - _roundstart) <= 5000)) {
+				ci->state.respawn();
+				ci->state.state=CS_ALIVE;
+				sendspawn(ci);
+			}
 			ci->wpchosen = true;
 		}
     }
