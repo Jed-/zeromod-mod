@@ -8744,6 +8744,17 @@ namespace server
         sendpacket(-1, 1, p.finalize());
 	}
 	ICOMMAND(fakesayas, "iss", (int *cn, char *name, char *message), fakesayas(cn, name, message));
+	ICOMMAND(addbar, "s", (char *n), aiman::addservai(n));
+	void delbar() {
+		loopvrev(bots) {
+			if(bots[i] && bots[i]->state.state==CS_SPECTATOR) {
+				aiman::reqdelbar(bots[i]->clientnum);
+				break;
+			}
+		}
+	}
+	ICOMMAND(delbar, "", (), delbar());
+	ICOMMAND(delbarcn, "i", (int *cn), aiman::reqdelbar(*cn));
 
     #include "aiman.h"
     #include "arena.h"
