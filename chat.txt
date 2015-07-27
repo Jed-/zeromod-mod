@@ -1,2 +1,6 @@
 [join] Jed has joined
 [leave] Jed has left
+[join] Jed has joined
+Jed: hi bud
+Jed: bud hi
+[leave] Jed has left
