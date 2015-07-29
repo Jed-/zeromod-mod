@@ -2936,7 +2936,7 @@ namespace server
         }
         if(firstbar>=MAXCLIENTS) {
         	clientinfo *ci = getinfo(firstbar);
-        	if(ci) sendf(-1, 1, "ri6ss", N_INITAI, ci->clientnum, ci->clientnum, AI_NONE, ci->state.skill, ci->playermodel, ci->name, ci->team);
+        	if(ci) sendf(-1, 1, "ri6ss", N_INITAI, ci->clientnum, ci->ownernum, AI_NONE, ci->state.skill, ci->playermodel, ci->name, ci->team);
         }
     }
 
@@ -8742,7 +8742,7 @@ namespace server
         	}
         	putint(p, N_INITAI);
         	putint(p, dup[i]->clientnum);
-        	putint(p, dup[i]->clientnum);
+        	putint(p, dup[i]->ownernum);
         	putint(p, AI_NONE);
         	putint(p, 1);
         	putint(p, dup[i]->playermodel);
@@ -8752,7 +8752,7 @@ namespace server
         
         putint(p, N_INITAI); // RENAME
         putint(p, ci->clientnum);
-        putint(p, ci->clientnum);
+        putint(p, ci->ownernum);
         putint(p, AI_NONE);
         putint(p, 1);
         putint(p, ci->playermodel);
@@ -8766,7 +8766,7 @@ namespace server
         
         putint(p, N_INITAI); // RENAME
         putint(p, ci->clientnum);
-        putint(p, ci->clientnum);
+        putint(p, ci->ownernum);
         putint(p, AI_NONE);
         putint(p, 1);
         putint(p, ci->playermodel);
@@ -8776,7 +8776,7 @@ namespace server
         loopv(dup) {
         	putint(p, N_INITAI);
         	putint(p, dup[i]->clientnum);
-        	putint(p, dup[i]->clientnum);
+        	putint(p, dup[i]->ownernum);
         	putint(p, AI_NONE);
         	putint(p, 1);
         	putint(p, dup[i]->playermodel);
