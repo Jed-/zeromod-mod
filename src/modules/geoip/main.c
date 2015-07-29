@@ -26,9 +26,9 @@ typedef void (* debugtype)(char *);
 typedef void (* addhooktype)(char *, int (*hookfunc)(struct hookparam *));
 typedef void (* delhooktype)(char *, int (*hookfunc)(struct hookparam *));
 typedef void (* logoutftype)(const char *fmt, ...);
-typedef void (* setcountrytype)(int *, char *);
-typedef void (* setregiontype)(int *, char *);
-typedef void (* settowntype)(int *, char *);
+typedef void (* setcountrytype)(int, const char *);
+typedef void (* setregiontype)(int, const char *);
+typedef void (* settowntype)(int, const char *);
 
 getexttype z_getext = NULL;
 setexttype z_setext = NULL;
@@ -176,6 +176,7 @@ int on_connect(struct hookparam *hp)
     {
         first = 0;
         strcat(connmsg, city);
+        if(settown) settown(*(int*)hp->args[0], city);
     }
 
     if(region && (!city || strcmp(city, region)))
@@ -183,6 +184,7 @@ int on_connect(struct hookparam *hp)
         if(first) first = 0;
         else strcat(connmsg, "\f1, \f0");
         strcat(connmsg, region);
+        if(setregion) setregion(*(int*)hp->args[0], region);
     }
 
     //city and region strings copied, lets free gir structure
@@ -193,6 +195,7 @@ int on_connect(struct hookparam *hp)
         if(first) first = 0;
         else strcat(connmsg, "\f1, \f0");
         strcat(connmsg, country);
+        if(setcountry) setcountry(*(int*)hp->args[0], country);
     }
     
 //    if(rank) {
@@ -214,9 +217,6 @@ int on_connect(struct hookparam *hp)
     if(logoutf) logoutf(connmsg);
 
     notifypriv(connmsg, PRIV_ADMIN, PRIV_ROOT);
-    if(setcountry && country && country[0]) setcountry((int*)hp->args[0], (char *)country);
-    if(setregion && region && region[0]) setregion((int*)hp->args[0], (char *)region);
-    if(settown && city && city[0]) settown((int*)hp->args[0], (char *)city);
 
     return 0;
 }
