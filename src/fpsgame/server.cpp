@@ -8774,11 +8774,8 @@ namespace server
         sendstring(ci->team, p);
         
         loopv(dup) {
-        	putint(p, N_INITAI);
+        	putint(p, N_INITCLIENT);
         	putint(p, dup[i]->clientnum);
-        	putint(p, dup[i]->ownernum);
-        	putint(p, AI_NONE);
-        	putint(p, 1);
         	putint(p, dup[i]->playermodel);
         	sendstring(dup[i]->name, p);
         	sendstring(dup[i]->team, p);
