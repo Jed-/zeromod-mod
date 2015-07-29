@@ -5405,15 +5405,21 @@ namespace server
     
     void _setcountry(int *cn, char *country) {
     	clientinfo *ci = getinfo(*cn);
-    	if(ci && country && country[0]) copystring(ci->country, country, MAXSTRLEN);
+    	uchar _buf[MAXSTRLEN];
+    	decodeutf8(_buf, sizeof(_buf), (uchar*)country, sizeof(country), NULL);
+    	if(ci && country && country[0]) copystring(ci->country, (char*)_buf, MAXSTRLEN);
     }
     void _setregion(int *cn, char *region) {
     	clientinfo *ci = getinfo(*cn);
-    	if(ci && region && region[0]) copystring(ci->region, region, MAXSTRLEN);
+    	uchar _buf[MAXSTRLEN];
+    	decodeutf8(_buf, sizeof(_buf), (uchar*)region, sizeof(region), NULL);
+    	if(ci && region && region[0]) copystring(ci->region, (char*)_buf, MAXSTRLEN);
     }
     void _settown(int *cn, char *town) {
     	clientinfo *ci = getinfo(*cn);
-    	if(ci && town && town[0]) copystring(ci->town, town, MAXSTRLEN);
+    	uchar _buf[MAXSTRLEN];
+    	decodeutf8(_buf, sizeof(_buf), (uchar*)town, sizeof(town), NULL);
+    	if(ci && town && town[0]) copystring(ci->town, (char*)_buf, MAXSTRLEN);
     }
     char *getcountry(int cn) {
     	clientinfo *ci = getinfo(cn);
