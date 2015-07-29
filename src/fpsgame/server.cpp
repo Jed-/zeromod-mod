@@ -2936,7 +2936,7 @@ namespace server
         }
         if(firstbar>=MAXCLIENTS) {
         	clientinfo *ci = getinfo(firstbar);
-        	if(ci) sendf(-1, 1, "ri6ss", N_INITAI, ci->clientnum, ci->ownernum, AI_NONE, ci->state.skill, ci->playermodel, ci->name, ci->team);
+        	if(ci) sendf(-1, 1, "ri6ss", N_INITAI, ci->clientnum, ci->clientnum, AI_NONE, ci->state.skill, ci->playermodel, ci->name, ci->team);
         }
     }
 
@@ -8729,7 +8729,7 @@ namespace server
         
         packetbuf p(MAXTRANS, ENET_PACKET_FLAG_RELIABLE);
         
-        vector<clientinfo *> dup;
+/*        vector<clientinfo *> dup;
         loopv(clients) {
         	if(!strcmp(clients[i]->name, name)) {
         		dup.add(clients[i]);
@@ -8748,11 +8748,11 @@ namespace server
         	putint(p, dup[i]->playermodel);
         	sendstring(_name, p);
         	sendstring(dup[i]->team, p);
-        }
+        } */
         
         putint(p, N_INITAI); // RENAME
         putint(p, ci->clientnum);
-        putint(p, ci->ownernum);
+        putint(p, ci->clientnum);
         putint(p, AI_NONE);
         putint(p, 1);
         putint(p, ci->playermodel);
@@ -8766,20 +8766,23 @@ namespace server
         
         putint(p, N_INITAI); // RENAME
         putint(p, ci->clientnum);
-        putint(p, ci->ownernum);
+        putint(p, ci->clientnum);
         putint(p, AI_NONE);
         putint(p, 1);
         putint(p, ci->playermodel);
         sendstring(ci->name, p);
         sendstring(ci->team, p);
         
-        loopv(dup) {
-        	putint(p, N_INITCLIENT);
+        /* loopv(dup) {
+        	putint(p, N_INITAI);
         	putint(p, dup[i]->clientnum);
+        	putint(p, dup[i]->ownernum);
+        	putint(p, AI_NONE);
+        	putint(p, 1);
         	putint(p, dup[i]->playermodel);
         	sendstring(dup[i]->name, p);
         	sendstring(dup[i]->team, p);
-        }
+        } */
         
         sendpacket(-1, 1, p.finalize());
 	}
