@@ -5399,16 +5399,16 @@ namespace server
     
     SVAR(connectmsg, "connected from");
     
-    void _setcountry(int cn, char *country) {
-    	clientinfo *ci = getinfo(cn);
+    void _setcountry(int *cn, char *country) {
+    	clientinfo *ci = getinfo(*cn);
     	if(ci && country && country[0]) copystring(ci->country, country, MAXSTRLEN);
     }
-    void _setregion(int cn, char *region) {
-    	clientinfo *ci = getinfo(cn);
+    void _setregion(int *cn, char *region) {
+    	clientinfo *ci = getinfo(*cn);
     	if(ci && region && region[0]) copystring(ci->region, region, MAXSTRLEN);
     }
-    void _settown(int cn, char *town) {
-    	clientinfo *ci = getinfo(cn);
+    void _settown(int *cn, char *town) {
+    	clientinfo *ci = getinfo(*cn);
     	if(ci && town && town[0]) copystring(ci->town, town, MAXSTRLEN);
     }
     char *getcountry(int cn) {
