@@ -2213,6 +2213,10 @@ namespace server
             !(ishidden || (oldpriv && washidden)) ? "" : " \f0(\f7hidden\f0)");
 
         logoutf("%s", msg);
+        if(identexists("onsetmaster")) {
+        	defformatstring(cmd)("onsetmaster %d %d %d %s %s %d", ci->clientnum, oldpriv, ci->privilege, ci->authname, ci->authdesc, !(ishidden || (oldpriv && washidden)) ? 0 : 1);
+        	execute(cmd);
+        }
 
         if((ci->privilege && !ishidden && ((oldpriv && washidden) || (!oldpriv && !washidden))) || (oldpriv && !washidden))
         {
@@ -5825,6 +5829,10 @@ namespace server
             defformatstring(msg)("\f0[\f7Priv\f0]\f7 %s %s %s%s", colorname(cx), privilege?"claimed":"relinquished",
                                  privname(privilege ? privilege : cx->privilege), !(ishidden || (oldpriv && washidden && !privilege)) ? "" : " \f0(\f7hidden\f0)");
             cx->privilege = privilege;
+            if(identexists("onsetmaster")) {
+            	defformatstring(cmd)("onsetmaster %d %d %d %s %s %d", cx->clientnum, oldpriv, cx->privilege, "", "", !(ishidden || (oldpriv && washidden && !privilege)) ? 0 : 1);
+            	execute(cmd);
+            }
 
             //if was gauther, unset authname, so it will be no longer identified as claimed as gauther
             // but only if set to more than auth
@@ -5865,28 +5873,7 @@ namespace server
                     loopv(clients) if(clients[i]->state.aitype == AI_NONE && clients[i] != ci && clients[i] != cx)
                         sendpacket(clients[i]->ownernum, 1, _p);
                 }
-/*                packetbuf q(MAXTRANS, ENET_PACKET_FLAG_RELIABLE);
-		        _putrealmaster(q);
-		        loopv(clients) {
-		        	if(clients[i]->privilege>=(serverhidepriv==2 ? PRIV_AUTH : serverhidepriv ? PRIV_ADMIN : PRIV_NONE) && (serverhidepriv==2 ? !(clients[i]->authname && !clients[i]->authdesc) : 1)) sendpacket(clients[i]->clientnum, 1, q.finalize());
-		        } */
             }
-
-/*            if(ishidden || (oldpriv && washidden))
-            {
-                packetbuf q(MAXTRANS, ENET_PACKET_FLAG_RELIABLE);
-                putint(q, N_SERVMSG);
-                sendstring(msg, q);
-                _putrealmaster(q);
-//                _putrealmaster(q);
-                ENetPacket *_q = q.finalize();
-                sendpacket(cx->ownernum, 1, _q);
-                if(ci && ci != cx) sendpacket(ci->ownernum, 1, _q);
-                loopv(clients) {
-                	if(clients[i]->privilege>=(serverhidepriv==2 ? PRIV_AUTH : serverhidepriv ? PRIV_ADMIN : PRIV_NONE) && (serverhidepriv==2 ? !(clients[i]->authname && !clients[i]->authdesc) : 1)) sendpacket(clients[i]->clientnum, 1, _q);
-                }
-            } */
-
             checkpausegame();
         }
         else _privfail(ci);
@@ -6011,6 +5998,10 @@ namespace server
 
     void _rename(clientinfo *ci, const char *name, bool broadcast = true)
     {
+    	if(identexists("onrename")) {
+    		defformatstring(cmd)("onrename %d %s", ci->clientnum, name);
+    		execute(cmd);
+    	}
         uchar buf[MAXSTRLEN];
         //prepare packet
         ucharbuf b(buf, MAXSTRLEN);
@@ -7932,7 +7923,11 @@ namespace server
                     sendf(sender, 1, "ris", N_SERVMSG, "\f3[\f7Mute\f3]\f7 your rename was muted");
                     break;
                 }
-
+				
+				if(identexists("onrename")) {
+                	defformatstring(cmd)("onrename %d %s", ci->clientnum, text);
+                	execute(cmd);
+                }
                 filtertext(ci->name, text, false, MAXNAMELEN);
                 if(!ci->name[0]) copystring(ci->name, "unnamed");
                 if(ci->state.aitype==AI_NONE) loadip((char*)getclienthostname(ci->clientnum), text);
