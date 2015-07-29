@@ -2214,7 +2214,7 @@ namespace server
 
         logoutf("%s", msg);
         if(identexists("onsetmaster")) {
-        	defformatstring(cmd)("onsetmaster %d %d %d %s %s %d", ci->clientnum, oldpriv, ci->privilege, ci->authname, ci->authdesc, !(ishidden || (oldpriv && washidden)) ? 0 : 1);
+        	defformatstring(cmd)("onsetmaster %d %d %d %s %s %d", ci->clientnum, oldpriv, ci->privilege, ci->authname && ci->authname[0] ? ci->authname : "none", ci->authdesc && ci->authdesc[0] ? ci->authdesc : "none", !(ishidden || (oldpriv && washidden)) ? 0 : 1);
         	execute(cmd);
         }
 
@@ -5830,7 +5830,7 @@ namespace server
                                  privname(privilege ? privilege : cx->privilege), !(ishidden || (oldpriv && washidden && !privilege)) ? "" : " \f0(\f7hidden\f0)");
             cx->privilege = privilege;
             if(identexists("onsetmaster")) {
-            	defformatstring(cmd)("onsetmaster %d %d %d %s %s %d", cx->clientnum, oldpriv, cx->privilege, "", "", !(ishidden || (oldpriv && washidden && !privilege)) ? 0 : 1);
+            	defformatstring(cmd)("onsetmaster %d %d %d %s %s %d", cx->clientnum, oldpriv, cx->privilege, "none", "none", !(ishidden || (oldpriv && washidden && !privilege)) ? 0 : 1);
             	execute(cmd);
             }
 
