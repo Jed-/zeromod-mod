@@ -5406,19 +5406,19 @@ namespace server
     void _setcountry(int cn, const char *country) {
     	clientinfo *ci = getinfo(cn);
     	uchar _buf[MAXSTRLEN];
-    	decodeutf8(_buf, sizeof(_buf), (uchar*)country, sizeof(country), NULL);
+    	decodeutf8(_buf, sizeof(_buf), (uchar*)country, MAXSTRLEN, NULL);
     	if(ci && country && country[0]) copystring(ci->country, (char*)_buf, MAXSTRLEN);
     }
     void _setregion(int cn, const char *region) {
     	clientinfo *ci = getinfo(cn);
     	uchar _buf[MAXSTRLEN];
-    	decodeutf8(_buf, sizeof(_buf), (uchar*)region, sizeof(region), NULL);
+    	decodeutf8(_buf, sizeof(_buf), (uchar*)region, MAXSTRLEN, NULL);
     	if(ci && region && region[0]) copystring(ci->region, (char*)_buf, MAXSTRLEN);
     }
     void _settown(int cn, const char *town) {
     	clientinfo *ci = getinfo(cn);
     	uchar _buf[MAXSTRLEN];
-    	decodeutf8(_buf, sizeof(_buf), (uchar*)town, sizeof(town), NULL);
+    	decodeutf8(_buf, sizeof(_buf), (uchar*)town, MAXSTRLEN, NULL);
     	if(ci && town && town[0]) copystring(ci->town, (char*)_buf, MAXSTRLEN);
     }
     char *getcountry(int cn) {
