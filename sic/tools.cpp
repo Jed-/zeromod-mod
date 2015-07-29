@@ -11,7 +11,7 @@ ENetSocket getsock() {
 	enet_socket_set_option(sock, ENET_SOCKOPT_BROADCAST, 1);
 	return sock;
 }
-void sendbuf(char *hostname, int port, char *_buf) {
+void sendbuf(char *hostname, int port, char *channel, char *_buf) {
 	ENetAddress address;
 	enet_address_set_host(&address, hostname);
 	address.port = port;
@@ -22,6 +22,7 @@ void sendbuf(char *hostname, int port, char *_buf) {
 	ucharbuf p(send, 4096);
 	putint(p, 1);
 	putint(p, 100);
+	sendstring(channel, p);
 	sendstring(_buf, p);
 	buf.data = send;
 	buf.dataLength = p.length();

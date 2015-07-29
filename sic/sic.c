@@ -23,7 +23,7 @@ static int sauerport = 28786;
 #include "util.c"
 
 void initialize_enet();
-void sendbuf(char *hostname, int port, char *_buf);
+void sendbuf(char *hostname, int port, char *channel, char *_buf);
 
 static void
 pout(char *channel, char *fmt, ...) {
@@ -37,7 +37,7 @@ pout(char *channel, char *fmt, ...) {
 	t = time(NULL);
 	strftime(timestr, sizeof timestr, "%D %R", localtime(&t));
 	fprintf(stdout, "%-12s: %s %s\n", channel, timestr, bufout);
-	sendbuf(sauerhost, sauerport, bufout);
+	sendbuf(sauerhost, sauerport, channel, bufout);
 }
 
 static void

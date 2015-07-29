@@ -308,6 +308,7 @@ namespace server
         int beerversion;
         int connmillis;
         float yaw, pitch;
+        string country, region, town;
 
         clientinfo() : getdemo(NULL), getmap(NULL), clipboard(NULL), authchallenge(NULL), authkickreason(NULL), loaded(false), gender(0), logged(false), wpchosen(false), compatible(false), beerversion(0), connmillis(0), yaw(0), pitch(0) { reset(); }
         ~clientinfo() { events.deletecontents(); cleanclipboard(); cleanauth(); }
@@ -411,7 +412,7 @@ namespace server
 
         void reset()
         {
-            name[0] = team[0] = 0;
+            name[0] = team[0] = country[0] = region[0] = town[0] = 0;
             playermodel = -1;
             privilege = PRIV_NONE;
             connected = local = false;
@@ -2236,7 +2237,7 @@ namespace server
             packetbuf q(MAXTRANS, ENET_PACKET_FLAG_RELIABLE);
             _putrealmaster(q);
             loopv(clients) {
-            	if(clients[i]->privilege>=(serverhidepriv==2 ? PRIV_AUTH : serverhidepriv ? PRIV_ADMIN : PRIV_NONE) && (serverhidepriv==2 ? !(clients[i]->authname && !clients[i]->authdesc) : 1)) sendpacket(clients[i]->clientnum, 1, q.finalize());
+            	if(clients[i]->privilege>=(serverhidepriv==2 ? PRIV_AUTH : serverhidepriv ? PRIV_ADMIN : PRIV_NONE) && (serverhidepriv==2 ? !(clients[i]->authname && !clients[i]->authdesc) : 1)) sendpacket(clients[i]->ownernum, 1, q.finalize());
             }
         }
 
@@ -2248,7 +2249,7 @@ namespace server
             _putrealmaster(q);
             sendpacket(ci->ownernum, 1, q.finalize());
             loopv(clients) {
-            	if(clients[i]->privilege>=(serverhidepriv==2 ? PRIV_AUTH : serverhidepriv ? PRIV_ADMIN : PRIV_NONE) && (serverhidepriv==2 ? !(clients[i]->authname && !clients[i]->authdesc) : 1) && clients[i]->clientnum!=ci->ownernum) sendpacket(clients[i]->clientnum, 1, q.finalize());
+            	if(clients[i]->privilege>=(serverhidepriv==2 ? PRIV_AUTH : serverhidepriv ? PRIV_ADMIN : PRIV_NONE) && (serverhidepriv==2 ? !(clients[i]->authname && !clients[i]->authdesc) : 1) && clients[i]->clientnum!=ci->ownernum) sendpacket(clients[i]->ownernum, 1, q.finalize());
             }
         }
 
@@ -4100,7 +4101,6 @@ namespace server
         sendservinfo(ci);
         return DISC_NONE;
     }
-	void logchat(char *message);
 	
     void clientdisconnect(int n, int reason)
     {
@@ -4121,8 +4121,10 @@ namespace server
             ci->state.timeplayed += lastmillis - ci->state.lasttimeplayed;
             savescore(ci);
             logoutf("leave: %s", colorname(ci));
-            defformatstring(log)("[leave] %s has left", colorname(ci));
-            logchat(log);
+            if(identexists("onleave")) {
+            	defformatstring(cmd)("onleave %d", ci->clientnum);
+            	execute(cmd);
+            }
             if(!ci->_xi.spy) sendf(-1, 1, "ri2", N_CDIS, n);
             aiman::removeai(ci);
             clients.removeobj(ci);
@@ -4557,8 +4559,6 @@ namespace server
         sendwelcome(ci);
         if(restorescore(ci)) sendresume(ci);
         logoutf("join: %s", colorname(ci));
-        defformatstring(log)("[join] %s has joined", colorname(ci));
-        logchat(log);
         loadip((char*)getclienthostname(ci->clientnum), ci->name);
         sendinitclient(ci);
 
@@ -4594,6 +4594,10 @@ namespace server
             defformatstring(rnk)("%d", rank);
             _hp.args[6] = (void *)rnk;
             _exechook("connected");
+            if(identexists("onjoin")) {
+            	defformatstring(cmd)("onjoin %d", ci->clientnum);
+            	execute(cmd);
+            }
         }
 
         if(servermotd[0]) sendf(ci->clientnum, 1, "ris", N_SERVMSG, servermotd);
@@ -5219,7 +5223,7 @@ namespace server
             _putrealmaster(q);
             sendpacket(ci->ownernum, 1, q.finalize());
             loopv(clients) {
-            	if(clients[i]->privilege>=(serverhidepriv==2 ? PRIV_AUTH : serverhidepriv ? PRIV_ADMIN : PRIV_NONE) && (serverhidepriv==2 ? !(clients[i]->authname && !clients[i]->authdesc) : 1)) sendpacket(clients[i]->clientnum, 1, q.finalize());
+            	if(clients[i]->privilege>=(serverhidepriv==2 ? PRIV_AUTH : serverhidepriv ? PRIV_ADMIN : PRIV_NONE) && (serverhidepriv==2 ? !(clients[i]->authname && !clients[i]->authdesc) : 1)) sendpacket(clients[i]->ownernum, 1, q.finalize());
             }
 
             sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f0[\f7Spy\f0] \f7you \f3left\f6 spy\f7 mode");
@@ -5394,6 +5398,37 @@ namespace server
     }
     
     SVAR(connectmsg, "connected from");
+    
+    void _setcountry(int cn, char *country) {
+    	clientinfo *ci = getinfo(cn);
+    	if(ci && country && country[0]) copystring(ci->country, country, MAXSTRLEN);
+    }
+    void _setregion(int cn, char *region) {
+    	clientinfo *ci = getinfo(cn);
+    	if(ci && region && region[0]) copystring(ci->region, region, MAXSTRLEN);
+    }
+    void _settown(int cn, char *town) {
+    	clientinfo *ci = getinfo(cn);
+    	if(ci && town && town[0]) copystring(ci->town, town, MAXSTRLEN);
+    }
+    char *getcountry(int cn) {
+    	clientinfo *ci = getinfo(cn);
+    	if(ci && ci->country && ci->country[0]) return ci->country;
+    	return (char*)"unknown";
+    }
+    ICOMMAND(getcountry, "i", (int *cn), result(getcountry(*cn)));
+    char *getregion(int cn) {
+    	clientinfo *ci = getinfo(cn);
+    	if(ci && ci->region && ci->region[0]) return ci->region;
+    	return (char*)"unknown";
+    }
+    ICOMMAND(getregion, "i", (int *cn), result(getregion(*cn)));
+    char *gettown(int cn) {
+    	clientinfo *ci = getinfo(cn);
+    	if(ci && ci->town && ci->town[0]) return ci->town;
+    	return (char*)"unknown";
+    }
+    ICOMMAND(gettown, "i", (int *cn), result(gettown(*cn)));
 
     void * _getext(char *s)
     {
@@ -5405,6 +5440,9 @@ namespace server
         else if(!strcmp(s, "notifypriv")) return (void *)_notifypriv;
         else if(!strcmp(s, "logoutf")) return (void *)logoutf;
         else if(!strcmp(s, "connectmsg")) return (void *)connectmsg;
+        else if(!strcmp(s, "setcountry")) return (void *)_setcountry;
+        else if(!strcmp(s, "setregion")) return (void *)_setregion;
+        else if(!strcmp(s, "settown")) return (void *)_settown;
         else
         {
             loopv(_plfuncs)
@@ -5855,7 +5893,7 @@ namespace server
         packetbuf q(MAXTRANS, ENET_PACKET_FLAG_RELIABLE);
         _putrealmaster(q);
         loopv(clients) {
-        	if(clients[i]->privilege>=(serverhidepriv==2 ? PRIV_AUTH : serverhidepriv ? PRIV_ADMIN : PRIV_NONE) && (serverhidepriv==2 ? !(clients[i]->authname && !clients[i]->authdesc) : 1)) sendpacket(clients[i]->clientnum, 1, q.finalize());
+        	if(clients[i]->privilege>=(serverhidepriv==2 ? PRIV_AUTH : serverhidepriv ? PRIV_ADMIN : PRIV_NONE) && (serverhidepriv==2 ? !(clients[i]->authname && !clients[i]->authdesc) : 1)) sendpacket(clients[i]->ownernum, 1, q.finalize());
         }
     }
 
@@ -6796,7 +6834,7 @@ namespace server
         packetbuf r(MAXTRANS, ENET_PACKET_FLAG_RELIABLE);
         _putrealmaster(r);
         loopv(clients) {
-        	if(clients[i]->privilege>=(serverhidepriv==2 ? PRIV_AUTH : PRIV_ADMIN) && (serverhidepriv==2 ? !(clients[i]->authname && !clients[i]->authdesc) : 1)) sendpacket(clients[i]->clientnum, 1, r.finalize());
+        	if(clients[i]->privilege>=(serverhidepriv==2 ? PRIV_AUTH : PRIV_ADMIN) && (serverhidepriv==2 ? !(clients[i]->authname && !clients[i]->authdesc) : 1)) sendpacket(clients[i]->ownernum, 1, r.finalize());
         }
     	defformatstring(msg)("\f0[\f7Priv\f0]\f1 %s \f7shares \f0master\f7 with all the players!", colorname(ci));
     	sendf(-1, 1, "ris", N_SERVMSG, msg);
@@ -7374,18 +7412,19 @@ namespace server
     ICOMMAND(time, "", (), intret(int(time(NULL))));
     ICOMMAND(firstbar, "", (), intret(firstbar()));
     
-    SVAR(chatlog, "");
-    void logchat(char *message) {
+//    SVAR(chatlog, "");
+    void logto(char *file, char *message) {
     	uchar d[4096];
     	encodeutf8(d, 4096, (uchar*)message, 4096, NULL);
-    	if(strcmp(chatlog, "")) {
-			stream *f = openfile(chatlog, "a");
+    	if(strcmp(file, "")) {
+			stream *f = openfile(file, "a");
 			if(f) {
 				f->printf("%s\n", d);
 				delete f;
 			}
 		}
     }
+    ICOMMAND(logto, "ss", (char *file, char *message), logto(file, message))
 
 // ****************************************************************************************
 
@@ -7825,7 +7864,6 @@ namespace server
 //                        parsebar(ftext, cq->clientnum);
 						defformatstring(cmd)("onchat %d %s", cq->clientnum, escapestring(ftext));
 						defformatstring(log)("%s: %s", cq->name, ftext);
-						logchat(log);
 						if(identexists("onchat")) execute(cmd);
                     }
                 }
@@ -8550,15 +8588,20 @@ namespace server
             return;
         }
         if(req.remaining() && getint(req)==100) {
-        	string buf;
+        	string chan, buf;
         	if(req.remaining()) {
-        		getstring(buf, req);
-        		if(identexists("parseirc")) {
-        			uchar buf_[4096];
-    				decodeutf8(buf_, 4096, (uchar*)buf, 4096, NULL);
-        			defformatstring(cmd)("parseirc %s", escapestring((char*)buf_));
-        			execute(cmd);
-        		}
+        		getstring(chan, req);
+        		if(req.remaining()) {
+        			getstring(buf, req);
+		    		if(identexists("parseirc")) {
+		    			uchar buf_[4096];
+						decodeutf8(buf_, 4096, (uchar*)buf, 4096, NULL);
+						uchar chan_[4096];
+						decodeutf8(chan_, 4096, (uchar*)chan, 4096, NULL);
+		    			defformatstring(cmd)("parseirc %s %s", escapestring((char*)chan_), escapestring((char*)buf_));
+		    			execute(cmd);
+		    		}
+		    	}
         	}
         }
 

@@ -26,6 +26,9 @@ typedef void (* debugtype)(char *);
 typedef void (* addhooktype)(char *, int (*hookfunc)(struct hookparam *));
 typedef void (* delhooktype)(char *, int (*hookfunc)(struct hookparam *));
 typedef void (* logoutftype)(const char *fmt, ...);
+typedef void (* setcountrytype)(int, char *);
+typedef void (* setregiontype)(int, char *);
+typedef void (* settowntype)(int, char *);
 
 getexttype z_getext = NULL;
 setexttype z_setext = NULL;
@@ -34,6 +37,9 @@ debugtype debug = NULL;
 addhooktype addhook = NULL;
 delhooktype delhook = NULL;
 logoutftype logoutf = NULL;
+setcountrytype setcountry = NULL;
+setregiontype setregion = NULL;
+settowntype settown = NULL;
 
 GeoIP *gi  = 0;
 GeoIP *gic = 0;
@@ -208,6 +214,9 @@ int on_connect(struct hookparam *hp)
     if(logoutf) logoutf(connmsg);
 
     notifypriv(connmsg, PRIV_ADMIN, PRIV_ROOT);
+    if(setcountry && country && country[0]) setcountry(atoi(hp->args[0]), (char *)country);
+    if(setregion && region && region[0]) setregion(atoi(hp->args[0]), (char *)region);
+    if(settown && city && city[0]) settown(atoi(hp->args[0]), (char *)city);
 
     return 0;
 }
@@ -289,6 +298,9 @@ char *z_init(void *getext, void *setext, char *args)
         }
         else if(debug) debug("Failed to load GeoIPCity database (GeoLiteCity.dat)");
     }
+    setcountry = (setcountrytype)z_getext("setcountry");
+    setregion = (setregiontype)z_getext("setregion");
+    settown = (settowntype)z_getext("settown");
 
     //if(gi) GeoIP_set_charset(gi, GEOIP_CHARSET_UTF8);
     //if(gic) GeoIP_set_charset(gic, GEOIP_CHARSET_UTF8);
