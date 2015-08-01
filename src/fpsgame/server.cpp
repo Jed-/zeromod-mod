@@ -2214,7 +2214,7 @@ namespace server
 
         logoutf("%s", msg);
         if(identexists("onsetmaster")) {
-        	defformatstring(cmd)("onsetmaster %d %d %d %s %s %d", ci->clientnum, oldpriv, ci->privilege, ci->authname && ci->authname[0] ? ci->authname : "none", ci->authdesc && ci->authdesc[0] ? ci->authdesc : "none", !(ishidden || (oldpriv && washidden)) ? 0 : 1);
+        	defformatstring(cmd)("onsetmaster %d %d %d %d", ci->clientnum, oldpriv, ci->privilege, !(ishidden || (oldpriv && washidden)) ? 0 : 1);
         	execute(cmd);
         }
 
@@ -2292,6 +2292,17 @@ namespace server
                 {
                     if(reason && reason[0]) formatstring(msg)("\f3[\f7Kick\f3]\f6 %s \f7was kicked because: \f3%s", colorname(vinfo), reason);
                     else formatstring(msg)("\f3[\f7Kick\f3]\f6 %s\f7 was \f3kicked", colorname(vinfo));
+                }
+                if(identexists("onkick")) {
+                	string CMD;
+                	if(reason && reason[0]) {
+                		formatstring(CMD)("onkick %d %d %s", ci->clientnum, vinfo->clientnum, reason);
+                	} else {
+                		formatstring(CMD)("onkick %d %d", ci->clientnum, vinfo->clientnum);
+                	}
+                	if(CMD[0]) {
+                		execute(CMD);
+                	}
                 }
                 sendf(-1, 1, "ris", N_SERVMSG, msg);
                 logoutf("%s", msg);
@@ -4589,6 +4600,17 @@ namespace server
                     sendservmsgf("\f3[\f7Kick\f3]\f6 %s was kicked", colorname(ci));
                     logoutf("\f3[\f7Kick\f3]\f6 %s was kicked by external module", colorname(ci));
                 }
+                if(identexists("onkick")) {
+                	string CMD;
+                	if(((const char *)_hp.args[4])[0]) {
+                		formatstring(CMD)("onkick -1 %d %s", ci->clientnum, (const char *)_hp.args[4]);
+                	} else {
+                		formatstring(CMD)("onkick -1 %d", ci->clientnum);
+                	}
+                	if(CMD[0]) {
+                		execute(CMD);
+                	}
+                }
                 addban(ip, 4*60*60000);
                 _schedule_disconnect(ci->ownernum, DISC_KICK);
                 return false;
@@ -5842,7 +5864,7 @@ namespace server
                                  privname(privilege ? privilege : cx->privilege), !(ishidden || (oldpriv && washidden && !privilege)) ? "" : " \f0(\f7hidden\f0)");
             cx->privilege = privilege;
             if(identexists("onsetmaster")) {
-            	defformatstring(cmd)("onsetmaster %d %d %d %s %s %d", cx->clientnum, oldpriv, cx->privilege, "none", "none", !(ishidden || (oldpriv && washidden && !privilege)) ? 0 : 1);
+            	defformatstring(cmd)("onsetmaster %d %d %d %d", cx->clientnum, oldpriv, cx->privilege, !(ishidden || (oldpriv && washidden && !privilege)) ? 0 : 1);
             	execute(cmd);
             }
 
@@ -6286,6 +6308,10 @@ namespace server
             clientinfo *ci = (clientinfo *)getclientinfo(votes[i].cn);
             if(!ip || !ci) continue;
             formatstring(msg)("\f3[\f7Votekick\f3] \f7votekick succeded for \f6%s \f1(\f7%i\f1)", ci->name, votes[i].cn);
+            if(identexists("onkick")) {
+            	defformatstring(CMD)("onkick -1 %d", ci->clientnum);
+            	execute(CMD);
+            }
             logoutf("%s", msg);
             sendf(-1, 1, "ris", N_SERVMSG, msg);
             addban(ip, 4*60*60000);
@@ -8161,6 +8187,10 @@ namespace server
                         }
                         sendf(-1, 1, "rii", N_MASTERMODE, mastermode);
                         //sendservmsgf("mastermode is now %s (%d)", mastermodename(mastermode), mastermode);
+                        if(identexists("onmastermode")) {
+                        	defformatstring(cmd)("onmastermode %d %d", ci->clientnum, mastermode);
+                        	execute(cmd);
+                        }
                     }
                     else
                     {
