@@ -2150,6 +2150,10 @@ namespace server
         if(!hasrealmaster)
         {
             mastermode = defaultmastermode;
+            if(identexists("onmastermode")) {
+            	defformatstring(CMD)("onmastermode -1 %d", mastermode);
+            	execute(CMD);
+            }
             if(mastermode < MM_PRIVATE) allowedips.shrink(0);
         }
 
@@ -5879,6 +5883,10 @@ namespace server
             if(!hasmaster)
             {
                 mastermode = defaultmastermode;
+                if(identexists("onmastermode")) {
+                	defformatstring(CMD)("onmastermode -1 %d", mastermode);
+                	execute(CMD);
+                }
                 if(mastermode < MM_PRIVATE) allowedips.shrink(0);
             }
 
