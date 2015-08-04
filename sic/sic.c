@@ -200,20 +200,26 @@ main(int argc, char *argv[]) {
 			eprint((char*)"sic: error on select():");
 		}
 		else if(i == 0) {
-			if(time(NULL) - trespond >= 300)
+			if(time(NULL) - trespond >= 300) {
 				eprint((char*)"sic shutting down: parse timeout\n");
+				break;
+			}
 			sout((char*)"PING %s", host);
 			continue;
 		}
 		if(FD_ISSET(fileno(srv), &rd)) {
-			if(fgets(bufin, sizeof bufin, srv) == NULL)
+			if(fgets(bufin, sizeof bufin, srv) == NULL) {
 				eprint((char*)"sic: remote host closed connection\n");
+				break;
+			}
 			parsesrv(bufin);
 			trespond = time(NULL);
 		}
 		if(FD_ISSET(0, &rd)) {
-			if(fgets(bufin, sizeof bufin, stdin) == NULL)
+			if(fgets(bufin, sizeof bufin, stdin) == NULL) {
 				eprint((char*)"sic: broken pipe\n");
+				break;
+			}
 			parsein(bufin);
 		}
 	}
