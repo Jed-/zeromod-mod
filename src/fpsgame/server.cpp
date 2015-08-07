@@ -3342,7 +3342,6 @@ namespace server
         }
     }
 
-	void addclientscore(clientinfo *ci);
     void checkintermission()
     {
         if(gamemillis >= gamelimit && !interm)
@@ -3352,12 +3351,12 @@ namespace server
             changegamespeed(100);
             interm = gamemillis + serverintermission*1000;
             if(beststats && clients.length() > 0) printbeststats();
-            loopv(clients) if(clients[i]->state.state!=CS_SPECTATOR && clients[i]->state.aitype==AI_NONE && !((isreservedname(clients[i]->name) || isreservedclan(clients[i]->name)) && !clients[i]->logged)) addclientscore(clients[i]);
-            savescorescfg();
-            if(scoreboard && scoreboardxml) {
-            	savescoresxml();
-            	savescorescfg();
+            loopv(clients) if(clients[i]->state.state!=CS_SPECTATOR && clients[i]->state.aitype==AI_NONE && !((isreservedname(clients[i]->name) || isreservedclan(clients[i]->name)) && !clients[i]->logged)) {
+            	addplayerscore(clients[i]->clientnum);
+            	setplayerscore(clients[i]->clientnum);
             }
+            savescorescfg();
+            if(scoreboard && scoreboardxml) savescoresxml();
         }
     }
     
@@ -3365,171 +3364,6 @@ namespace server
     SVAR(dlcmd, "wget -O .tmp --");
     SVAR(scoreboardurl, "");
     SVAR(scoreboardpass, ""); */
-    struct playerscore {
-    	string name;
-    	int frags, flags, deaths, totalshots, totaldamage, suicides, teamkills, timeplayed, matches;
-    	playerscore() : frags(0), deaths(0), totalshots(0), totaldamage(0), suicides(0), teamkills(0), timeplayed(0), matches(0) {}
-    };
-    vector<playerscore *> playerscores;
-    bool playerscoresort(playerscore *a, playerscore *b) {
-    	if(a->frags > b->frags) return true;
-    	if(a->frags < b->frags) return false;
-    	if(a->flags > b->flags) return true;
-    	if(a->flags < b->flags) return false;
-    	if((float)((float)a->frags/max((float)a->deaths, 1.f)) > (float)((float)b->frags/max((float)b->deaths, 1.f))) return true;
-    	if((float)((float)a->frags/max((float)a->deaths, 1.f)) < (float)((float)b->frags/max((float)b->deaths, 1.f))) return false;
-    	if(a->deaths < b->deaths) return true;
-    	if(a->deaths > b->deaths) return false;
-    	if((float)((float)a->totaldamage/max((float)a->totalshots, 1.f)) > (float)((float)b->totaldamage/max((float)b->totalshots, 1.f))) return true;
-    	if((float)((float)a->totaldamage/max((float)a->totalshots, 1.f)) < (float)((float)b->totaldamage/max((float)b->totalshots, 1.f))) return false;
-    	if(a->teamkills < b->teamkills) return true;
-    	if(a->teamkills > b->teamkills) return false;
-    	if(a->suicides < b->suicides) return true;
-    	if(a->suicides > b->suicides) return false;
-    	if(a->matches > b->matches) return true;
-    	if(a->matches < b->matches) return false;
-    	if(a->timeplayed > b->timeplayed) return true;
-    	if(a->timeplayed < b->timeplayed) return false;
-    	return strcmp(a->name, b->name) < 0;
-    }
-    playerscore *findplayerscore(char *name) {
-    	if(!playerscores.inrange(0)) return NULL;
-    	loopv(playerscores) {
-    		if(!strcmp(playerscores[i]->name, name)) return playerscores[i];
-    	}
-    	return NULL;
-    }
-    void clearplayerscores() {
-    	playerscores.shrink(0);
-    }
-    COMMAND(clearplayerscores, "");
-    void addplayerscore(char *name, int frags, int flags, int deaths, int totalshots, int totaldamage, int suicides, int teamkills, int timeplayed, int matches) {
-    	playerscore *p = findplayerscore(name);
-    	if(!p) {
-    		p = new playerscore();
-    		copystring(p->name, name, MAXNAMELEN+1);
-    		p->frags = frags;
-    		p->flags = flags;
-    		p->deaths = deaths;
-    		p->totalshots = totalshots;
-    		p->totaldamage = totaldamage;
-    		p->suicides = suicides;
-    		p->teamkills = teamkills;
-    		p->timeplayed = timeplayed;
-    		p->matches = matches;
-    		playerscores.add(p);
-    	} else {
-    		p->frags += frags;
-    		p->flags += flags;
-    		p->deaths += deaths;
-    		p->totalshots += totalshots;
-    		p->totaldamage += totaldamage;
-    		p->suicides += suicides;
-    		p->teamkills += teamkills;
-    		p->timeplayed += timeplayed;
-    		p->matches += matches;
-    	}
-    }
-    ICOMMAND(addplayerscore, "siiiiiii", (char *name, int *frags, int *flags, int *deaths, int *totalshots, int *totaldamage, int *suicides, int *teamkills), addplayerscore(name, *frags, *flags, *deaths, *totalshots, *totaldamage, *suicides, *teamkills, 0, 0));
-    ICOMMAND(addplayerscore2, "sii", (char *name, int *timeplayed, int *matches), addplayerscore(name, 0, 0, 0, 0, 0, 0, 0, *timeplayed, *matches))
-    void addclientscore(clientinfo *ci) {
-    	if(ci) {
-    		addplayerscore(ci->name, ci->state.frags, (m_ctf || m_protect || m_hold || m_collect) ? ci->state.flags : 0, ci->state.deaths, ci->state.shotdamage, ci->state.damage, ci->state._suicides, ci->state.teamkills, gamemillis - ci->connmillis, 1);
-    	}
-    }
-    int getrank(clientinfo *ci) {
-    	if(!scoreboard || !scoreboardxml) return 0;
-    	playerscores.sort(playerscoresort);
-    	string name;
-    	copystring(name, ci->name, MAXNAMELEN+1);
-    	loopv(playerscores) {
-    		if(!strcmp(playerscores[i]->name, name)) return i+1;
-    	}
-    	return 0;
-    }
-    playerscore *getclientscore(clientinfo *ci) {
-    	string name;
-    	copystring(name, ci->name, MAXNAMELEN+1);
-    	loopv(playerscores) {
-    		if(!strcmp(playerscores[i]->name, name)) return playerscores[i];
-    	}
-    	return NULL;
-    }
-    void savescorescfg() {
-    	playerscores.sort(playerscoresort);
-    	stream *f = openutf8file(path("scores.cfg", true), "w");
-        if(f)
-        {
-            f->printf("// List of all the players with their scores\n");
-            f->printf("clearplayerscores\n");
-            loopv(playerscores) {
-                f->printf("\naddplayerscore \"%s\" %i %i %i %i %i %i %i",
-                	strreplace(playerscores[i]->name, "\"", "^\""), playerscores[i]->frags, playerscores[i]->flags, playerscores[i]->deaths, playerscores[i]->totalshots, playerscores[i]->totaldamage, playerscores[i]->suicides, playerscores[i]->teamkills);
-                f->printf("\naddplayerscore2 \"%s\" %i %i", playerscores[i]->name, playerscores[i]->timeplayed, playerscores[i]->matches);
-			}
-            delete f;
-        }
-    }
-    void savescoresxml() {
-    	playerscores.sort(playerscoresort);
-    	stream *f = openutf8file(path(scoreboardxml, true), "w");
-    	if(f) {
-    		f->printf("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n");
-    		f->printf("<scoreboard>\n");
-    		loopv(playerscores) {
-    			f->printf("\t<player>\n");
-//    			char *n = strreplace(playerscores[i]->name, "<", "&amp;lt;");
-				char *n = strreplace(playerscores[i]->name, "&", "&amp;");
-				char *m = strreplace(n, "<", "&amp;lt;");
-    			f->printf("\t\t<name>%s</name>\n", strreplace(m, ">", "&amp;gt;"));
-    			f->printf("\t\t<frags>%d</frags>\n", playerscores[i]->frags);
-    			f->printf("\t\t<flags>%d</flags>\n", playerscores[i]->flags);
-    			f->printf("\t\t<deaths>%d</deaths>\n", playerscores[i]->deaths);
-    			f->printf("\t\t<totalshots>%d</totalshots>\n", playerscores[i]->totalshots);
-    			f->printf("\t\t<totaldamage>%d</totaldamage>\n", playerscores[i]->totaldamage);
-    			f->printf("\t\t<suicides>%d</suicides>\n", playerscores[i]->suicides);
-    			f->printf("\t\t<teamkills>%d</teamkills>\n", playerscores[i]->teamkills);
-    			f->printf("\t\t<timeplayed>%d</timeplayed>\n", playerscores[i]->timeplayed);
-    			f->printf("\t\t<matches>%d</matches>\n", playerscores[i]->matches);
-    			f->printf("\t</player>\n");
-    		}
-    		f->printf("</scoreboard>");
-    		delete f;
-    	}
-    }
-    /* struct invalidCharType {
-		char invalidChar;
-		string charReplacement;
-	};
-	vector<invalidCharType> invalidChars;
-	void addInvalidChars(char invalidChar, char *charReplacement) {
-		invalidCharType *cur = &invalidChars.add();
-		cur->invalidChar = invalidChar;
-		copystring(cur->charReplacement, charReplacement);
-	}
-	bool isInvalidChar(char character) {
-		loopv(invalidChars) {
-			if(character == invalidChars[i].invalidChar) return true;
-		}
-		return false;
-	}
-	int replaceInvalidChar(char character, char *name, int nameID) {
-		int id = 0;
-		invalidCharType *cur = 0;
-		loopv(invalidChars) {
-			if(character == invalidChars[i].invalidChar) {
-				cur = &invalidChars[i];
-				break;
-			}
-		}
-		if(!cur) return 0;
-		while(cur->charReplacement[id]) {
-			name[nameID + id] = cur->charReplacement[id];
-			id++;
-		}
-		return id;
-	} */
-
     void startintermission() {
     	gamelimit = min(gamelimit, gamemillis);
     	if(_arena) _arena = 0;
@@ -4619,7 +4453,7 @@ namespace server
                 _schedule_disconnect(ci->ownernum, DISC_KICK);
                 return false;
             }
-            int rank = getrank(ci);
+            int rank = getrank(ci->clientnum);
             _hp.args[5] = &rank;
             defformatstring(rnk)("%d", rank);
             _hp.args[6] = (void *)rnk;
@@ -7067,23 +6901,26 @@ namespace server
 		if(cn < 0 || cn > 255) return;
 		clientinfo *c = getinfo(cn);
 		if(!c) return;
-		playerscore *ps = getclientscore(c);
-		if(!ps) {
+		int rank = getrank(cn);
+		if(rank < 0) {
 			defformatstring(msg)("\f0[\f7Info\f0]\f7 no global stats saved for %s!", colorname(c));
 			sendf(ci->clientnum, 1, "ris", N_SERVMSG, msg);
 			return;
 		}
-/*		defformatstring(msg)("\f0[\f7Stats\f0]\f7 global stats for \f6%s\f0 (\f7rank \f6%d\f0)\f7:\nfrags: \f6%d\f7, flags: \f6%d\f7, deaths: \f6%d\f7, KpD: \f6%3.2f\f7\ntotal shots: \f6%d\f7, total damage: \f6%d\f7, accuracy: \f6%3.2f\f7%%\nteamkills: \f6%d\f7, suicides: \f6%d\f7\ntotal matches: \f6%d\f7, time played: \f6%d min%s", colorname(c), getrank(c),
-		ps->frags, ps->flags, ps->deaths, (float)ps->frags/max((float)ps->deaths, 1.f),
-		ps->totalshots, ps->totaldamage, (float)ps->totaldamage/max((float)ps->totalshots, 1.f)*100.f,
-		ps->teamkills, ps->suicides,
-		ps->matches, ps->timeplayed/60000, (ps->timeplayed/60000)==1 ? "" : "s");
-		sendf(ci->clientnum, 1, "ris", N_SERVMSG, msg); */
-		defformatstring(msg1)("\f1[\f7Stats\f1]\f7 global stats for \f6%s\f0 (\f7rank \f6%d\f0)\f7:", colorname(c), getrank(c));
-		defformatstring(msg2)("frags: \f6%d\f7, flags: \f6%d\f7, deaths: \f6%d\f7, KpD: \f6%3.2f\f7", ps->frags, ps->flags, ps->deaths, (float)ps->frags/max((float)ps->deaths, 1.f));
-		defformatstring(msg3)("total shots: \f6%d\f7, total damage: \f6%d\f7, accuracy: \f6%3.2f\f7", ps->totalshots, ps->totaldamage, (float)ps->totaldamage/max((float)ps->totalshots, 1.f)*100.f);
-		defformatstring(msg4)("teamkills: \f6%d\f7, suicides: \f6%d\f7", ps->teamkills, ps->suicides);
-		defformatstring(msg5)("total matches: \f6%d\f7, time played: \f6%d min%s", ps->matches, ps->timeplayed/60000, (ps->timeplayed/60000)==1 ? "" : "s");
+		int frags = ps_getfrags(cn);
+		int flags = ps_getflags(cn);
+		int deaths = ps_getdeaths(cn);
+		int totalshots = ps_gettotalshots(cn);
+		int totaldamage = ps_gettotaldamage(cn);
+		int teamkills = ps_gettotaldamage(cn);
+		int suicides = ps_getsuicides(cn);
+		int matches = ps_getmatches(cn);
+		int timeplayed = ps_gettimeplayed(cn);
+		defformatstring(msg1)("\f1[\f7Stats\f1]\f7 global stats for \f6%s\f0 (\f7rank \f6%d\f0)\f7:", colorname(c), rank);
+		defformatstring(msg2)("frags: \f6%d\f7, flags: \f6%d\f7, deaths: \f6%d\f7, KpD: \f6%3.2f\f7", frags, flags, deaths, (float)frags/max((float)deaths, 1.f));
+		defformatstring(msg3)("total shots: \f6%d\f7, total damage: \f6%d\f7, accuracy: \f6%3.2f\f7", totalshots, totaldamage, (float)totaldamage/max((float)totalshots, 1.f)*100.f);
+		defformatstring(msg4)("teamkills: \f6%d\f7, suicides: \f6%d\f7", teamkills, suicides);
+		defformatstring(msg5)("total matches: \f6%d\f7, time played: \f6%d minute%s", matches, timeplayed/60000, (timeplayed/60000)==1 ? "" : "s");
 		sendf(ci->clientnum, 1, "ris", N_SERVMSG, msg1);
 		sendf(ci->clientnum, 1, "ris", N_SERVMSG, msg2);
 		sendf(ci->clientnum, 1, "ris", N_SERVMSG, msg3);
@@ -8852,5 +8689,6 @@ namespace server
     #include "protection.h"
     #include "race.h"
     #include "football.h"
+    #include "rank.h"
 }
 

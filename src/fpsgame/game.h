@@ -949,6 +949,17 @@ namespace server
     extern void startfootball();
     extern void endfootball();
     extern void updatefootball();
+    extern int getrank(int cn);
+    extern int ps_getfrags(int cn);
+    extern int ps_getflags(int cn);
+    extern int ps_getdeaths(int cn);
+    extern int ps_gettotalshots(int cn);
+    extern int ps_gettotaldamage(int cn);
+    extern int ps_getsuicides(int cn);
+    extern int ps_getmatches(int cn);
+    extern int ps_gettimeplayed(int cn);
+    extern void addplayerscore(int cn);
+    extern void setplayerscore(int cn);
 
     //zeromod functions
     extern bool _readsnvars(const char *name, char *out, size_t s);
