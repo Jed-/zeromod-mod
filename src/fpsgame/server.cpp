@@ -7299,6 +7299,29 @@ namespace server
 		}
     }
     ICOMMAND(logto, "ss", (char *file, char *message), logto(file, message))
+    struct _authdomain {
+    	string d;
+    	_authdomain() {
+    		copystring(d, "", MAXSTRLEN);
+    	}
+    };
+    vector<_authdomain *> authdomains;
+    ICOMMAND(clearauthdomains, "", (), authdomains.shrink(0));
+    void addauthdomain(char *desc) {
+    	string s;
+    	copystring(s, desc, MAXSTRLEN);
+    	loopv(authdomains) {
+    		if(!strcmp(authdomains[i]->d, s)) return;
+    	}
+    	_authdomain *ad = new _authdomain;
+    	copystring(ad->d, s, MAXSTRLEN);
+    	authdomains.add(ad);
+    }
+    ICOMMAND(addauthdomain, "s", (char *desc), addauthdomain(desc));
+    void sendauthdomain(clientinfo *ci, char *authdomain)
+    {
+        sendf(ci->clientnum, 1, "ris", N_REQAUTH, authdomain);
+    }
 
 // ****************************************************************************************
 
@@ -7332,6 +7355,9 @@ namespace server
                     getstring(password, p, sizeof(password));
                     getstring(authdesc, p, sizeof(authdesc));
                     getstring(authname, p, sizeof(authname));
+                    loopv(authdomains) {
+                    	sendauthdomain(ci, authdomains[i]->d);
+                    }
 
                     int disc = DISC_NUM;
                     int priv = PRIV_NONE;
