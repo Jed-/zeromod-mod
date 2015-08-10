@@ -6344,7 +6344,7 @@ namespace server
         uint t, months, weeks, days, hours, minutes, seconds;
 
         copystring(msg,
-            "\f5\f0[\f7Info\f0]\f7 Cube 2: Sauerbraten - server modification \f6zeromod"
+            "\f5\f0[\f7Info\f0]\f7 Cube 2: Sauerbraten - server modification \f6beermod"
             /*"\f5[INFO] \f7Contributors: \f0/dev/zero, ~Haytham"*/);
 
         sendf(ci ? ci->clientnum : -1, 1, "ris", N_SERVMSG, msg);
@@ -6995,7 +6995,7 @@ namespace server
 			sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Error\f3]\f7 usage: #clanregister <clantag> <authdesc>");
 			return;
 		}
-		addreservedname(argv[0], argv[1]);
+		addreservedclan(argv[0], argv[1]);
 		defformatstring(msg)("\f0[\f7Info\f0]\f7 added reserved clantag \f0%s\f7 for clan \f6%s\f7!", argv[0], argv[1]);
 		sendf(-1, 1, "ris", N_SERVMSG, msg);
 	}

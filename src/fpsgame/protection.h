@@ -3,7 +3,7 @@ struct protectedname {
 	protectedname() {};
 };
 struct protecteduser {
-	vector<protectedname> names;
+	vector<protectedname *> names;
 	string authname;
 	protecteduser() {};
 };
@@ -12,7 +12,7 @@ struct protectedclan {
 	protectedclan() {};
 };
 struct protectedclanuser {
-	vector<protectedclan> clans;
+	vector<protectedclan *> clans;
 	string authdesc;
 	protectedclanuser() {};
 };
@@ -52,18 +52,20 @@ bool protectedclanuserlogin(int cn, char *authdesc) {
 bool isreservedname(char *name) {
 	loopv(protectedusers) {
 		loopvj(protectedusers[i]->names)
-			if(!strcasecmp(protectedusers[i]->names[j].name, name)) return true;
+			if(!strcasecmp(protectedusers[i]->names[j]->name, name)) return true;
 	}
 	return false;
 }
 int _strcasestr(char *a, char *b) {
-	char *s = strcasestr(a, b);
-	return s ? s-a : -1;
+	char *_a = lowerstring(a);
+	char *_b = lowerstring(b);
+	char *s = strstr(_a, _b);
+	return s ? s-_a : -1;
 }
 bool isreservedclan(char *name) {
 	loopv(protectedclanusers) {
 		loopvj(protectedclanusers[i]->clans)
-			if(_strcasestr(name, protectedclanusers[i]->clans[j].tag) >= 0) return true;
+			if(_strcasestr(name, protectedclanusers[i]->clans[j]->tag) >= 0) return true;
 	}
 	return false;
 }
@@ -115,14 +117,14 @@ void addreservedname(char *nick, char *authname) {
 	if(idx <= -1) {
 		protecteduser *pu = new protecteduser();
 		copystring(pu->authname, authname);
-		protectedname pn;
-		copystring(pn.name, nick);
+		protectedname *pn = new protectedname;
+		copystring(pn->name, nick);
 		pu->names.add(pn);
 		protectedusers.add(pu);
 	} else {
 		protecteduser *pu = protectedusers[idx];
-		protectedname pn;
-		copystring(pn.name, nick);
+		protectedname *pn = new protectedname;
+		copystring(pn->name, nick);
 		pu->names.add(pn);
 	}
 }
@@ -132,14 +134,14 @@ void addreservedclan(char *tag, char *authdesc) {
 	if(idx <= -1) {
 		protectedclanuser *pcu = new protectedclanuser();
 		copystring(pcu->authdesc, authdesc);
-		protectedclan pc;
-		copystring(pc.tag, tag);
+		protectedclan *pc = new protectedclan;
+		copystring(pc->tag, tag);
 		pcu->clans.add(pc);
 		protectedclanusers.add(pcu);
 	} else {
 		protectedclanuser *pcu = protectedclanusers[idx];
-		protectedclan pc;
-		copystring(pc.tag, tag);
+		protectedclan *pc = new protectedclan;
+		copystring(pc->tag, tag);
 		pcu->clans.add(pc);
 	}
 }
@@ -153,12 +155,12 @@ void storeprotection() {
 		f->printf("// Reserved users and clans list\nclearprotection");
 		loopv(protectedusers) {
 			loopvj(protectedusers[i]->names) {
-				f->printf("\naddreservedname %s %s", protectedusers[i]->names[j].name, protectedusers[i]->authname);
+				f->printf("\naddreservedname %s %s", protectedusers[i]->names[j]->name, protectedusers[i]->authname);
 			}
 		}
 		loopv(protectedclanusers) {
 			loopvj(protectedclanusers[i]->clans) {
-				f->printf("\naddreservedclan %s %s", protectedclanusers[i]->clans[j].tag, protectedclanusers[i]->authdesc);
+				f->printf("\naddreservedclan %s %s", protectedclanusers[i]->clans[j]->tag, protectedclanusers[i]->authdesc);
 			}
 		}
 		delete f;
