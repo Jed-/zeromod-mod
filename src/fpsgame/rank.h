@@ -2,7 +2,7 @@ struct playerscore {
 	string name;
 	uint range; // /16
 	int frags, flags, deaths, totalshots, totaldamage, suicides, teamkills, timeplayed, matches;
-	playerscore() : frags(0), deaths(0), totalshots(0), totaldamage(0), suicides(0), teamkills(0), timeplayed(0), matches(0) {}
+	playerscore() : frags(0), flags(0), deaths(0), totalshots(0), totaldamage(0), suicides(0), teamkills(0), timeplayed(0), matches(0) {}
 };
 vector<playerscore *> playerscores;
 bool playerscoresort(playerscore *a, playerscore *b) {
