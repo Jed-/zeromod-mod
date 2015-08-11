@@ -931,8 +931,8 @@ namespace server
     extern bool protectedclanuserlogin(int cn, char *authdesc);
     extern bool isreservedname(char *name);
     extern bool isreservedclan(char *name);
-    extern void checkreservedname(int cn);
-    extern void checkreservedclan(int cn);
+    extern char *reserveddomain(char *name);
+    extern void checkprotection(int cn);
     extern void addreservedname(char *nick, char *authname);
     extern void addreservedclan(char *tag, char *authdesc);
     extern void storeprotection();

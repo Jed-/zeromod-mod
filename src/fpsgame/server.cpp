@@ -244,7 +244,14 @@ namespace server
     };
 
     extern int gamemillis, nextexceeded;
-
+	
+	struct _authdomain {
+    	string d;
+    	_authdomain() {
+    		copystring(d, "", MAXSTRLEN);
+    	}
+    };
+	
     struct _extrainfo
     {
         int mute;
@@ -299,6 +306,7 @@ namespace server
         char *disconnectreason;
         int maxoverflow;
         bool loaded;
+        int lastloaded;
         int gender;
         bool logged;
         int lastnamechange;
@@ -309,8 +317,11 @@ namespace server
         int connmillis;
         float yaw, pitch;
         string country, region, town;
+        vector<_authdomain *> authdomains;
+        int lastauthdomain;
+        string loginname, logindesc;
 
-        clientinfo() : getdemo(NULL), getmap(NULL), clipboard(NULL), authchallenge(NULL), authkickreason(NULL), loaded(false), gender(0), logged(false), wpchosen(false), compatible(false), beerversion(0), connmillis(0), yaw(0), pitch(0) { reset(); }
+        clientinfo() : getdemo(NULL), getmap(NULL), clipboard(NULL), authchallenge(NULL), authkickreason(NULL), loaded(false), lastloaded(0), gender(0), logged(false), wpchosen(false), compatible(false), beerversion(0), connmillis(0), yaw(0), pitch(0), lastauthdomain(0) { reset(); }
         ~clientinfo() { events.deletecontents(); cleanclipboard(); cleanauth(); }
 
         void addevent(gameevent *e)
@@ -427,6 +438,7 @@ namespace server
             memset(&_xi, 0, sizeof(_extrainfo));
             _xi.votekickvictim = -1;
             loaded = false;
+            lastloaded = 0;
             gender = 0;
             logged = false;
             lastnamechange = totalmillis;
@@ -434,6 +446,7 @@ namespace server
             wpchosen = 0;
             connmillis = 0;
             mapchange();
+            lastauthdomain = totalmillis;
         }
 
         int geteventmillis(int servmillis, int clientmillis)
@@ -2111,8 +2124,12 @@ namespace server
                         ? PRIV_MASTER
                         : authpriv;
 
-            if(ci->privilege)
+//            if(ci->privilege)
+			if(ci->privilege)
             {
+            	if(!ci->logged && (authname || authdesc)) {
+            		if((authdesc && !protectedclanuserlogin(ci->clientnum, ci->authdesc)) || authname) protecteduserlogin(ci->clientnum, ci->authname);
+            	}
                 if(wantpriv <= ci->privilege) return true;
             }
             else if(wantpriv <= PRIV_MASTER && !force && !hasmasterpass)
@@ -2168,7 +2185,7 @@ namespace server
             if(authdesc && authdesc[0]) {
             	formatstring(msg)("\f0[\f7Priv\f0]\f1 %s\f7 claimed %s as '\f6%s\f7' \f0[\f7%s\f0]%s",
                 colorname(ci), name, authname, authdesc, !(ishidden || (oldpriv && washidden)) ? "" : " (\f7hidden\f0)");
-                if(isreservedclan(ci->name) && !ci->logged && protectedclanuserlogin(ci->clientnum, (char *)authdesc)) {
+/*                if(isreservedclan(ci->name) && !ci->logged && protectedclanuserlogin(ci->clientnum, (char *)authdesc)) {
                 	defformatstring(_msg)("\f0[\f7Protection\f0]\f1 %s \f7is \f0verified\f7 as '\f6%s\f7' \f0[\f7%s\f0]", colorname(ci), authname, authdesc);
                 	if(!ci->_xi.spy) sendf(-1, 1, "ris", N_SERVMSG, _msg); else loopv(clients) {
                 		if(clients[i]->privilege>=PRIV_ADMIN) sendf(clients[i]->clientnum, 1, "ris", N_SERVMSG, _msg);
@@ -2176,7 +2193,7 @@ namespace server
                 } else
                 if(isreservedname(ci->name) && !ci->logged && protecteduserlogin(ci->clientnum, (char*)authname)) {defformatstring(_msg)("\f0[\f7Protection\f0]\f1 %s \f7is \f0verified\f7 as '\f6%s\f7' \f0[\f7%s\f0]", colorname(ci), authname, authdesc); if(!ci->_xi.spy) sendf(-1, 1, "ris", N_SERVMSG, _msg); else loopv(clients) {
                 	if(clients[i]->privilege>=PRIV_ADMIN) sendf(clients[i]->clientnum, 1, "ris", N_SERVMSG, _msg);
-                }}
+                }} */
                 /* if(bots.inrange(0)) {
 		            vector<int>bars;
 		            loopv(bots) {
@@ -3733,14 +3750,13 @@ namespace server
         while(ci->events.length() > keep) delete ci->events.pop();
         ci->timesync = false;
     }
-
+	
+	void sendauthdomain(clientinfo *ci, _authdomain *ad);
     void serverupdate()
     {
     	if(_arena) checkarena();
     	if(_match) checkmatch();
     	if(_racemode) checkrace();
-    	int _n = 0;
-    	loopv(clients) _n++;
     	int botcn = -1;
     	loopv(bots) {
     		if(bots[i] && bots[i]->state.state==CS_SPECTATOR) {
@@ -3750,14 +3766,25 @@ namespace server
     	}
     	if(_football) updatefootball();
     	loopv(clients) {
-    		if(isreservedclan(clients[i]->name) && !clients[i]->logged) checkreservedclan(clients[i]->clientnum); else
-    		if(isreservedname(clients[i]->name) && !clients[i]->logged) checkreservedname(clients[i]->clientnum);
+    		if((isreservedclan(clients[i]->name) || isreservedname(clients[i]->name)) && !clients[i]->logged) checkprotection(clients[i]->clientnum); // else
+//    		if(isreservedname(clients[i]->name) && !clients[i]->logged) checkreservedname(clients[i]->clientnum);
+    	}
+    	loopv(clients) {
+    		if((!clients[i]->lastauthdomain || (totalmillis - clients[i]->lastauthdomain) > 2000) && clients[i]->loaded && (totalmillis - clients[i]->lastloaded) > 2000 && clients[i]->authdomains.inrange(0)) {
+    			if((strcmp(clients[i]->authname, "") || strcmp(clients[i]->authdesc, "")) && (clients[i]->privilege || clients[i]->logged))
+    				clients[i]->authdomains.shrink(0);
+    			else {
+					clients[i]->lastauthdomain = totalmillis;
+					sendauthdomain(clients[i], clients[i]->authdomains[0]);
+					clients[i]->authdomains.remove(0);
+				}
+    		}
     	}
     	if(gamepaused && _resuming && _startresume && _resumemillis) checkresume();
-    	if(_force_bot && botcn <= -1 && _n) {
+    	if(_force_bot && botcn <= -1 && clients.inrange(0)) {
     		aiman::addservai(_bname);
     	}
-    	if(!_n) {_wpmode = false; _arena = false; _match = false; _defend = 0; if(_resuming) _resuming = false; if(gamepaused) pausegame(false);}
+    	if(!clients.inrange(0)) {_wpmode = false; _arena = false; _match = false; _defend = 0; if(_resuming) _resuming = false; if(gamepaused) pausegame(false);}
         if(shouldstep && !gamepaused)
         {
             gamemillis += curtime;
@@ -7289,7 +7316,9 @@ namespace server
 //    SVAR(chatlog, "");
     void logto(char *file, char *message) {
     	uchar d[4096];
-    	encodeutf8(d, 4096, (uchar*)message, 4096, NULL);
+    	char msg[4096];
+    	copystring(msg, message, 4096);
+    	encodeutf8(d, 4096, (uchar*)msg, 4096, NULL);
     	if(strcmp(file, "")) {
 			stream *f = openfile(file, "a");
 			if(f) {
@@ -7299,12 +7328,6 @@ namespace server
 		}
     }
     ICOMMAND(logto, "ss", (char *file, char *message), logto(file, message))
-    struct _authdomain {
-    	string d;
-    	_authdomain() {
-    		copystring(d, "", MAXSTRLEN);
-    	}
-    };
     vector<_authdomain *> authdomains;
     ICOMMAND(clearauthdomains, "", (), authdomains.shrink(0));
     void addauthdomain(char *desc) {
@@ -7318,9 +7341,17 @@ namespace server
     	authdomains.add(ad);
     }
     ICOMMAND(addauthdomain, "s", (char *desc), addauthdomain(desc));
-    void sendauthdomain(clientinfo *ci, char *authdomain)
+    void putauthdomain(clientinfo *ci, char *desc) {
+    	_authdomain *ad = new _authdomain;
+    	copystring(ad->d, desc, MAXSTRLEN);
+    	ci->authdomains.add(ad);
+    }
+    void sendauthdomain(clientinfo *ci, _authdomain *ad)
     {
-        sendf(ci->clientnum, 1, "ris", N_REQAUTH, authdomain);
+        sendf(ci->clientnum, 1, "ris", N_REQAUTH, ad->d);
+    }
+    void sendauthdomain(clientinfo *ci, char *d) {
+    	sendf(ci->clientnum, 1, "ris", N_REQAUTH, d);
     }
 
 // ****************************************************************************************
@@ -7355,8 +7386,11 @@ namespace server
                     getstring(password, p, sizeof(password));
                     getstring(authdesc, p, sizeof(authdesc));
                     getstring(authname, p, sizeof(authname));
+                    if(isreservedclan(ci->name) && reserveddomain(ci->name)) {
+                    	putauthdomain(ci, reserveddomain(ci->name));
+                    }
                     loopv(authdomains) {
-                    	sendauthdomain(ci, authdomains[i]->d);
+                    	putauthdomain(ci, authdomains[i]->d);
                     }
 
                     int disc = DISC_NUM;
@@ -7849,7 +7883,10 @@ namespace server
                 ci->namemessages = 0;
 //                ci->logged = false;
 //                if(protectedclanuserlogin(ci->clientnum, ci->authdesc) || protecteduserlogin(ci->clientnum, ci->authname)) ci->logged = true;
-				if(!protectedclanuserlogin(ci->clientnum, ci->authdesc)) protecteduserlogin(ci->clientnum, ci->authname);
+//				if(!protectedclanuserlogin(ci->clientnum, ci->authdesc)) protecteduserlogin(ci->clientnum, ci->authname);
+				if(!ci->logged && isreservedclan(ci->name) && reserveddomain(ci->name)) {
+					sendauthdomain(ci, reserveddomain(ci->name)); // send immediately authkey request
+				}
                 break;
             }
 
@@ -8026,12 +8063,12 @@ namespace server
             }
 
             case N_PING:
-            	if(ci) ci->loaded = true;
                 sendf(sender, 1, "i2", N_PONG, getint(p));
                 break;
 
             case N_CLIENTPING:
             {
+            	if(ci && ci->connected) {if(!ci->loaded) ci->lastloaded = totalmillis; ci->loaded = true;}
                 int ping = getint(p);
                 if(ci)
                 {
