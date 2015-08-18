@@ -15,4 +15,5 @@ src/sauer_master
 src/genauthkey/genauthkey
 football/*
 chat.txt
+irc.log
 protection.cfg

@@ -2125,11 +2125,17 @@ namespace server
                         : authpriv;
 
 //            if(ci->privilege)
+			if(!ci->logged && authname) {
+//        		if(!(authdesc && protectedclanuserlogin(ci->clientnum, authname, authdesc))) protecteduserlogin(ci->clientnum, authname, authdesc ? authdesc : "");
+				if(isreservedclan(ci->name) && reserveddomain(ci->name)) {
+					if(authdesc) protectedclanuserlogin(ci->clientnum, authname, authdesc);
+				} else
+				if(isreservedname(ci->name) && reservedauthname(ci->name)) {
+					protecteduserlogin(ci->clientnum, authname, authdesc ? authdesc : "");
+				}
+        	}
 			if(ci->privilege)
             {
-            	if(!ci->logged && (authname || authdesc)) {
-            		if((authdesc && !protectedclanuserlogin(ci->clientnum, ci->authdesc)) || authname) protecteduserlogin(ci->clientnum, ci->authname);
-            	}
                 if(wantpriv <= ci->privilege) return true;
             }
             else if(wantpriv <= PRIV_MASTER && !force && !hasmasterpass)
@@ -5927,7 +5933,7 @@ namespace server
         ci->namemessages = 0;
 //        ci->logged = false;
 //        if(protectedclanuserlogin(ci->clientnum, ci->authdesc) || protecteduserlogin(ci->clientnum, ci->authname)) ci->logged = true;
-		if(!protectedclanuserlogin(ci->clientnum, ci->authdesc)) protecteduserlogin(ci->clientnum, ci->authname);
+//		if(!protectedclanuserlogin(ci->clientnum, ci->authdesc)) protecteduserlogin(ci->clientnum, ci->authname);
     }
 
     void _renamefunc(const char *cmd, const char *args, clientinfo *ci)
@@ -7005,7 +7011,7 @@ namespace server
 			sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Error\f3]\f7 usage: #register <nickname> <authname>");
 			return;
 		}
-		addreservedname(argv[0], argv[1]);
+		addreservedname(argv[0], (const char*)argv[1]);
 		defformatstring(msg)("\f0[\f7Info\f0]\f7 added reserved name \f0%s\f7 for user \f6%s\f7!", argv[0], argv[1]);
 		sendf(-1, 1, "ris", N_SERVMSG, msg);
 	}
@@ -7022,7 +7028,7 @@ namespace server
 			sendf(ci->clientnum, 1, "ris", N_SERVMSG, "\f3[\f7Error\f3]\f7 usage: #clanregister <clantag> <authdesc>");
 			return;
 		}
-		addreservedclan(argv[0], argv[1]);
+		addreservedclan(argv[0], (const char*)argv[1]);
 		defformatstring(msg)("\f0[\f7Info\f0]\f7 added reserved clantag \f0%s\f7 for clan \f6%s\f7!", argv[0], argv[1]);
 		sendf(-1, 1, "ris", N_SERVMSG, msg);
 	}
@@ -7882,8 +7888,6 @@ namespace server
                 ci->lastnamechange = totalmillis;
                 ci->namemessages = 0;
 //                ci->logged = false;
-//                if(protectedclanuserlogin(ci->clientnum, ci->authdesc) || protecteduserlogin(ci->clientnum, ci->authname)) ci->logged = true;
-//				if(!protectedclanuserlogin(ci->clientnum, ci->authdesc)) protecteduserlogin(ci->clientnum, ci->authname);
 				if(!ci->logged && isreservedclan(ci->name) && reserveddomain(ci->name)) {
 					sendauthdomain(ci, reserveddomain(ci->name)); // send immediately authkey request
 				}
@@ -8643,8 +8647,6 @@ namespace server
         ci->lastnamechange = totalmillis;
         ci->namemessages = 0;
 //        ci->logged = false;
-//        if(protectedclanuserlogin(ci->clientnum, ci->authdesc) || protecteduserlogin(ci->clientnum, ci->authname)) ci->logged = true;
-		if(!protectedclanuserlogin(ci->clientnum, ci->authdesc)) protecteduserlogin(ci->clientnum, ci->authname);
     }
 
 	void fakesay(int *cn, char *msg)

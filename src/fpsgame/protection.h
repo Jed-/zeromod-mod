@@ -18,13 +18,13 @@ struct protectedclanuser {
 };
 vector<protecteduser *> protectedusers;
 vector<protectedclanuser *> protectedclanusers;
-int getuseridx(char *name) {
+int getuseridx(const char *name) {
 	loopv(protectedusers) {
 		if(!strcasecmp(protectedusers[i]->authname, name)) return i;
 	}
 	return -1;
 }
-int getclanuseridx(char *tag) {
+int getclanuseridx(const char *tag) {
 	loopv(protectedclanusers) {
 		if(!strcasecmp(protectedclanusers[i]->authdesc, tag)) return i;
 	}
@@ -72,80 +72,76 @@ char *reserveddomain(char *name) {
 	}
 	return NULL;
 }
-bool protecteduserlogin(int cn, char *authname) {
+bool protecteduserlogin(int cn, const char *authname, const char *authdesc) {
 	clientinfo *ci = getinfo(cn);
 	if(!ci || ci->state.aitype!=AI_NONE) return false;
 	if(!isreservedname(ci->name)) return true;
 	bool tolog = !ci->logged;
-	if(!strcasecmp(ci->authname, authname)) {
-		bool cond = false;
-		if(getuseridx(authname) > -1 && protectedusers.inrange(getuseridx(authname))) {
-			loopv(protectedusers[getuseridx(authname)]->names) {
-				if(!strcasecmp(protectedusers[getuseridx(authname)]->names[i]->name, ci->name)) {
-					cond = true;
-					break;
-				}
+	bool cond = false;
+	if(getuseridx(authname) > -1 && protectedusers.inrange(getuseridx(authname))) {
+		loopv(protectedusers[getuseridx(authname)]->names) {
+			if(!strcasecmp(protectedusers[getuseridx(authname)]->names[i]->name, ci->name)) {
+				cond = true;
+				break;
 			}
 		}
-		ci->logged = cond;/* (getuseridx(authname) > -1 && protectedusers.inrange(getuseridx(authname))) ? true : false; */
-		if(ci->logged && tolog) {
-			defformatstring(msg)("\f0[\f7Protection\f0]\f1 %s \f7is \f0verified\f7 as '\f6%s\f7' \f0[\f7%s\f0]", colorname(ci), ci->authname, ci->authdesc);
-			if(ci->_xi.spy) {
-				loopv(clients) {
-					if(clients[i]->state.state==AI_NONE && clients[i]->privilege >= PRIV_ADMIN)
-						sendf(clients[i]->clientnum, 1, "ris", N_SERVMSG, msg);
-				}
-			} else {
-				sendf(-1, 1, "ris", N_SERVMSG, msg);
-			}
-		}
-		if(ci->logged) {
-			copystring(ci->loginname, ci->authname, MAXSTRLEN);
-			copystring(ci->logindesc, ci->authdesc, MAXSTRLEN);
-		}
-		return ci->logged;
 	}
-	return false;
+	ci->logged = cond;/* (getuseridx(authname) > -1 && protectedusers.inrange(getuseridx(authname))) ? true : false; */
+	if(ci->logged && tolog) {
+		defformatstring(msg)("\f0[\f7Protection\f0]\f1 %s \f7is \f0verified\f7 as '\f6%s\f7' \f0[\f7%s\f0]", colorname(ci), authname, authdesc);
+		if(ci->_xi.spy) {
+			loopv(clients) {
+				if(clients[i]->state.state==AI_NONE && clients[i]->privilege >= PRIV_ADMIN)
+					sendf(clients[i]->clientnum, 1, "ris", N_SERVMSG, msg);
+			}
+		} else {
+			sendf(-1, 1, "ris", N_SERVMSG, msg);
+		}
+	}
+	if(ci->logged) {
+		copystring(ci->loginname, authname, MAXSTRLEN);
+		copystring(ci->logindesc, authdesc, MAXSTRLEN);
+	}
+	return ci->logged;
 }
-bool protectedclanuserlogin(int cn, char *authdesc) {
+bool protectedclanuserlogin(int cn, const char *authname, const char *authdesc) {
 	clientinfo *ci = getinfo(cn);
 	if(!ci || ci->state.aitype!=AI_NONE) return false;
 	if(!isreservedclan(ci->name)) return true;
 	bool tolog = !ci->logged;
-	if(!strcasecmp(ci->authdesc, authdesc)) {
-		bool cond = false;
-		if(getclanuseridx(authdesc) > -1 && protectedclanusers.inrange(getclanuseridx(authdesc))) {
-			loopv(protectedclanusers[getclanuseridx(authdesc)]->clans) {
-				if(!_strcasestr(protectedclanusers[getclanuseridx(authdesc)]->clans[i]->tag, ci->name)) {
-					cond = true;
-					break;
-				}
+	bool cond = false;
+	if(getclanuseridx(authdesc) > -1 && protectedclanusers.inrange(getclanuseridx(authdesc))) {
+		loopv(protectedclanusers[getclanuseridx(authdesc)]->clans) {
+			if(!_strcasestr(protectedclanusers[getclanuseridx(authdesc)]->clans[i]->tag, ci->name)) {
+				cond = true;
+				break;
 			}
 		}
-		ci->logged = cond;/* getclanuseridx(authdesc) > -1 ? true : false; */
-		if(ci->logged && tolog) {
-			defformatstring(msg)("\f0[\f7Protection\f0]\f1 %s \f7is \f0verified\f7 as '\f6%s\f7' \f0[\f7%s\f0]", colorname(ci), ci->authname, ci->authdesc);
-			if(ci->_xi.spy) {
-				loopv(clients) {
-					if(clients[i]->state.state==AI_NONE && clients[i]->privilege >= PRIV_ADMIN)
-						sendf(clients[i]->clientnum, 1, "ris", N_SERVMSG, msg);
-				}
-			} else {
-				sendf(-1, 1, "ris", N_SERVMSG, msg);
-			}
-		}
-		if(ci->logged) {
-			copystring(ci->loginname, ci->authname, MAXSTRLEN);
-			copystring(ci->logindesc, ci->authdesc, MAXSTRLEN);
-		}
-		return ci->logged;
 	}
-	return false;
+	ci->logged = cond;/* getclanuseridx(authdesc) > -1 ? true : false; */
+	if(ci->logged && tolog) {
+		defformatstring(msg)("\f0[\f7Protection\f0]\f1 %s \f7is \f0verified\f7 as '\f6%s\f7' \f0[\f7%s\f0]", colorname(ci), authname, authdesc);
+		if(ci->_xi.spy) {
+			loopv(clients) {
+				if(clients[i]->state.state==AI_NONE && clients[i]->privilege >= PRIV_ADMIN)
+					sendf(clients[i]->clientnum, 1, "ris", N_SERVMSG, msg);
+			}
+		} else {
+			sendf(-1, 1, "ris", N_SERVMSG, msg);
+		}
+	}
+	if(ci->logged) {
+		copystring(ci->loginname, authname, MAXSTRLEN);
+		copystring(ci->logindesc, authdesc, MAXSTRLEN);
+	}
+	return ci->logged;
 }
 void checkprotection(int cn) {
 	clientinfo *ci = getinfo(cn);
-	if(!ci || ci->state.aitype!=AI_NONE || (totalmillis-ci->lastnamechange) < 3000 || !ci->loaded || !ci->lastloaded || (totalmillis-ci->lastloaded) < 3000 || ci->logged) return;
-	if(isreservedname(ci->name) && ((totalmillis-ci->lastnamechange) < 10000 || (totalmillis-ci->lastloaded) < 10000) && !protecteduserlogin(ci->clientnum, ci->authname)) { // give reserved name users 10 seconds to authenticate
+	if(!ci || ci->state.aitype!=AI_NONE || (totalmillis-ci->lastnamechange) < 3000 || !ci->loaded || !ci->lastloaded || (totalmillis-ci->lastloaded) < 3000 || ci->logged || !(isreservedname(ci->name) || isreservedclan(ci->name))) return;
+	// player is not logged in
+	// player has either registered name or clantag
+	if(isreservedname(ci->name) && ((totalmillis-ci->lastnamechange) < 10000 || (totalmillis-ci->lastloaded) < 10000)) { // give reserved name users 10 seconds to authenticate
 		if(!ci->namemessages && reservedauthname(ci->name)) {
 			defformatstring(msg)("\f3[\f7Warning\f3]\f7 you are using a reserved name. You have 10 seconds to authenticate as \f6'\f7%s\f6'\f7!", reservedauthname(ci->name));
 			sendf(ci->clientnum, 1, "ris", N_SERVMSG, msg);
@@ -153,8 +149,8 @@ void checkprotection(int cn) {
 		}
 		return;
 	}
-	if(isreservedclan(ci->name)) protectedclanuserlogin(ci->clientnum, ci->authdesc);
-	if(!isreservedname(ci->name) || protecteduserlogin(ci->clientnum, ci->authname)) return;
+//	if(isreservedclan(ci->name)) protectedclanuserlogin(ci->clientnum, ci->authdesc);
+//	if(!isreservedname(ci->name) || protecteduserlogin(ci->clientnum, ci->authname)) return;
 	logoutf("Renaming %s because:", ci->name);
 	logoutf("\tis bot: %s", ci->state.aitype!=AI_NONE ? "true" : "false");
 	logoutf("\tchanged name for %.3fs", (float)(totalmillis-ci->lastnamechange)/1000.f);
@@ -165,7 +161,7 @@ void checkprotection(int cn) {
 	copystring(ci->name, "unnamed", MAXNAMELEN+1);
 	_rename(ci, ci->name, true);
 }
-void addreservedname(char *nick, char *authname) {
+void addreservedname(char *nick, const char *authname) {
 	if(isreservedname(nick)) return;
 	int idx = getuseridx(authname);
 	if(idx <= -1) {
@@ -182,7 +178,7 @@ void addreservedname(char *nick, char *authname) {
 		pu->names.add(pn);
 	}
 }
-void addreservedclan(char *tag, char *authdesc) {
+void addreservedclan(char *tag, const char *authdesc) {
 	if(isreservedclan(tag)) return;
 	int idx = getclanuseridx(authdesc);
 	if(idx <= -1) {
