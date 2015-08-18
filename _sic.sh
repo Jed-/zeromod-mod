@@ -8,7 +8,7 @@ f_() {
         while true;
         do
         g_ &
-        tail -f chat.txt | sic/sic -h server.com -n BotName
+        tail -f chat.txt | sic/sic -h server.com -n BotName > irc.log
         done;
 }
 f_

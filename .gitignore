@@ -5,8 +5,6 @@ flagruns.cfg
 ip.cfg
 racemaps.cfg
 scores.cfg
-protection.cfg
-chat*.*
 races/*
 sauer_server
 src/sauer_server

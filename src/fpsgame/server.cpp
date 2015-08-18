@@ -3766,7 +3766,7 @@ namespace server
     	}
     	if(_football) updatefootball();
     	loopv(clients) {
-    		if((isreservedclan(clients[i]->name) || isreservedname(clients[i]->name)) && !clients[i]->logged) checkprotection(clients[i]->clientnum); // else
+    		if(clients[i]->state.aitype==AI_NONE && (isreservedclan(clients[i]->name) || isreservedname(clients[i]->name)) && !clients[i]->logged) checkprotection(clients[i]->clientnum); // else
 //    		if(isreservedname(clients[i]->name) && !clients[i]->logged) checkreservedname(clients[i]->clientnum);
     	}
     	loopv(clients) {
@@ -8532,7 +8532,7 @@ namespace server
             extserverinforeply(req, p);
             return;
         }
-        if(req.remaining() && getint(req)==100) {
+/*        if(req.remaining() && getint(req)==100) {
         	string chan, buf;
         	if(req.remaining()) {
         		getstring(chan, req);
@@ -8548,7 +8548,7 @@ namespace server
 		    		}
 		    	}
         	}
-        }
+        } */
 
         putint(p, numclients(-1, false, true));
         putint(p, gamepaused || gamespeed != 100 ? 7 : 5);                   // number of attrs following

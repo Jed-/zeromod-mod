@@ -8,8 +8,8 @@
 #include <time.h>
 #include <unistd.h>
 
-static char *host = (char*)"irc.oftc.net";
-static char *port = (char*)"6667";
+static char *host = "irc.oftc.net";
+static char *port = "6667";
 static char *password;
 static char nick[32];
 static char bufin[4096];
@@ -17,13 +17,8 @@ static char bufout[4096];
 static char channel[256];
 static time_t trespond;
 static FILE *srv;
-static char *sauerhost = (char*)"127.0.0.1";
-static int sauerport = 28786;
 
 #include "util.c"
-
-void initialize_enet();
-void sendbuf(char *hostname, int port, char *channel, char *_buf);
 
 static void
 pout(char *channel, char *fmt, ...) {
@@ -36,8 +31,7 @@ pout(char *channel, char *fmt, ...) {
 	va_end(ap);
 	t = time(NULL);
 	strftime(timestr, sizeof timestr, "%D %R", localtime(&t));
-	fprintf(stdout, "%-12s: %s %s\n", channel, timestr, bufout);
-	sendbuf(sauerhost, sauerport, channel, bufout);
+	fprintf(stdout, "IRC %s \"%s\"\n", channel, repl_str(bufout, "\"", "^\""));
 }
 
 static void
@@ -53,11 +47,11 @@ sout(char *fmt, ...) {
 static void
 privmsg(char *channel, char *msg) {
 	if(channel[0] == '\0') {
-		pout((char*)"", (char*)"No channel to send to");
+		pout("", "No channel to send to");
 		return;
 	}
-	pout(channel, (char*)"<%s> %s", nick, msg);
-	sout((char*)"PRIVMSG %s :%s", channel, msg);
+	pout(channel, "<%s> %s", nick, msg);
+	sout("PRIVMSG %s :%s", channel, msg);
 }
 
 static void
@@ -76,7 +70,7 @@ parsein(char *s) {
 		p = s + 2;
 		switch(c) {
 		case 'j':
-			sout((char*)"JOIN %s", p);
+			sout("JOIN %s", p);
 			if(channel[0] == '\0')
 				strlcpy(channel, p, sizeof channel);
 			return;
@@ -88,8 +82,8 @@ parsein(char *s) {
 			if(*p)
 				*p++ = '\0';
 			if(!*p)
-				p = (char*)"sic - 250 LOC are too much!";
-			sout((char*)"PART %s :%s", s, p);
+				p = "sic - 250 LOC are too much!";
+			sout("PART %s :%s", s, p);
 			return;
 		case 'm':
 			s = eat(p, isspace, 1);
@@ -103,7 +97,7 @@ parsein(char *s) {
 			return;
 		}
 	}
-	sout((char*)"%s", s);
+	sout("%s", s);
 }
 
 static void
@@ -124,25 +118,24 @@ parsesrv(char *cmd) {
 	par = skip(cmd, ' ');
 	txt = skip(par, ':');
 	trim(par);
-	if(!strcmp((char*)"PONG", cmd))
+	if(!strcmp("PONG", cmd))
 		return;
-	if(!strcmp((char*)"PRIVMSG", cmd))
-		pout(par, (char*)"<%s> %s", usr, txt);
-	else if(!strcmp((char*)"PING", cmd))
-		sout((char*)"PONG %s", txt);
+	if(!strcmp("PRIVMSG", cmd))
+		pout(par, "<%s> %s", usr, txt);
+	else if(!strcmp("PING", cmd))
+		sout("PONG %s", txt);
 	else {
-		pout(usr, (char*)">< %s (%s): %s", cmd, par, txt);
-		if(!strcmp((char*)"NICK", cmd) && !strcmp(usr, nick))
+		pout(usr, ">< %s (%s): %s", cmd, par, txt);
+		if(!strcmp("NICK", cmd) && !strcmp(usr, nick))
 			strlcpy(nick, txt, sizeof nick);
 	}
 }
 
 int
 main(int argc, char *argv[]) {
-	initialize_enet();
 	int i, c;
 	struct timeval tv;
-	const char *user = getenv((char*)"USER");
+	const char *user = getenv("USER");
 	fd_set rd;
 
 	strlcpy(nick, user ? user : "unknown", sizeof nick);
@@ -164,16 +157,9 @@ main(int argc, char *argv[]) {
 			if(++i < argc) password = argv[i];
 			break;
 		case 'v':
-			eprint((char*)"sic-1.2, © 2005-2012 Kris Maglione, Anselm R. Garbe, Nico Golde\n");
-			break;
-		case 'i':
-			if(++i < argc) sauerhost = argv[i];
-			break;
-		case 'q':
-			if(++i < argc) sauerport = atoi(argv[i]);
-			break;
+			eprint("sic-"VERSION", © 2005-2012 Kris Maglione, Anselm R. Garbe, Nico Golde\n");
 		default:
-			eprint((char*)"usage: sic [-h host] [-p port] [-n nick] [-k keyword] [-v]\n");
+			eprint("usage: sic [-h host] [-p port] [-n nick] [-k keyword] [-v]\n");
 		}
 	}
 	/* init */
@@ -181,9 +167,9 @@ main(int argc, char *argv[]) {
 	srv = fdopen(i, "r+");
 	/* login */
 	if(password)
-		sout((char*)"PASS %s", password);
-	sout((char*)"NICK %s", nick);
-	sout((char*)"USER %s localhost %s :%s", nick, host, nick);
+		sout("PASS %s", password);
+	sout("NICK %s", nick);
+	sout("USER %s localhost %s :%s", nick, host, nick);
 	fflush(srv);
 	setbuf(stdout, NULL);
 	setbuf(srv, NULL);
@@ -197,29 +183,23 @@ main(int argc, char *argv[]) {
 		if(i < 0) {
 			if(errno == EINTR)
 				continue;
-			eprint((char*)"sic: error on select():");
+			eprint("sic: error on select():");
 		}
 		else if(i == 0) {
-			if(time(NULL) - trespond >= 300) {
-				eprint((char*)"sic shutting down: parse timeout\n");
-				break;
-			}
-			sout((char*)"PING %s", host);
+			if(time(NULL) - trespond >= 300)
+				eprint("sic shutting down: parse timeout\n");
+			sout("PING %s", host);
 			continue;
 		}
 		if(FD_ISSET(fileno(srv), &rd)) {
-			if(fgets(bufin, sizeof bufin, srv) == NULL) {
-				eprint((char*)"sic: remote host closed connection\n");
-				break;
-			}
+			if(fgets(bufin, sizeof bufin, srv) == NULL)
+				eprint("sic: remote host closed connection\n");
 			parsesrv(bufin);
 			trespond = time(NULL);
 		}
 		if(FD_ISSET(0, &rd)) {
-			if(fgets(bufin, sizeof bufin, stdin) == NULL) {
-				eprint((char*)"sic: broken pipe\n");
-				break;
-			}
+			if(fgets(bufin, sizeof bufin, stdin) == NULL)
+				eprint("sic: broken pipe\n");
 			parsein(bufin);
 		}
 	}
