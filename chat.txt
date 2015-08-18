@@ -1,5 +1,0 @@
-:j #bud
-Jed: a
-[info] mastermode is open (0)
-[priv] Jed relinquished root
-[leave] Jed has left
