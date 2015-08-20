@@ -31,7 +31,11 @@ pout(char *channel, char *fmt, ...) {
 	va_end(ap);
 	t = time(NULL);
 	strftime(timestr, sizeof timestr, "%D %R", localtime(&t));
-	fprintf(stdout, "IRC %s \"%s\"\n", channel, repl_str(bufout, "\"", "^\""));
+	char *rep1 = repl_str(bufout, "^", "^^");
+	char *rep2 = repl_str(rep1, "\"", "^\"");
+	fprintf(stdout, "IRC %s \"%s\"\n", channel, rep2);
+	free(rep2);
+	free(rep1);
 }
 
 static void

@@ -725,7 +725,11 @@ bool checkserversockets()        // reply all server info requests
 	if(serveracceptstdin && ENET_SOCKETSET_CHECK(readset, STDIN_FILENO))
 	{
 		char buf[MAXTRANS*2];
-		if(fgets(buf, sizeof(buf), stdin)) execute(buf);
+		uchar d[MAXTRANS*2];
+		if(fgets(buf, sizeof(buf), stdin)) {
+			decodeutf8(d, MAXTRANS*2, (uchar*)buf, MAXTRANS*2);
+			execute((char*)d);
+		}
 	}
 #endif
     ENetBuffer buf;
