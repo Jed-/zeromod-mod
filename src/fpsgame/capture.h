@@ -103,9 +103,7 @@ struct captureclientmode : clientmode
         int occupy(const char *team, int units)
         {
             if(strcmp(enemy, team)) return -1;
-            /*if(_defend) {
-            	converted = owner[0] ? int(OCCUPYENEMYLIMIT) : int(OCCUPYNEUTRALLIMIT);
-			}*/ else converted += units;
+            converted += units;
             if(units<0)
             {
                 if(converted<=0) noenemy();
@@ -946,7 +944,7 @@ ICOMMAND(insidebases, "", (),
                 else
                 {
                     int ammo = b.capturetime/AMMOSECS - (b.capturetime-t)/AMMOSECS;
-                    if(_defend!=-2&& _defend!=2 && ammo && b.addammo(ammo)) sendbaseinfo(i);
+                    if(_defend!=-2 && _defend!=2 && ammo && b.addammo(ammo)) sendbaseinfo(i);
                 }
             }
         }

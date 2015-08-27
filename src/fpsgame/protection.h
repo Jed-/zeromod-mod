@@ -68,7 +68,7 @@ bool isreservedauthdesc(char *desc) {
 char *reserveddomain(char *name) {
 	loopv(protectedclanusers) {
 		loopvj(protectedclanusers[i]->clans)
-			if(_strcasestr(name, protectedclanusers[i]->clans[j]->tag) >= 0) return protectedclanusers[i]->clans[j]->tag;
+			if(_strcasestr(name, protectedclanusers[i]->clans[j]->tag) >= 0) return protectedclanusers[i]->authdesc;
 	}
 	return NULL;
 }
@@ -157,6 +157,10 @@ void checkprotection(int cn) {
 	logoutf("\tloaded map: %s", ci->loaded ? "true" : "false");
 	logoutf("\t\tloaded map for %.3fs", (float)(totalmillis-ci->lastloaded)/1000.f);
 	logoutf("\t\tloaded map at %.3fs", (float)(ci->lastloaded)/1000.f);
+	logoutf("\tname registered: %s", isreservedname(ci->name) ? "yes" : "no");
+	if(isreservedname(ci->name)) logoutf("\t\tregistered authname: %s", reservedauthname(ci->name));
+	logoutf("\tclantag registered: %s", isreservedclan(ci->name) ? "yes" : "no");
+	if(isreservedclan(ci->name)) logoutf("\t\tregistered authdesc: %s", reserveddomain(ci->name));
 	logoutf("\tlogged: %s", ci->logged ? "true" : "false");
 	copystring(ci->name, "unnamed", MAXNAMELEN+1);
 	_rename(ci, ci->name, true);

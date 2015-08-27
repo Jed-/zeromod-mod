@@ -2126,7 +2126,6 @@ namespace server
 
 //            if(ci->privilege)
 			if(!ci->logged && authname) {
-//        		if(!(authdesc && protectedclanuserlogin(ci->clientnum, authname, authdesc))) protecteduserlogin(ci->clientnum, authname, authdesc ? authdesc : "");
 				if(isreservedclan(ci->name) && reserveddomain(ci->name)) {
 					if(authdesc) protectedclanuserlogin(ci->clientnum, authname, authdesc);
 				} else
@@ -2191,49 +2190,10 @@ namespace server
             if(authdesc && authdesc[0]) {
             	formatstring(msg)("\f0[\f7Priv\f0]\f1 %s\f7 claimed %s as '\f6%s\f7' \f0[\f7%s\f0]%s",
                 colorname(ci), name, authname, authdesc, !(ishidden || (oldpriv && washidden)) ? "" : " (\f7hidden\f0)");
-/*                if(isreservedclan(ci->name) && !ci->logged && protectedclanuserlogin(ci->clientnum, (char *)authdesc)) {
-                	defformatstring(_msg)("\f0[\f7Protection\f0]\f1 %s \f7is \f0verified\f7 as '\f6%s\f7' \f0[\f7%s\f0]", colorname(ci), authname, authdesc);
-                	if(!ci->_xi.spy) sendf(-1, 1, "ris", N_SERVMSG, _msg); else loopv(clients) {
-                		if(clients[i]->privilege>=PRIV_ADMIN) sendf(clients[i]->clientnum, 1, "ris", N_SERVMSG, _msg);
-                	}
-                } else
-                if(isreservedname(ci->name) && !ci->logged && protecteduserlogin(ci->clientnum, (char*)authname)) {defformatstring(_msg)("\f0[\f7Protection\f0]\f1 %s \f7is \f0verified\f7 as '\f6%s\f7' \f0[\f7%s\f0]", colorname(ci), authname, authdesc); if(!ci->_xi.spy) sendf(-1, 1, "ris", N_SERVMSG, _msg); else loopv(clients) {
-                	if(clients[i]->privilege>=PRIV_ADMIN) sendf(clients[i]->clientnum, 1, "ris", N_SERVMSG, _msg);
-                }} */
-                /* if(bots.inrange(0)) {
-		            vector<int>bars;
-		            loopv(bots) {
-		            	if(bots[i] && bots[i]->state.state==CS_SPECTATOR) {
-		            		bars.add(bots[i]->clientnum);
-		            	}
-		            }
-		            if(bars.inrange(0)) {
-				        int botcn = bars[rnd(bars.length())];
-				        if(botcn > -1 && botcn <= 255 && getinfo(botcn) && getinfo(botcn)->state.aitype==AI_BOT && ci->privilege && (serverhidepriv ? (ci->privilege<PRIV_ADMIN && (serverhidepriv==2 ? !(ci->authname && !ci->authdesc) : 1)) : 1)) {
-				        	defformatstring(cmd)("barbeer %d %d %d", botcn, ci->clientnum, ci->privilege>=PRIV_ADMIN ? 3 : 1);
-				        	execute(cmd);
-				        }
-				    }
-		        } */
             }
             else {
             	formatstring(msg)("\f0[\f7Priv\f0]\f1 %s\f7 claimed %s as '\fs\f6%s\fr'%s",
                 colorname(ci), name, authname, !(ishidden || (oldpriv && washidden)) ? "" : " \f0(\f7hidden\f0)");
-                /* if(bots.inrange(0)) {
-		            vector<int>bars;
-		            loopv(bots) {
-		            	if(bots[i] && bots[i]->state.state==CS_SPECTATOR) {
-		            		bars.add(bots[i]->clientnum);
-		            	}
-		            }
-		            if(bars.inrange(0)) {
-				        int botcn = bars[rnd(bars.length())];
-				        if(botcn > -1 && botcn <= 255 && getinfo(botcn) && getinfo(botcn)->state.aitype==AI_BOT && ci->privilege && (serverhidepriv ? (ci->privilege<PRIV_ADMIN && (serverhidepriv==2 ? !(ci->authname && !ci->authdesc) : 1)) : 1)) {
-				        	defformatstring(cmd)("barbeer %d %d 2", botcn, ci->clientnum);
-				        	execute(cmd);
-				        }
-				    }
-		        } */
             }
         }
         else formatstring(msg)("\f0[\f7Priv\f0]\f7 %s %s %s%s", colorname(ci), val ? "claimed" : "relinquished", name,
@@ -5931,9 +5891,6 @@ namespace server
         if(ci->state.aitype==AI_NONE) loadip((char*)getclienthostname(ci->clientnum), (char*)name);
         ci->lastnamechange = totalmillis;
         ci->namemessages = 0;
-//        ci->logged = false;
-//        if(protectedclanuserlogin(ci->clientnum, ci->authdesc) || protecteduserlogin(ci->clientnum, ci->authname)) ci->logged = true;
-//		if(!protectedclanuserlogin(ci->clientnum, ci->authdesc)) protecteduserlogin(ci->clientnum, ci->authname);
     }
 
     void _renamefunc(const char *cmd, const char *args, clientinfo *ci)
@@ -7887,7 +7844,6 @@ namespace server
                 }
                 ci->lastnamechange = totalmillis;
                 ci->namemessages = 0;
-//                ci->logged = false;
 				if(!ci->logged && isreservedclan(ci->name) && reserveddomain(ci->name)) {
 					sendauthdomain(ci, reserveddomain(ci->name)); // send immediately authkey request
 				}
@@ -8624,47 +8580,6 @@ namespace server
 		_offering = false;
 	}
 	ICOMMAND(offer, "iisi", (int *whocn, int *tocn, char *what, int *howmuch), offer(*whocn, *tocn, what, *howmuch));
-/*	void _rename(clientinfo *ci, const char *name, bool broadcast = true)
-    {
-        uchar buf[MAXSTRLEN];
-        //prepare packet
-        ucharbuf b(buf, MAXSTRLEN);
-        putint(b, N_SWITCHNAME);
-        sendstring(name, b);
-        //broadcast to other clients
-        if(broadcast) ci->messages.put(buf, b.len);
-        //prepare packet for client itself
-        packetbuf p(MAXSTRLEN, ENET_PACKET_FLAG_RELIABLE);
-        putint(p, N_CLIENT);
-        putint(p, ci->clientnum);
-        //put length of packet
-        putint(p, b.len);
-        //put packet itself
-        p.put(buf, b.len);
-        //send to owner, because ci->messages doesn't do it
-        sendpacket(ci->ownernum, 1, p.finalize());
-        if(ci->state.aitype==AI_NONE) loadip((char*)getclienthostname(ci->clientnum), (char*)name);
-        ci->lastnamechange = totalmillis;
-        ci->namemessages = 0;
-//        ci->logged = false;
-    }
-
-	void fakesay(int *cn, char *msg)
-    {
-        clientinfo *ci = getinfo(*cn);
-        if(!ci || ci->privilege >= PRIV_AUTH || (!enablefakesay && ci->state.aitype==AI_NONE)) return;
-        flushserver(true);
-        uchar buf[MAXTRANS];
-        ucharbuf b(buf, sizeof(buf));
-        putint(b, N_TEXT);
-        sendstring(msg, b);
-        packetbuf p(MAXTRANS, ENET_PACKET_FLAG_RELIABLE);
-        putint(p, N_CLIENT);
-        putint(p, *cn);
-        putint(p, b.len);
-        p.put(buf, b.len);
-        sendpacket(-1, 1, p.finalize());
-    } */
 	void fakesayas(int *cn, char *name, char *message) {
 		clientinfo *ci = getinfo(*cn);
 		if(!ci) return;
