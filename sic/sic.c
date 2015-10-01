@@ -188,22 +188,29 @@ main(int argc, char *argv[]) {
 			if(errno == EINTR)
 				continue;
 			eprint("sic: error on select():");
+			return 0;
 		}
 		else if(i == 0) {
-			if(time(NULL) - trespond >= 300)
+			if(time(NULL) - trespond >= 300) {
 				eprint("sic shutting down: parse timeout\n");
+				return 0;
+			}
 			sout("PING %s", host);
 			continue;
 		}
 		if(FD_ISSET(fileno(srv), &rd)) {
-			if(fgets(bufin, sizeof bufin, srv) == NULL)
+			if(fgets(bufin, sizeof bufin, srv) == NULL) {
 				eprint("sic: remote host closed connection\n");
+				return 0;
+			}
 			parsesrv(bufin);
 			trespond = time(NULL);
 		}
 		if(FD_ISSET(0, &rd)) {
-			if(fgets(bufin, sizeof bufin, stdin) == NULL)
+			if(fgets(bufin, sizeof bufin, stdin) == NULL) {
 				eprint("sic: broken pipe\n");
+				return 0;
+			}
 			parsein(bufin);
 		}
 	}

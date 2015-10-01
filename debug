@@ -1,0 +1,5460 @@
+parsing bar
+cn: 0
+text: bud give me a beer
+generating barstrings_this for Bud (128)...
+barstrings_this is:
+
+[[Bud {{histrings] [bar_answer_hi 128 ##CN]]
+[[{{histrings Bud] [bar_answer_hi 128 ##CN]]
+[[Bud {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##1 1) 1 ##CN ##CN]]
+[[Bud {{astrings {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##2 1) 1 ##CN ##CN]]
+[[Bud !!INT {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##2 ##1) ##1 ##CN ##CN]]
+[[Bud {{givestrings {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##2 1) 1 ##CN ##CN]]
+[[Bud {{givestrings {{drinks_all {{tostrings !!STR] [bar_answer_drink 128 (bar_get_drink ##2 1) 1 ##CN (bar_get_to_cn ##4 ##CN)]]
+[[Bud {{givestrings {{astrings {{drinks_all }}tostrings] [bar_answer_drink 128 (bar_get_drink ##3 1) 1 ##CN ##CN]]
+[[Bud {{givestrings {{astrings {{drinks_all {{tostrings !!STR] [bar_answer_drink 128 (bar_get_drink ##3 1) 1 ##CN (bar_get_to_cn ##5 ##CN)]]
+[[Bud {{givestrings !!INT {{drinks_all }}tostrings] [bar_answer_drink 128 (bar_get_drink ##3 ##2) ##2 ##CN ##CN]]
+[[Bud {{givestrings !!INT {{drinks_all {{tostrings !!STR] [bar_answer_drink 128 (bar_get_drink ##3 ##2) ##2 ##CN (bar_get_to_cn ##5 ##CN)]]
+[[Bud {{givestrings ~~astrings {{drinks_all }}tostrings] [bar_answer_drink 128 (bar_get_drink ##3 1) ##1 ##CN (bar_get_to_cn ##2 ##CN)]]
+[[Bud {{givestrings !!STR {{astrings {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##4 1) 1 ##CN (bar_get_to_cn ##2 ##CN)]]
+[[Bud {{givestrings !!STR !!INT {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##4 ##3) ##3 ##CN (bar_get_to_cn ##2 ##CN)]]
+[[Bud {{menustrings] [bar_answer_menu 128 ##CN]]
+looping strings
+loop for: [Bud {{histrings] [bar_answer_hi 128 ##CN]
+string: Bud {{histrings
+command: bar_answer_hi 128 ##CN
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{histrings
+assuming text matches
+required word is inside a list
+list: histrings
+list exists: "hi" "hey" "hello"
+looping through every word of list
+checking word: hi
+checking word: hey
+checking word: hello
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{histrings
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{histrings
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{histrings
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{histrings
+attempts done: 5
+loop for: [{{histrings Bud] [bar_answer_hi 128 ##CN]
+string: {{histrings Bud
+command: bar_answer_hi 128 ##CN
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: {{histrings
+assuming text matches
+required word is inside a list
+list: histrings
+list exists: "hi" "hey" "hello"
+looping through every word of list
+checking word: hi
+checking word: hey
+checking word: hello
+word: Bud
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: {{histrings
+assuming text matches
+required word is inside a list
+list: histrings
+list exists: "hi" "hey" "hello"
+looping through every word of list
+checking word: hi
+checking word: hey
+checking word: hello
+word: Bud
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: {{histrings
+assuming text matches
+required word is inside a list
+list: histrings
+list exists: "hi" "hey" "hello"
+looping through every word of list
+checking word: hi
+checking word: hey
+checking word: hello
+word: Bud
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: {{histrings
+assuming text matches
+required word is inside a list
+list: histrings
+list exists: "hi" "hey" "hello"
+looping through every word of list
+checking word: hi
+checking word: hey
+checking word: hello
+word: Bud
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: {{histrings
+assuming text matches
+required word is inside a list
+list: histrings
+list exists: "hi" "hey" "hello"
+looping through every word of list
+checking word: hi
+checking word: hey
+checking word: hello
+word: Bud
+attempts done: 5
+loop for: [Bud {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##1 1) 1 ##CN ##CN]
+string: Bud {{drinks_all
+command: bar_answer_drink 128 (bar_get_drink ##1 1) 1 ##CN ##CN
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{drinks_all
+assuming text matches
+required word is inside a list
+list: drinks_all
+list exists: 
+[beer] [beers]
+looping through every word of list
+checking word: beer
+checking word: beers
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{drinks_all
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{drinks_all
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{drinks_all
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{drinks_all
+attempts done: 5
+loop for: [Bud {{astrings {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##2 1) 1 ##CN ##CN]
+string: Bud {{astrings {{drinks_all
+command: bar_answer_drink 128 (bar_get_drink ##2 1) 1 ##CN ##CN
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{astrings
+assuming text matches
+required word is inside a list
+list: astrings
+list exists: "a" "an"
+looping through every word of list
+checking word: a
+checking word: an
+word: {{drinks_all
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{astrings
+word: {{drinks_all
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{astrings
+word: {{drinks_all
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{astrings
+word: {{drinks_all
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{astrings
+word: {{drinks_all
+attempts done: 5
+loop for: [Bud !!INT {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##2 ##1) ##1 ##CN ##CN]
+string: Bud !!INT {{drinks_all
+command: bar_answer_drink 128 (bar_get_drink ##2 ##1) ##1 ##CN ##CN
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: !!INT
+assuming text matches
+required word is either an integer or a string
+required word is an integer
+taking word: give
+looping through word to check each character
+first chech, adding + and - to digits
+character is not an integer as required, failing
+not first check, only using 0-9 digits
+character is not an integer as required, failing
+not first check, only using 0-9 digits
+character is not an integer as required, failing
+not first check, only using 0-9 digits
+character is not an integer as required, failing
+loop done
+word: {{drinks_all
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: !!INT
+word: {{drinks_all
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: !!INT
+word: {{drinks_all
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: !!INT
+word: {{drinks_all
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: !!INT
+word: {{drinks_all
+attempts done: 5
+loop for: [Bud {{givestrings {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##2 1) 1 ##CN ##CN]
+string: Bud {{givestrings {{drinks_all
+command: bar_answer_drink 128 (bar_get_drink ##2 1) 1 ##CN ##CN
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{givestrings
+assuming text matches
+required word is inside a list
+list: givestrings
+list exists: "give" "offer"
+looping through every word of list
+checking word: give
+word matches
+adding word to command arguments
+command_args:  give
+checking word: offer
+word: {{drinks_all
+assuming text matches
+required word is inside a list
+list: drinks_all
+list exists: 
+[beer] [beers]
+looping through every word of list
+checking word: beer
+checking word: beers
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{givestrings
+word: {{drinks_all
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{givestrings
+word: {{drinks_all
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{givestrings
+word: {{drinks_all
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{givestrings
+word: {{drinks_all
+attempts done: 5
+loop for: [Bud {{givestrings {{drinks_all {{tostrings !!STR] [bar_answer_drink 128 (bar_get_drink ##2 1) 1 ##CN (bar_get_to_cn ##4 ##CN)]
+string: Bud {{givestrings {{drinks_all {{tostrings !!STR
+command: bar_answer_drink 128 (bar_get_drink ##2 1) 1 ##CN (bar_get_to_cn ##4 ##CN)
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{givestrings
+assuming text matches
+required word is inside a list
+list: givestrings
+list exists: "give" "offer"
+looping through every word of list
+checking word: give
+word matches
+adding word to command arguments
+command_args:  give
+checking word: offer
+word: {{drinks_all
+assuming text matches
+required word is inside a list
+list: drinks_all
+list exists: 
+[beer] [beers]
+looping through every word of list
+checking word: beer
+checking word: beers
+word: {{tostrings
+word: !!STR
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{givestrings
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{givestrings
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{givestrings
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{givestrings
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 5
+loop for: [Bud {{givestrings {{astrings {{drinks_all }}tostrings] [bar_answer_drink 128 (bar_get_drink ##3 1) 1 ##CN ##CN]
+string: Bud {{givestrings {{astrings {{drinks_all }}tostrings
+command: bar_answer_drink 128 (bar_get_drink ##3 1) 1 ##CN ##CN
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{givestrings
+assuming text matches
+required word is inside a list
+list: givestrings
+list exists: "give" "offer"
+looping through every word of list
+checking word: give
+word matches
+adding word to command arguments
+command_args:  give
+checking word: offer
+word: {{astrings
+assuming text matches
+required word is inside a list
+list: astrings
+list exists: "a" "an"
+looping through every word of list
+checking word: a
+checking word: an
+word: {{drinks_all
+word: }}tostrings
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{givestrings
+word: {{astrings
+word: {{drinks_all
+word: }}tostrings
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{givestrings
+word: {{astrings
+word: {{drinks_all
+word: }}tostrings
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{givestrings
+word: {{astrings
+word: {{drinks_all
+word: }}tostrings
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{givestrings
+word: {{astrings
+word: {{drinks_all
+word: }}tostrings
+attempts done: 5
+loop for: [Bud {{givestrings {{astrings {{drinks_all {{tostrings !!STR] [bar_answer_drink 128 (bar_get_drink ##3 1) 1 ##CN (bar_get_to_cn ##5 ##CN)]
+string: Bud {{givestrings {{astrings {{drinks_all {{tostrings !!STR
+command: bar_answer_drink 128 (bar_get_drink ##3 1) 1 ##CN (bar_get_to_cn ##5 ##CN)
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{givestrings
+assuming text matches
+required word is inside a list
+list: givestrings
+list exists: "give" "offer"
+looping through every word of list
+checking word: give
+word matches
+adding word to command arguments
+command_args:  give
+checking word: offer
+word: {{astrings
+assuming text matches
+required word is inside a list
+list: astrings
+list exists: "a" "an"
+looping through every word of list
+checking word: a
+checking word: an
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{givestrings
+word: {{astrings
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{givestrings
+word: {{astrings
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{givestrings
+word: {{astrings
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{givestrings
+word: {{astrings
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 5
+loop for: [Bud {{givestrings !!INT {{drinks_all }}tostrings] [bar_answer_drink 128 (bar_get_drink ##3 ##2) ##2 ##CN ##CN]
+string: Bud {{givestrings !!INT {{drinks_all }}tostrings
+command: bar_answer_drink 128 (bar_get_drink ##3 ##2) ##2 ##CN ##CN
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{givestrings
+assuming text matches
+required word is inside a list
+list: givestrings
+list exists: "give" "offer"
+looping through every word of list
+checking word: give
+word matches
+adding word to command arguments
+command_args:  give
+checking word: offer
+word: !!INT
+assuming text matches
+required word is either an integer or a string
+required word is an integer
+taking word: me
+looping through word to check each character
+first chech, adding + and - to digits
+character is not an integer as required, failing
+not first check, only using 0-9 digits
+character is not an integer as required, failing
+loop done
+word: {{drinks_all
+word: }}tostrings
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{givestrings
+word: !!INT
+word: {{drinks_all
+word: }}tostrings
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{givestrings
+word: !!INT
+word: {{drinks_all
+word: }}tostrings
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{givestrings
+word: !!INT
+word: {{drinks_all
+word: }}tostrings
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{givestrings
+word: !!INT
+word: {{drinks_all
+word: }}tostrings
+attempts done: 5
+loop for: [Bud {{givestrings !!INT {{drinks_all {{tostrings !!STR] [bar_answer_drink 128 (bar_get_drink ##3 ##2) ##2 ##CN (bar_get_to_cn ##5 ##CN)]
+string: Bud {{givestrings !!INT {{drinks_all {{tostrings !!STR
+command: bar_answer_drink 128 (bar_get_drink ##3 ##2) ##2 ##CN (bar_get_to_cn ##5 ##CN)
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{givestrings
+assuming text matches
+required word is inside a list
+list: givestrings
+list exists: "give" "offer"
+looping through every word of list
+checking word: give
+word matches
+adding word to command arguments
+command_args:  give
+checking word: offer
+word: !!INT
+assuming text matches
+required word is either an integer or a string
+required word is an integer
+taking word: me
+looping through word to check each character
+first chech, adding + and - to digits
+character is not an integer as required, failing
+not first check, only using 0-9 digits
+character is not an integer as required, failing
+loop done
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{givestrings
+word: !!INT
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{givestrings
+word: !!INT
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{givestrings
+word: !!INT
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{givestrings
+word: !!INT
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 5
+loop for: [Bud {{givestrings ~~astrings {{drinks_all }}tostrings] [bar_answer_drink 128 (bar_get_drink ##3 1) ##1 ##CN (bar_get_to_cn ##2 ##CN)]
+string: Bud {{givestrings ~~astrings {{drinks_all }}tostrings
+command: bar_answer_drink 128 (bar_get_drink ##3 1) ##1 ##CN (bar_get_to_cn ##2 ##CN)
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{givestrings
+assuming text matches
+required word is inside a list
+list: givestrings
+list exists: "give" "offer"
+looping through every word of list
+checking word: give
+word matches
+adding word to command arguments
+command_args:  give
+checking word: offer
+word: ~~astrings
+assuming text matches
+required word is outside a list
+list: astrings
+list exists: "a" "an"
+looping through every word of list
+checking word: a
+checking word: an
+word is not in list, checking if it's not integer
+first chech, adding + and - to digits
+character is not an integer
+not first check, only using 0-9 digits
+character is an integer
+adding word to command arguments
+command_args:  give me
+word: {{drinks_all
+assuming text matches
+required word is inside a list
+list: drinks_all
+list exists: 
+[beer] [beers]
+looping through every word of list
+checking word: beer
+checking word: beers
+word: }}tostrings
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{givestrings
+word: ~~astrings
+word: {{drinks_all
+word: }}tostrings
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{givestrings
+word: ~~astrings
+word: {{drinks_all
+word: }}tostrings
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{givestrings
+word: ~~astrings
+word: {{drinks_all
+word: }}tostrings
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{givestrings
+word: ~~astrings
+word: {{drinks_all
+word: }}tostrings
+attempts done: 5
+loop for: [Bud {{givestrings !!STR {{astrings {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##4 1) 1 ##CN (bar_get_to_cn ##2 ##CN)]
+string: Bud {{givestrings !!STR {{astrings {{drinks_all
+command: bar_answer_drink 128 (bar_get_drink ##4 1) 1 ##CN (bar_get_to_cn ##2 ##CN)
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{givestrings
+assuming text matches
+required word is inside a list
+list: givestrings
+list exists: "give" "offer"
+looping through every word of list
+checking word: give
+word matches
+adding word to command arguments
+command_args:  give
+checking word: offer
+word: !!STR
+assuming text matches
+required word is either an integer or a string
+required word is a string, adding it to command arguments whatever it is
+command_args:  give me
+word: {{astrings
+assuming text matches
+required word is inside a list
+list: astrings
+list exists: "a" "an"
+looping through every word of list
+checking word: a
+word matches
+adding word to command arguments
+command_args:  give me a
+checking word: an
+word: {{drinks_all
+assuming text matches
+required word is inside a list
+list: drinks_all
+list exists: 
+[beer] [beers]
+looping through every word of list
+checking word: beer
+word matches
+adding word to command arguments
+command_args:  give me a beer
+checking word: beers
+text matches string: adding arguments
+args:  give me a beer
+attempts done: 1
+text matches string: looping through command
+separating words
+words:  bar_answer_drink 128 bar_get_drink ##4 1 1 ##CN bar_get_to_cn ##2 ##CN
+checking word: bar_answer_drink
+checking word: 128
+checking word: bar_get_drink
+checking word: ##4
+word is special argument
+special argument: 4
+looping through each character of word
+character is a digit
+number: 4
+replacing argument with proper value
+command: bar_answer_drink 128 (bar_get_drink beer 1) 1 ##CN (bar_get_to_cn ##2 ##CN)
+checking word: 1
+checking word: 1
+checking word: ##CN
+word is special argument
+special argument: CN
+looping through each character of word
+character is not a digit
+checking word: bar_get_to_cn
+checking word: ##2
+word is special argument
+special argument: 2
+looping through each character of word
+character is a digit
+number: 2
+replacing argument with proper value
+command: bar_answer_drink 128 (bar_get_drink beer 1) 1 ##CN (bar_get_to_cn me ##CN)
+checking word: ##CN
+word is special argument
+special argument: CN
+looping through each character of word
+character is not a digit
+putting cn into command
+command: bar_answer_drink 128 (bar_get_drink beer 1) 1 0 (bar_get_to_cn me 0)
+running command
+loop for: [Bud {{givestrings !!STR !!INT {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##4 ##3) ##3 ##CN (bar_get_to_cn ##2 ##CN)]
+string: Bud {{givestrings !!STR !!INT {{drinks_all
+command: bar_answer_drink 128 (bar_get_drink ##4 ##3) ##3 ##CN (bar_get_to_cn ##2 ##CN)
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{givestrings
+assuming text matches
+required word is inside a list
+list: givestrings
+list exists: "give" "offer"
+looping through every word of list
+checking word: give
+word matches
+adding word to command arguments
+command_args:  give
+checking word: offer
+word: !!STR
+assuming text matches
+required word is either an integer or a string
+required word is a string, adding it to command arguments whatever it is
+command_args:  give me
+word: !!INT
+assuming text matches
+required word is either an integer or a string
+required word is an integer
+taking word: a
+looping through word to check each character
+first chech, adding + and - to digits
+character is not an integer as required, failing
+loop done
+word: {{drinks_all
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{givestrings
+word: !!STR
+word: !!INT
+word: {{drinks_all
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{givestrings
+word: !!STR
+word: !!INT
+word: {{drinks_all
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{givestrings
+word: !!STR
+word: !!INT
+word: {{drinks_all
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{givestrings
+word: !!STR
+word: !!INT
+word: {{drinks_all
+attempts done: 5
+loop for: [Bud {{menustrings] [bar_answer_menu 128 ##CN]
+string: Bud {{menustrings
+command: bar_answer_menu 128 ##CN
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{menustrings
+assuming text matches
+required word is inside a list
+list: menustrings
+list exists: "menu" "list"
+looping through every word of list
+checking word: menu
+checking word: list
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{menustrings
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{menustrings
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{menustrings
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{menustrings
+attempts done: 5
+parsing bar
+cn: 0
+text: bud give me a beer
+generating barstrings_this for Bud (128)...
+barstrings_this is:
+
+[[Bud {{histrings] [bar_answer_hi 128 ##CN]]
+[[{{histrings Bud] [bar_answer_hi 128 ##CN]]
+[[Bud {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##1 1) 1 ##CN ##CN]]
+[[Bud {{astrings {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##2 1) 1 ##CN ##CN]]
+[[Bud !!INT {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##2 ##1) ##1 ##CN ##CN]]
+[[Bud {{givestrings {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##2 1) 1 ##CN ##CN]]
+[[Bud {{givestrings {{drinks_all {{tostrings !!STR] [bar_answer_drink 128 (bar_get_drink ##2 1) 1 ##CN (bar_get_to_cn ##4 ##CN)]]
+[[Bud {{givestrings {{astrings {{drinks_all }}tostrings] [bar_answer_drink 128 (bar_get_drink ##3 1) 1 ##CN ##CN]]
+[[Bud {{givestrings {{astrings {{drinks_all {{tostrings !!STR] [bar_answer_drink 128 (bar_get_drink ##3 1) 1 ##CN (bar_get_to_cn ##5 ##CN)]]
+[[Bud {{givestrings !!INT {{drinks_all }}tostrings] [bar_answer_drink 128 (bar_get_drink ##3 ##2) ##2 ##CN ##CN]]
+[[Bud {{givestrings !!INT {{drinks_all {{tostrings !!STR] [bar_answer_drink 128 (bar_get_drink ##3 ##2) ##2 ##CN (bar_get_to_cn ##5 ##CN)]]
+[[Bud {{givestrings ~~astrings {{drinks_all }}tostrings] [bar_answer_drink 128 (bar_get_drink ##3 1) ##1 ##CN (bar_get_to_cn ##2 ##CN)]]
+[[Bud {{givestrings !!STR {{astrings {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##4 1) 1 ##CN (bar_get_to_cn ##2 ##CN)]]
+[[Bud {{givestrings !!STR !!INT {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##4 ##3) ##3 ##CN (bar_get_to_cn ##2 ##CN)]]
+[[Bud {{menustrings] [bar_answer_menu 128 ##CN]]
+looping strings
+loop for: [Bud {{histrings] [bar_answer_hi 128 ##CN]
+string: Bud {{histrings
+command: bar_answer_hi 128 ##CN
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{histrings
+assuming text matches
+required word is inside a list
+list: histrings
+list exists: "hi" "hey" "hello"
+looping through every word of list
+checking word: hi
+checking word: hey
+checking word: hello
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{histrings
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{histrings
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{histrings
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{histrings
+attempts done: 5
+loop for: [{{histrings Bud] [bar_answer_hi 128 ##CN]
+string: {{histrings Bud
+command: bar_answer_hi 128 ##CN
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: {{histrings
+assuming text matches
+required word is inside a list
+list: histrings
+list exists: "hi" "hey" "hello"
+looping through every word of list
+checking word: hi
+checking word: hey
+checking word: hello
+word: Bud
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: {{histrings
+assuming text matches
+required word is inside a list
+list: histrings
+list exists: "hi" "hey" "hello"
+looping through every word of list
+checking word: hi
+checking word: hey
+checking word: hello
+word: Bud
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: {{histrings
+assuming text matches
+required word is inside a list
+list: histrings
+list exists: "hi" "hey" "hello"
+looping through every word of list
+checking word: hi
+checking word: hey
+checking word: hello
+word: Bud
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: {{histrings
+assuming text matches
+required word is inside a list
+list: histrings
+list exists: "hi" "hey" "hello"
+looping through every word of list
+checking word: hi
+checking word: hey
+checking word: hello
+word: Bud
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: {{histrings
+assuming text matches
+required word is inside a list
+list: histrings
+list exists: "hi" "hey" "hello"
+looping through every word of list
+checking word: hi
+checking word: hey
+checking word: hello
+word: Bud
+attempts done: 5
+loop for: [Bud {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##1 1) 1 ##CN ##CN]
+string: Bud {{drinks_all
+command: bar_answer_drink 128 (bar_get_drink ##1 1) 1 ##CN ##CN
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{drinks_all
+assuming text matches
+required word is inside a list
+list: drinks_all
+list exists: 
+[beer] [beers]
+looping through every word of list
+checking word: beer
+checking word: beers
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{drinks_all
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{drinks_all
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{drinks_all
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{drinks_all
+attempts done: 5
+loop for: [Bud {{astrings {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##2 1) 1 ##CN ##CN]
+string: Bud {{astrings {{drinks_all
+command: bar_answer_drink 128 (bar_get_drink ##2 1) 1 ##CN ##CN
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{astrings
+assuming text matches
+required word is inside a list
+list: astrings
+list exists: "a" "an"
+looping through every word of list
+checking word: a
+checking word: an
+word: {{drinks_all
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{astrings
+word: {{drinks_all
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{astrings
+word: {{drinks_all
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{astrings
+word: {{drinks_all
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{astrings
+word: {{drinks_all
+attempts done: 5
+loop for: [Bud !!INT {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##2 ##1) ##1 ##CN ##CN]
+string: Bud !!INT {{drinks_all
+command: bar_answer_drink 128 (bar_get_drink ##2 ##1) ##1 ##CN ##CN
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: !!INT
+assuming text matches
+required word is either an integer or a string
+required word is an integer
+taking word: give
+looping through word to check each character
+first chech, adding + and - to digits
+character is not an integer as required, failing
+not first check, only using 0-9 digits
+character is not an integer as required, failing
+not first check, only using 0-9 digits
+character is not an integer as required, failing
+not first check, only using 0-9 digits
+character is not an integer as required, failing
+loop done
+word: {{drinks_all
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: !!INT
+word: {{drinks_all
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: !!INT
+word: {{drinks_all
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: !!INT
+word: {{drinks_all
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: !!INT
+word: {{drinks_all
+attempts done: 5
+loop for: [Bud {{givestrings {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##2 1) 1 ##CN ##CN]
+string: Bud {{givestrings {{drinks_all
+command: bar_answer_drink 128 (bar_get_drink ##2 1) 1 ##CN ##CN
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{givestrings
+assuming text matches
+required word is inside a list
+list: givestrings
+list exists: "give" "offer"
+looping through every word of list
+checking word: give
+word matches
+adding word to command arguments
+command_args:  give
+checking word: offer
+word: {{drinks_all
+assuming text matches
+required word is inside a list
+list: drinks_all
+list exists: 
+[beer] [beers]
+looping through every word of list
+checking word: beer
+checking word: beers
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{givestrings
+word: {{drinks_all
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{givestrings
+word: {{drinks_all
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{givestrings
+word: {{drinks_all
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{givestrings
+word: {{drinks_all
+attempts done: 5
+loop for: [Bud {{givestrings {{drinks_all {{tostrings !!STR] [bar_answer_drink 128 (bar_get_drink ##2 1) 1 ##CN (bar_get_to_cn ##4 ##CN)]
+string: Bud {{givestrings {{drinks_all {{tostrings !!STR
+command: bar_answer_drink 128 (bar_get_drink ##2 1) 1 ##CN (bar_get_to_cn ##4 ##CN)
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{givestrings
+assuming text matches
+required word is inside a list
+list: givestrings
+list exists: "give" "offer"
+looping through every word of list
+checking word: give
+word matches
+adding word to command arguments
+command_args:  give
+checking word: offer
+word: {{drinks_all
+assuming text matches
+required word is inside a list
+list: drinks_all
+list exists: 
+[beer] [beers]
+looping through every word of list
+checking word: beer
+checking word: beers
+word: {{tostrings
+word: !!STR
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{givestrings
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{givestrings
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{givestrings
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{givestrings
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 5
+loop for: [Bud {{givestrings {{astrings {{drinks_all }}tostrings] [bar_answer_drink 128 (bar_get_drink ##3 1) 1 ##CN ##CN]
+string: Bud {{givestrings {{astrings {{drinks_all }}tostrings
+command: bar_answer_drink 128 (bar_get_drink ##3 1) 1 ##CN ##CN
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{givestrings
+assuming text matches
+required word is inside a list
+list: givestrings
+list exists: "give" "offer"
+looping through every word of list
+checking word: give
+word matches
+adding word to command arguments
+command_args:  give
+checking word: offer
+word: {{astrings
+assuming text matches
+required word is inside a list
+list: astrings
+list exists: "a" "an"
+looping through every word of list
+checking word: a
+checking word: an
+word: {{drinks_all
+word: }}tostrings
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{givestrings
+word: {{astrings
+word: {{drinks_all
+word: }}tostrings
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{givestrings
+word: {{astrings
+word: {{drinks_all
+word: }}tostrings
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{givestrings
+word: {{astrings
+word: {{drinks_all
+word: }}tostrings
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{givestrings
+word: {{astrings
+word: {{drinks_all
+word: }}tostrings
+attempts done: 5
+loop for: [Bud {{givestrings {{astrings {{drinks_all {{tostrings !!STR] [bar_answer_drink 128 (bar_get_drink ##3 1) 1 ##CN (bar_get_to_cn ##5 ##CN)]
+string: Bud {{givestrings {{astrings {{drinks_all {{tostrings !!STR
+command: bar_answer_drink 128 (bar_get_drink ##3 1) 1 ##CN (bar_get_to_cn ##5 ##CN)
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{givestrings
+assuming text matches
+required word is inside a list
+list: givestrings
+list exists: "give" "offer"
+looping through every word of list
+checking word: give
+word matches
+adding word to command arguments
+command_args:  give
+checking word: offer
+word: {{astrings
+assuming text matches
+required word is inside a list
+list: astrings
+list exists: "a" "an"
+looping through every word of list
+checking word: a
+checking word: an
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{givestrings
+word: {{astrings
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{givestrings
+word: {{astrings
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{givestrings
+word: {{astrings
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{givestrings
+word: {{astrings
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 5
+loop for: [Bud {{givestrings !!INT {{drinks_all }}tostrings] [bar_answer_drink 128 (bar_get_drink ##3 ##2) ##2 ##CN ##CN]
+string: Bud {{givestrings !!INT {{drinks_all }}tostrings
+command: bar_answer_drink 128 (bar_get_drink ##3 ##2) ##2 ##CN ##CN
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{givestrings
+assuming text matches
+required word is inside a list
+list: givestrings
+list exists: "give" "offer"
+looping through every word of list
+checking word: give
+word matches
+adding word to command arguments
+command_args:  give
+checking word: offer
+word: !!INT
+assuming text matches
+required word is either an integer or a string
+required word is an integer
+taking word: me
+looping through word to check each character
+first chech, adding + and - to digits
+character is not an integer as required, failing
+not first check, only using 0-9 digits
+character is not an integer as required, failing
+loop done
+word: {{drinks_all
+word: }}tostrings
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{givestrings
+word: !!INT
+word: {{drinks_all
+word: }}tostrings
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{givestrings
+word: !!INT
+word: {{drinks_all
+word: }}tostrings
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{givestrings
+word: !!INT
+word: {{drinks_all
+word: }}tostrings
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{givestrings
+word: !!INT
+word: {{drinks_all
+word: }}tostrings
+attempts done: 5
+loop for: [Bud {{givestrings !!INT {{drinks_all {{tostrings !!STR] [bar_answer_drink 128 (bar_get_drink ##3 ##2) ##2 ##CN (bar_get_to_cn ##5 ##CN)]
+string: Bud {{givestrings !!INT {{drinks_all {{tostrings !!STR
+command: bar_answer_drink 128 (bar_get_drink ##3 ##2) ##2 ##CN (bar_get_to_cn ##5 ##CN)
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{givestrings
+assuming text matches
+required word is inside a list
+list: givestrings
+list exists: "give" "offer"
+looping through every word of list
+checking word: give
+word matches
+adding word to command arguments
+command_args:  give
+checking word: offer
+word: !!INT
+assuming text matches
+required word is either an integer or a string
+required word is an integer
+taking word: me
+looping through word to check each character
+first chech, adding + and - to digits
+character is not an integer as required, failing
+not first check, only using 0-9 digits
+character is not an integer as required, failing
+loop done
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{givestrings
+word: !!INT
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{givestrings
+word: !!INT
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{givestrings
+word: !!INT
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{givestrings
+word: !!INT
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 5
+loop for: [Bud {{givestrings ~~astrings {{drinks_all }}tostrings] [bar_answer_drink 128 (bar_get_drink ##3 1) ##1 ##CN (bar_get_to_cn ##2 ##CN)]
+string: Bud {{givestrings ~~astrings {{drinks_all }}tostrings
+command: bar_answer_drink 128 (bar_get_drink ##3 1) ##1 ##CN (bar_get_to_cn ##2 ##CN)
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{givestrings
+assuming text matches
+required word is inside a list
+list: givestrings
+list exists: "give" "offer"
+looping through every word of list
+checking word: give
+word matches
+adding word to command arguments
+command_args:  give
+checking word: offer
+word: ~~astrings
+assuming text matches
+required word is outside a list
+list: astrings
+list exists: "a" "an"
+looping through every word of list
+checking word: a
+checking word: an
+word is not in list, checking if it's not integer
+first chech, adding + and - to digits
+character is not an integer
+not first check, only using 0-9 digits
+character is an integer
+adding word to command arguments
+command_args:  give me
+word: {{drinks_all
+assuming text matches
+required word is inside a list
+list: drinks_all
+list exists: 
+[beer] [beers]
+looping through every word of list
+checking word: beer
+checking word: beers
+word: }}tostrings
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{givestrings
+word: ~~astrings
+word: {{drinks_all
+word: }}tostrings
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{givestrings
+word: ~~astrings
+word: {{drinks_all
+word: }}tostrings
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{givestrings
+word: ~~astrings
+word: {{drinks_all
+word: }}tostrings
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{givestrings
+word: ~~astrings
+word: {{drinks_all
+word: }}tostrings
+attempts done: 5
+loop for: [Bud {{givestrings !!STR {{astrings {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##4 1) 1 ##CN (bar_get_to_cn ##2 ##CN)]
+string: Bud {{givestrings !!STR {{astrings {{drinks_all
+command: bar_answer_drink 128 (bar_get_drink ##4 1) 1 ##CN (bar_get_to_cn ##2 ##CN)
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{givestrings
+assuming text matches
+required word is inside a list
+list: givestrings
+list exists: "give" "offer"
+looping through every word of list
+checking word: give
+word matches
+adding word to command arguments
+command_args:  give
+checking word: offer
+word: !!STR
+assuming text matches
+required word is either an integer or a string
+required word is a string, adding it to command arguments whatever it is
+command_args:  give me
+word: {{astrings
+assuming text matches
+required word is inside a list
+list: astrings
+list exists: "a" "an"
+looping through every word of list
+checking word: a
+word matches
+adding word to command arguments
+command_args:  give me a
+checking word: an
+word: {{drinks_all
+assuming text matches
+required word is inside a list
+list: drinks_all
+list exists: 
+[beer] [beers]
+looping through every word of list
+checking word: beer
+word matches
+adding word to command arguments
+command_args:  give me a beer
+checking word: beers
+text matches string: adding arguments
+args:  give me a beer
+attempts done: 1
+text matches string: looping through command
+separating words
+words:  bar_answer_drink 128 bar_get_drink ##4 1 1 ##CN bar_get_to_cn ##2 ##CN
+checking word: bar_answer_drink
+checking word: 128
+checking word: bar_get_drink
+checking word: ##4
+word is special argument
+special argument: 4
+looping through each character of word
+character is a digit
+number: 4
+replacing argument with proper value
+command: bar_answer_drink 128 (bar_get_drink beer 1) 1 ##CN (bar_get_to_cn ##2 ##CN)
+checking word: 1
+checking word: 1
+checking word: ##CN
+word is special argument
+special argument: CN
+looping through each character of word
+character is not a digit
+checking word: bar_get_to_cn
+checking word: ##2
+word is special argument
+special argument: 2
+looping through each character of word
+character is a digit
+number: 2
+replacing argument with proper value
+command: bar_answer_drink 128 (bar_get_drink beer 1) 1 ##CN (bar_get_to_cn me ##CN)
+checking word: ##CN
+word is special argument
+special argument: CN
+looping through each character of word
+character is not a digit
+putting cn into command
+command: bar_answer_drink 128 (bar_get_drink beer 1) 1 0 (bar_get_to_cn me 0)
+running command
+loop for: [Bud {{givestrings !!STR !!INT {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##4 ##3) ##3 ##CN (bar_get_to_cn ##2 ##CN)]
+string: Bud {{givestrings !!STR !!INT {{drinks_all
+command: bar_answer_drink 128 (bar_get_drink ##4 ##3) ##3 ##CN (bar_get_to_cn ##2 ##CN)
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{givestrings
+assuming text matches
+required word is inside a list
+list: givestrings
+list exists: "give" "offer"
+looping through every word of list
+checking word: give
+word matches
+adding word to command arguments
+command_args:  give
+checking word: offer
+word: !!STR
+assuming text matches
+required word is either an integer or a string
+required word is a string, adding it to command arguments whatever it is
+command_args:  give me
+word: !!INT
+assuming text matches
+required word is either an integer or a string
+required word is an integer
+taking word: a
+looping through word to check each character
+first chech, adding + and - to digits
+character is not an integer as required, failing
+loop done
+word: {{drinks_all
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{givestrings
+word: !!STR
+word: !!INT
+word: {{drinks_all
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{givestrings
+word: !!STR
+word: !!INT
+word: {{drinks_all
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{givestrings
+word: !!STR
+word: !!INT
+word: {{drinks_all
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{givestrings
+word: !!STR
+word: !!INT
+word: {{drinks_all
+attempts done: 5
+loop for: [Bud {{menustrings] [bar_answer_menu 128 ##CN]
+string: Bud {{menustrings
+command: bar_answer_menu 128 ##CN
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{menustrings
+assuming text matches
+required word is inside a list
+list: menustrings
+list exists: "menu" "list"
+looping through every word of list
+checking word: menu
+checking word: list
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{menustrings
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{menustrings
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{menustrings
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{menustrings
+attempts done: 5
+parsing bar
+cn: 0
+text: bud give me a beer
+generating barstrings_this for Bud (128)...
+barstrings_this is:
+
+[[Bud {{histrings] [bar_answer_hi 128 ##CN]]
+[[{{histrings Bud] [bar_answer_hi 128 ##CN]]
+[[Bud {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##1 1) 1 ##CN ##CN]]
+[[Bud {{astrings {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##2 1) 1 ##CN ##CN]]
+[[Bud !!INT {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##2 ##1) ##1 ##CN ##CN]]
+[[Bud {{givestrings {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##2 1) 1 ##CN ##CN]]
+[[Bud {{givestrings {{drinks_all {{tostrings !!STR] [bar_answer_drink 128 (bar_get_drink ##2 1) 1 ##CN (bar_get_to_cn ##4 ##CN)]]
+[[Bud {{givestrings {{astrings {{drinks_all }}tostrings] [bar_answer_drink 128 (bar_get_drink ##3 1) 1 ##CN ##CN]]
+[[Bud {{givestrings {{astrings {{drinks_all {{tostrings !!STR] [bar_answer_drink 128 (bar_get_drink ##3 1) 1 ##CN (bar_get_to_cn ##5 ##CN)]]
+[[Bud {{givestrings !!INT {{drinks_all }}tostrings] [bar_answer_drink 128 (bar_get_drink ##3 ##2) ##2 ##CN ##CN]]
+[[Bud {{givestrings !!INT {{drinks_all {{tostrings !!STR] [bar_answer_drink 128 (bar_get_drink ##3 ##2) ##2 ##CN (bar_get_to_cn ##5 ##CN)]]
+[[Bud {{givestrings ~~astrings {{drinks_all }}tostrings] [bar_answer_drink 128 (bar_get_drink ##3 1) ##1 ##CN (bar_get_to_cn ##2 ##CN)]]
+[[Bud {{givestrings !!STR {{astrings {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##4 1) 1 ##CN (bar_get_to_cn ##2 ##CN)]]
+[[Bud {{givestrings !!STR !!INT {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##4 ##3) ##3 ##CN (bar_get_to_cn ##2 ##CN)]]
+[[Bud {{menustrings] [bar_answer_menu 128 ##CN]]
+looping strings
+loop for: [Bud {{histrings] [bar_answer_hi 128 ##CN]
+string: Bud {{histrings
+command: bar_answer_hi 128 ##CN
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{histrings
+assuming text matches
+required word is inside a list
+list: histrings
+list exists: "hi" "hey" "hello"
+looping through every word of list
+checking word: hi
+checking word: hey
+checking word: hello
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{histrings
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{histrings
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{histrings
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{histrings
+attempts done: 5
+loop for: [{{histrings Bud] [bar_answer_hi 128 ##CN]
+string: {{histrings Bud
+command: bar_answer_hi 128 ##CN
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: {{histrings
+assuming text matches
+required word is inside a list
+list: histrings
+list exists: "hi" "hey" "hello"
+looping through every word of list
+checking word: hi
+checking word: hey
+checking word: hello
+word: Bud
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: {{histrings
+assuming text matches
+required word is inside a list
+list: histrings
+list exists: "hi" "hey" "hello"
+looping through every word of list
+checking word: hi
+checking word: hey
+checking word: hello
+word: Bud
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: {{histrings
+assuming text matches
+required word is inside a list
+list: histrings
+list exists: "hi" "hey" "hello"
+looping through every word of list
+checking word: hi
+checking word: hey
+checking word: hello
+word: Bud
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: {{histrings
+assuming text matches
+required word is inside a list
+list: histrings
+list exists: "hi" "hey" "hello"
+looping through every word of list
+checking word: hi
+checking word: hey
+checking word: hello
+word: Bud
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: {{histrings
+assuming text matches
+required word is inside a list
+list: histrings
+list exists: "hi" "hey" "hello"
+looping through every word of list
+checking word: hi
+checking word: hey
+checking word: hello
+word: Bud
+attempts done: 5
+loop for: [Bud {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##1 1) 1 ##CN ##CN]
+string: Bud {{drinks_all
+command: bar_answer_drink 128 (bar_get_drink ##1 1) 1 ##CN ##CN
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{drinks_all
+assuming text matches
+required word is inside a list
+list: drinks_all
+list exists: 
+[beer] [beers]
+looping through every word of list
+checking word: beer
+checking word: beers
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{drinks_all
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{drinks_all
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{drinks_all
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{drinks_all
+attempts done: 5
+loop for: [Bud {{astrings {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##2 1) 1 ##CN ##CN]
+string: Bud {{astrings {{drinks_all
+command: bar_answer_drink 128 (bar_get_drink ##2 1) 1 ##CN ##CN
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{astrings
+assuming text matches
+required word is inside a list
+list: astrings
+list exists: "a" "an"
+looping through every word of list
+checking word: a
+checking word: an
+word: {{drinks_all
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{astrings
+word: {{drinks_all
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{astrings
+word: {{drinks_all
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{astrings
+word: {{drinks_all
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{astrings
+word: {{drinks_all
+attempts done: 5
+loop for: [Bud !!INT {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##2 ##1) ##1 ##CN ##CN]
+string: Bud !!INT {{drinks_all
+command: bar_answer_drink 128 (bar_get_drink ##2 ##1) ##1 ##CN ##CN
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: !!INT
+assuming text matches
+required word is either an integer or a string
+required word is an integer
+taking word: give
+looping through word to check each character
+first chech, adding + and - to digits
+character is not an integer as required, failing
+not first check, only using 0-9 digits
+character is not an integer as required, failing
+not first check, only using 0-9 digits
+character is not an integer as required, failing
+not first check, only using 0-9 digits
+character is not an integer as required, failing
+loop done
+word: {{drinks_all
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: !!INT
+word: {{drinks_all
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: !!INT
+word: {{drinks_all
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: !!INT
+word: {{drinks_all
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: !!INT
+word: {{drinks_all
+attempts done: 5
+loop for: [Bud {{givestrings {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##2 1) 1 ##CN ##CN]
+string: Bud {{givestrings {{drinks_all
+command: bar_answer_drink 128 (bar_get_drink ##2 1) 1 ##CN ##CN
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{givestrings
+assuming text matches
+required word is inside a list
+list: givestrings
+list exists: "give" "offer"
+looping through every word of list
+checking word: give
+word matches
+adding word to command arguments
+command_args:  give
+checking word: offer
+word: {{drinks_all
+assuming text matches
+required word is inside a list
+list: drinks_all
+list exists: 
+[beer] [beers]
+looping through every word of list
+checking word: beer
+checking word: beers
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{givestrings
+word: {{drinks_all
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{givestrings
+word: {{drinks_all
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{givestrings
+word: {{drinks_all
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{givestrings
+word: {{drinks_all
+attempts done: 5
+loop for: [Bud {{givestrings {{drinks_all {{tostrings !!STR] [bar_answer_drink 128 (bar_get_drink ##2 1) 1 ##CN (bar_get_to_cn ##4 ##CN)]
+string: Bud {{givestrings {{drinks_all {{tostrings !!STR
+command: bar_answer_drink 128 (bar_get_drink ##2 1) 1 ##CN (bar_get_to_cn ##4 ##CN)
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{givestrings
+assuming text matches
+required word is inside a list
+list: givestrings
+list exists: "give" "offer"
+looping through every word of list
+checking word: give
+word matches
+adding word to command arguments
+command_args:  give
+checking word: offer
+word: {{drinks_all
+assuming text matches
+required word is inside a list
+list: drinks_all
+list exists: 
+[beer] [beers]
+looping through every word of list
+checking word: beer
+checking word: beers
+word: {{tostrings
+word: !!STR
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{givestrings
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{givestrings
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{givestrings
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{givestrings
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 5
+loop for: [Bud {{givestrings {{astrings {{drinks_all }}tostrings] [bar_answer_drink 128 (bar_get_drink ##3 1) 1 ##CN ##CN]
+string: Bud {{givestrings {{astrings {{drinks_all }}tostrings
+command: bar_answer_drink 128 (bar_get_drink ##3 1) 1 ##CN ##CN
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{givestrings
+assuming text matches
+required word is inside a list
+list: givestrings
+list exists: "give" "offer"
+looping through every word of list
+checking word: give
+word matches
+adding word to command arguments
+command_args:  give
+checking word: offer
+word: {{astrings
+assuming text matches
+required word is inside a list
+list: astrings
+list exists: "a" "an"
+looping through every word of list
+checking word: a
+checking word: an
+word: {{drinks_all
+word: }}tostrings
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{givestrings
+word: {{astrings
+word: {{drinks_all
+word: }}tostrings
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{givestrings
+word: {{astrings
+word: {{drinks_all
+word: }}tostrings
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{givestrings
+word: {{astrings
+word: {{drinks_all
+word: }}tostrings
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{givestrings
+word: {{astrings
+word: {{drinks_all
+word: }}tostrings
+attempts done: 5
+loop for: [Bud {{givestrings {{astrings {{drinks_all {{tostrings !!STR] [bar_answer_drink 128 (bar_get_drink ##3 1) 1 ##CN (bar_get_to_cn ##5 ##CN)]
+string: Bud {{givestrings {{astrings {{drinks_all {{tostrings !!STR
+command: bar_answer_drink 128 (bar_get_drink ##3 1) 1 ##CN (bar_get_to_cn ##5 ##CN)
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{givestrings
+assuming text matches
+required word is inside a list
+list: givestrings
+list exists: "give" "offer"
+looping through every word of list
+checking word: give
+word matches
+adding word to command arguments
+command_args:  give
+checking word: offer
+word: {{astrings
+assuming text matches
+required word is inside a list
+list: astrings
+list exists: "a" "an"
+looping through every word of list
+checking word: a
+checking word: an
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{givestrings
+word: {{astrings
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{givestrings
+word: {{astrings
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{givestrings
+word: {{astrings
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{givestrings
+word: {{astrings
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 5
+loop for: [Bud {{givestrings !!INT {{drinks_all }}tostrings] [bar_answer_drink 128 (bar_get_drink ##3 ##2) ##2 ##CN ##CN]
+string: Bud {{givestrings !!INT {{drinks_all }}tostrings
+command: bar_answer_drink 128 (bar_get_drink ##3 ##2) ##2 ##CN ##CN
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{givestrings
+assuming text matches
+required word is inside a list
+list: givestrings
+list exists: "give" "offer"
+looping through every word of list
+checking word: give
+word matches
+adding word to command arguments
+command_args:  give
+checking word: offer
+word: !!INT
+assuming text matches
+required word is either an integer or a string
+required word is an integer
+taking word: me
+looping through word to check each character
+first chech, adding + and - to digits
+character is not an integer as required, failing
+not first check, only using 0-9 digits
+character is not an integer as required, failing
+loop done
+word: {{drinks_all
+word: }}tostrings
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{givestrings
+word: !!INT
+word: {{drinks_all
+word: }}tostrings
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{givestrings
+word: !!INT
+word: {{drinks_all
+word: }}tostrings
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{givestrings
+word: !!INT
+word: {{drinks_all
+word: }}tostrings
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{givestrings
+word: !!INT
+word: {{drinks_all
+word: }}tostrings
+attempts done: 5
+loop for: [Bud {{givestrings !!INT {{drinks_all {{tostrings !!STR] [bar_answer_drink 128 (bar_get_drink ##3 ##2) ##2 ##CN (bar_get_to_cn ##5 ##CN)]
+string: Bud {{givestrings !!INT {{drinks_all {{tostrings !!STR
+command: bar_answer_drink 128 (bar_get_drink ##3 ##2) ##2 ##CN (bar_get_to_cn ##5 ##CN)
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{givestrings
+assuming text matches
+required word is inside a list
+list: givestrings
+list exists: "give" "offer"
+looping through every word of list
+checking word: give
+word matches
+adding word to command arguments
+command_args:  give
+checking word: offer
+word: !!INT
+assuming text matches
+required word is either an integer or a string
+required word is an integer
+taking word: me
+looping through word to check each character
+first chech, adding + and - to digits
+character is not an integer as required, failing
+not first check, only using 0-9 digits
+character is not an integer as required, failing
+loop done
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{givestrings
+word: !!INT
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{givestrings
+word: !!INT
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{givestrings
+word: !!INT
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{givestrings
+word: !!INT
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 5
+loop for: [Bud {{givestrings ~~astrings {{drinks_all }}tostrings] [bar_answer_drink 128 (bar_get_drink ##3 1) ##1 ##CN (bar_get_to_cn ##2 ##CN)]
+string: Bud {{givestrings ~~astrings {{drinks_all }}tostrings
+command: bar_answer_drink 128 (bar_get_drink ##3 1) ##1 ##CN (bar_get_to_cn ##2 ##CN)
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{givestrings
+assuming text matches
+required word is inside a list
+list: givestrings
+list exists: "give" "offer"
+looping through every word of list
+checking word: give
+word matches
+adding word to command arguments
+command_args:  give
+checking word: offer
+word: ~~astrings
+assuming text matches
+required word is outside a list
+list: astrings
+list exists: "a" "an"
+looping through every word of list
+checking word: a
+checking word: an
+word is not in list, checking if it's not integer
+first chech, adding + and - to digits
+character is not an integer
+not first check, only using 0-9 digits
+character is an integer
+adding word to command arguments
+command_args:  give me
+word: {{drinks_all
+assuming text matches
+required word is inside a list
+list: drinks_all
+list exists: 
+[beer] [beers]
+looping through every word of list
+checking word: beer
+checking word: beers
+word: }}tostrings
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{givestrings
+word: ~~astrings
+word: {{drinks_all
+word: }}tostrings
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{givestrings
+word: ~~astrings
+word: {{drinks_all
+word: }}tostrings
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{givestrings
+word: ~~astrings
+word: {{drinks_all
+word: }}tostrings
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{givestrings
+word: ~~astrings
+word: {{drinks_all
+word: }}tostrings
+attempts done: 5
+loop for: [Bud {{givestrings !!STR {{astrings {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##4 1) 1 ##CN (bar_get_to_cn ##2 ##CN)]
+string: Bud {{givestrings !!STR {{astrings {{drinks_all
+command: bar_answer_drink 128 (bar_get_drink ##4 1) 1 ##CN (bar_get_to_cn ##2 ##CN)
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{givestrings
+assuming text matches
+required word is inside a list
+list: givestrings
+list exists: "give" "offer"
+looping through every word of list
+checking word: give
+word matches
+adding word to command arguments
+command_args:  give
+checking word: offer
+word: !!STR
+assuming text matches
+required word is either an integer or a string
+required word is a string, adding it to command arguments whatever it is
+command_args:  give me
+word: {{astrings
+assuming text matches
+required word is inside a list
+list: astrings
+list exists: "a" "an"
+looping through every word of list
+checking word: a
+word matches
+adding word to command arguments
+command_args:  give me a
+checking word: an
+word: {{drinks_all
+assuming text matches
+required word is inside a list
+list: drinks_all
+list exists: 
+[beer] [beers]
+looping through every word of list
+checking word: beer
+word matches
+adding word to command arguments
+command_args:  give me a beer
+checking word: beers
+text matches string: adding arguments
+args:  give me a beer
+attempts done: 1
+text matches string: looping through command
+separating words
+words:  bar_answer_drink 128 bar_get_drink ##4 1 1 ##CN bar_get_to_cn ##2 ##CN
+checking word: bar_answer_drink
+checking word: 128
+checking word: bar_get_drink
+checking word: ##4
+word is special argument
+special argument: 4
+looping through each character of word
+character is a digit
+number: 4
+replacing argument with proper value
+command: bar_answer_drink 128 (bar_get_drink beer 1) 1 ##CN (bar_get_to_cn ##2 ##CN)
+checking word: 1
+checking word: 1
+checking word: ##CN
+word is special argument
+special argument: CN
+looping through each character of word
+character is not a digit
+checking word: bar_get_to_cn
+checking word: ##2
+word is special argument
+special argument: 2
+looping through each character of word
+character is a digit
+number: 2
+replacing argument with proper value
+command: bar_answer_drink 128 (bar_get_drink beer 1) 1 ##CN (bar_get_to_cn me ##CN)
+checking word: ##CN
+word is special argument
+special argument: CN
+looping through each character of word
+character is not a digit
+putting cn into command
+command: bar_answer_drink 128 (bar_get_drink beer 1) 1 0 (bar_get_to_cn me 0)
+running command
+loop for: [Bud {{givestrings !!STR !!INT {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##4 ##3) ##3 ##CN (bar_get_to_cn ##2 ##CN)]
+string: Bud {{givestrings !!STR !!INT {{drinks_all
+command: bar_answer_drink 128 (bar_get_drink ##4 ##3) ##3 ##CN (bar_get_to_cn ##2 ##CN)
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{givestrings
+assuming text matches
+required word is inside a list
+list: givestrings
+list exists: "give" "offer"
+looping through every word of list
+checking word: give
+word matches
+adding word to command arguments
+command_args:  give
+checking word: offer
+word: !!STR
+assuming text matches
+required word is either an integer or a string
+required word is a string, adding it to command arguments whatever it is
+command_args:  give me
+word: !!INT
+assuming text matches
+required word is either an integer or a string
+required word is an integer
+taking word: a
+looping through word to check each character
+first chech, adding + and - to digits
+character is not an integer as required, failing
+loop done
+word: {{drinks_all
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{givestrings
+word: !!STR
+word: !!INT
+word: {{drinks_all
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{givestrings
+word: !!STR
+word: !!INT
+word: {{drinks_all
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{givestrings
+word: !!STR
+word: !!INT
+word: {{drinks_all
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{givestrings
+word: !!STR
+word: !!INT
+word: {{drinks_all
+attempts done: 5
+loop for: [Bud {{menustrings] [bar_answer_menu 128 ##CN]
+string: Bud {{menustrings
+command: bar_answer_menu 128 ##CN
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{menustrings
+assuming text matches
+required word is inside a list
+list: menustrings
+list exists: "menu" "list"
+looping through every word of list
+checking word: menu
+checking word: list
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{menustrings
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{menustrings
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{menustrings
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{menustrings
+attempts done: 5
+parsing bar
+cn: 0
+text: bud give me a beer
+generating barstrings_this for Bud (128)...
+barstrings_this is:
+
+[[Bud {{histrings] [bar_answer_hi 128 ##CN]]
+[[{{histrings Bud] [bar_answer_hi 128 ##CN]]
+[[Bud {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##1 1) 1 ##CN ##CN]]
+[[Bud {{astrings {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##2 1) 1 ##CN ##CN]]
+[[Bud !!INT {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##2 ##1) ##1 ##CN ##CN]]
+[[Bud {{givestrings {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##2 1) 1 ##CN ##CN]]
+[[Bud {{givestrings {{drinks_all {{tostrings !!STR] [bar_answer_drink 128 (bar_get_drink ##2 1) 1 ##CN (bar_get_to_cn ##4 ##CN)]]
+[[Bud {{givestrings {{astrings {{drinks_all }}tostrings] [bar_answer_drink 128 (bar_get_drink ##3 1) 1 ##CN ##CN]]
+[[Bud {{givestrings {{astrings {{drinks_all {{tostrings !!STR] [bar_answer_drink 128 (bar_get_drink ##3 1) 1 ##CN (bar_get_to_cn ##5 ##CN)]]
+[[Bud {{givestrings !!INT {{drinks_all }}tostrings] [bar_answer_drink 128 (bar_get_drink ##3 ##2) ##2 ##CN ##CN]]
+[[Bud {{givestrings !!INT {{drinks_all {{tostrings !!STR] [bar_answer_drink 128 (bar_get_drink ##3 ##2) ##2 ##CN (bar_get_to_cn ##5 ##CN)]]
+[[Bud {{givestrings ~~astrings {{drinks_all }}tostrings] [bar_answer_drink 128 (bar_get_drink ##3 1) ##1 ##CN (bar_get_to_cn ##2 ##CN)]]
+[[Bud {{givestrings !!STR {{astrings {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##4 1) 1 ##CN (bar_get_to_cn ##2 ##CN)]]
+[[Bud {{givestrings !!STR !!INT {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##4 ##3) ##3 ##CN (bar_get_to_cn ##2 ##CN)]]
+[[Bud {{menustrings] [bar_answer_menu 128 ##CN]]
+looping strings
+loop for: [Bud {{histrings] [bar_answer_hi 128 ##CN]
+string: Bud {{histrings
+command: bar_answer_hi 128 ##CN
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{histrings
+assuming text matches
+required word is inside a list
+list: histrings
+list exists: "hi" "hey" "hello"
+looping through every word of list
+checking word: hi
+checking word: hey
+checking word: hello
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{histrings
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{histrings
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{histrings
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{histrings
+attempts done: 5
+loop for: [{{histrings Bud] [bar_answer_hi 128 ##CN]
+string: {{histrings Bud
+command: bar_answer_hi 128 ##CN
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: {{histrings
+assuming text matches
+required word is inside a list
+list: histrings
+list exists: "hi" "hey" "hello"
+looping through every word of list
+checking word: hi
+checking word: hey
+checking word: hello
+word: Bud
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: {{histrings
+assuming text matches
+required word is inside a list
+list: histrings
+list exists: "hi" "hey" "hello"
+looping through every word of list
+checking word: hi
+checking word: hey
+checking word: hello
+word: Bud
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: {{histrings
+assuming text matches
+required word is inside a list
+list: histrings
+list exists: "hi" "hey" "hello"
+looping through every word of list
+checking word: hi
+checking word: hey
+checking word: hello
+word: Bud
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: {{histrings
+assuming text matches
+required word is inside a list
+list: histrings
+list exists: "hi" "hey" "hello"
+looping through every word of list
+checking word: hi
+checking word: hey
+checking word: hello
+word: Bud
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: {{histrings
+assuming text matches
+required word is inside a list
+list: histrings
+list exists: "hi" "hey" "hello"
+looping through every word of list
+checking word: hi
+checking word: hey
+checking word: hello
+word: Bud
+attempts done: 5
+loop for: [Bud {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##1 1) 1 ##CN ##CN]
+string: Bud {{drinks_all
+command: bar_answer_drink 128 (bar_get_drink ##1 1) 1 ##CN ##CN
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{drinks_all
+assuming text matches
+required word is inside a list
+list: drinks_all
+list exists: 
+[beer] [beers]
+looping through every word of list
+checking word: beer
+checking word: beers
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{drinks_all
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{drinks_all
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{drinks_all
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{drinks_all
+attempts done: 5
+loop for: [Bud {{astrings {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##2 1) 1 ##CN ##CN]
+string: Bud {{astrings {{drinks_all
+command: bar_answer_drink 128 (bar_get_drink ##2 1) 1 ##CN ##CN
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{astrings
+assuming text matches
+required word is inside a list
+list: astrings
+list exists: "a" "an"
+looping through every word of list
+checking word: a
+checking word: an
+word: {{drinks_all
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{astrings
+word: {{drinks_all
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{astrings
+word: {{drinks_all
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{astrings
+word: {{drinks_all
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{astrings
+word: {{drinks_all
+attempts done: 5
+loop for: [Bud !!INT {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##2 ##1) ##1 ##CN ##CN]
+string: Bud !!INT {{drinks_all
+command: bar_answer_drink 128 (bar_get_drink ##2 ##1) ##1 ##CN ##CN
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: !!INT
+assuming text matches
+required word is either an integer or a string
+required word is an integer
+taking word: give
+looping through word to check each character
+first chech, adding + and - to digits
+character is not an integer as required, failing
+not first check, only using 0-9 digits
+character is not an integer as required, failing
+not first check, only using 0-9 digits
+character is not an integer as required, failing
+not first check, only using 0-9 digits
+character is not an integer as required, failing
+loop done
+word: {{drinks_all
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: !!INT
+word: {{drinks_all
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: !!INT
+word: {{drinks_all
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: !!INT
+word: {{drinks_all
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: !!INT
+word: {{drinks_all
+attempts done: 5
+loop for: [Bud {{givestrings {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##2 1) 1 ##CN ##CN]
+string: Bud {{givestrings {{drinks_all
+command: bar_answer_drink 128 (bar_get_drink ##2 1) 1 ##CN ##CN
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{givestrings
+assuming text matches
+required word is inside a list
+list: givestrings
+list exists: "give" "offer"
+looping through every word of list
+checking word: give
+word matches
+adding word to command arguments
+command_args:  give
+checking word: offer
+word: {{drinks_all
+assuming text matches
+required word is inside a list
+list: drinks_all
+list exists: 
+[beer] [beers]
+looping through every word of list
+checking word: beer
+checking word: beers
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{givestrings
+word: {{drinks_all
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{givestrings
+word: {{drinks_all
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{givestrings
+word: {{drinks_all
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{givestrings
+word: {{drinks_all
+attempts done: 5
+loop for: [Bud {{givestrings {{drinks_all {{tostrings !!STR] [bar_answer_drink 128 (bar_get_drink ##2 1) 1 ##CN (bar_get_to_cn ##4 ##CN)]
+string: Bud {{givestrings {{drinks_all {{tostrings !!STR
+command: bar_answer_drink 128 (bar_get_drink ##2 1) 1 ##CN (bar_get_to_cn ##4 ##CN)
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{givestrings
+assuming text matches
+required word is inside a list
+list: givestrings
+list exists: "give" "offer"
+looping through every word of list
+checking word: give
+word matches
+adding word to command arguments
+command_args:  give
+checking word: offer
+word: {{drinks_all
+assuming text matches
+required word is inside a list
+list: drinks_all
+list exists: 
+[beer] [beers]
+looping through every word of list
+checking word: beer
+checking word: beers
+word: {{tostrings
+word: !!STR
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{givestrings
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{givestrings
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{givestrings
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{givestrings
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 5
+loop for: [Bud {{givestrings {{astrings {{drinks_all }}tostrings] [bar_answer_drink 128 (bar_get_drink ##3 1) 1 ##CN ##CN]
+string: Bud {{givestrings {{astrings {{drinks_all }}tostrings
+command: bar_answer_drink 128 (bar_get_drink ##3 1) 1 ##CN ##CN
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{givestrings
+assuming text matches
+required word is inside a list
+list: givestrings
+list exists: "give" "offer"
+looping through every word of list
+checking word: give
+word matches
+adding word to command arguments
+command_args:  give
+checking word: offer
+word: {{astrings
+assuming text matches
+required word is inside a list
+list: astrings
+list exists: "a" "an"
+looping through every word of list
+checking word: a
+checking word: an
+word: {{drinks_all
+word: }}tostrings
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{givestrings
+word: {{astrings
+word: {{drinks_all
+word: }}tostrings
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{givestrings
+word: {{astrings
+word: {{drinks_all
+word: }}tostrings
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{givestrings
+word: {{astrings
+word: {{drinks_all
+word: }}tostrings
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{givestrings
+word: {{astrings
+word: {{drinks_all
+word: }}tostrings
+attempts done: 5
+loop for: [Bud {{givestrings {{astrings {{drinks_all {{tostrings !!STR] [bar_answer_drink 128 (bar_get_drink ##3 1) 1 ##CN (bar_get_to_cn ##5 ##CN)]
+string: Bud {{givestrings {{astrings {{drinks_all {{tostrings !!STR
+command: bar_answer_drink 128 (bar_get_drink ##3 1) 1 ##CN (bar_get_to_cn ##5 ##CN)
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{givestrings
+assuming text matches
+required word is inside a list
+list: givestrings
+list exists: "give" "offer"
+looping through every word of list
+checking word: give
+word matches
+adding word to command arguments
+command_args:  give
+checking word: offer
+word: {{astrings
+assuming text matches
+required word is inside a list
+list: astrings
+list exists: "a" "an"
+looping through every word of list
+checking word: a
+checking word: an
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{givestrings
+word: {{astrings
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{givestrings
+word: {{astrings
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{givestrings
+word: {{astrings
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{givestrings
+word: {{astrings
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 5
+loop for: [Bud {{givestrings !!INT {{drinks_all }}tostrings] [bar_answer_drink 128 (bar_get_drink ##3 ##2) ##2 ##CN ##CN]
+string: Bud {{givestrings !!INT {{drinks_all }}tostrings
+command: bar_answer_drink 128 (bar_get_drink ##3 ##2) ##2 ##CN ##CN
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{givestrings
+assuming text matches
+required word is inside a list
+list: givestrings
+list exists: "give" "offer"
+looping through every word of list
+checking word: give
+word matches
+adding word to command arguments
+command_args:  give
+checking word: offer
+word: !!INT
+assuming text matches
+required word is either an integer or a string
+required word is an integer
+taking word: me
+looping through word to check each character
+first chech, adding + and - to digits
+character is not an integer as required, failing
+not first check, only using 0-9 digits
+character is not an integer as required, failing
+loop done
+word: {{drinks_all
+word: }}tostrings
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{givestrings
+word: !!INT
+word: {{drinks_all
+word: }}tostrings
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{givestrings
+word: !!INT
+word: {{drinks_all
+word: }}tostrings
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{givestrings
+word: !!INT
+word: {{drinks_all
+word: }}tostrings
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{givestrings
+word: !!INT
+word: {{drinks_all
+word: }}tostrings
+attempts done: 5
+loop for: [Bud {{givestrings !!INT {{drinks_all {{tostrings !!STR] [bar_answer_drink 128 (bar_get_drink ##3 ##2) ##2 ##CN (bar_get_to_cn ##5 ##CN)]
+string: Bud {{givestrings !!INT {{drinks_all {{tostrings !!STR
+command: bar_answer_drink 128 (bar_get_drink ##3 ##2) ##2 ##CN (bar_get_to_cn ##5 ##CN)
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{givestrings
+assuming text matches
+required word is inside a list
+list: givestrings
+list exists: "give" "offer"
+looping through every word of list
+checking word: give
+word matches
+adding word to command arguments
+command_args:  give
+checking word: offer
+word: !!INT
+assuming text matches
+required word is either an integer or a string
+required word is an integer
+taking word: me
+looping through word to check each character
+first chech, adding + and - to digits
+character is not an integer as required, failing
+not first check, only using 0-9 digits
+character is not an integer as required, failing
+loop done
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{givestrings
+word: !!INT
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{givestrings
+word: !!INT
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{givestrings
+word: !!INT
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{givestrings
+word: !!INT
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 5
+loop for: [Bud {{givestrings ~~astrings {{drinks_all }}tostrings] [bar_answer_drink 128 (bar_get_drink ##3 1) ##1 ##CN (bar_get_to_cn ##2 ##CN)]
+string: Bud {{givestrings ~~astrings {{drinks_all }}tostrings
+command: bar_answer_drink 128 (bar_get_drink ##3 1) ##1 ##CN (bar_get_to_cn ##2 ##CN)
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{givestrings
+assuming text matches
+required word is inside a list
+list: givestrings
+list exists: "give" "offer"
+looping through every word of list
+checking word: give
+word matches
+adding word to command arguments
+command_args:  give
+checking word: offer
+word: ~~astrings
+assuming text matches
+required word is outside a list
+list: astrings
+list exists: "a" "an"
+looping through every word of list
+checking word: a
+checking word: an
+word is not in list, checking if it's not integer
+first chech, adding + and - to digits
+character is not an integer
+not first check, only using 0-9 digits
+character is an integer
+adding word to command arguments
+command_args:  give me
+word: {{drinks_all
+assuming text matches
+required word is inside a list
+list: drinks_all
+list exists: 
+[beer] [beers]
+looping through every word of list
+checking word: beer
+checking word: beers
+word: }}tostrings
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{givestrings
+word: ~~astrings
+word: {{drinks_all
+word: }}tostrings
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{givestrings
+word: ~~astrings
+word: {{drinks_all
+word: }}tostrings
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{givestrings
+word: ~~astrings
+word: {{drinks_all
+word: }}tostrings
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{givestrings
+word: ~~astrings
+word: {{drinks_all
+word: }}tostrings
+attempts done: 5
+loop for: [Bud {{givestrings !!STR {{astrings {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##4 1) 1 ##CN (bar_get_to_cn ##2 ##CN)]
+string: Bud {{givestrings !!STR {{astrings {{drinks_all
+command: bar_answer_drink 128 (bar_get_drink ##4 1) 1 ##CN (bar_get_to_cn ##2 ##CN)
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{givestrings
+assuming text matches
+required word is inside a list
+list: givestrings
+list exists: "give" "offer"
+looping through every word of list
+checking word: give
+word matches
+adding word to command arguments
+command_args:  give
+checking word: offer
+word: !!STR
+assuming text matches
+required word is either an integer or a string
+required word is a string, adding it to command arguments whatever it is
+command_args:  give me
+word: {{astrings
+assuming text matches
+required word is inside a list
+list: astrings
+list exists: "a" "an"
+looping through every word of list
+checking word: a
+word matches
+adding word to command arguments
+command_args:  give me a
+checking word: an
+word: {{drinks_all
+assuming text matches
+required word is inside a list
+list: drinks_all
+list exists: 
+[beer] [beers]
+looping through every word of list
+checking word: beer
+word matches
+adding word to command arguments
+command_args:  give me a beer
+checking word: beers
+text matches string: adding arguments
+args:  give me a beer
+attempts done: 1
+text matches string: looping through command
+separating words
+words:  bar_answer_drink 128 bar_get_drink ##4 1 1 ##CN bar_get_to_cn ##2 ##CN
+checking word: bar_answer_drink
+checking word: 128
+checking word: bar_get_drink
+checking word: ##4
+word is special argument
+special argument: 4
+looping through each character of word
+character is a digit
+number: 4
+replacing argument with proper value
+command: bar_answer_drink 128 (bar_get_drink beer 1) 1 ##CN (bar_get_to_cn ##2 ##CN)
+checking word: 1
+checking word: 1
+checking word: ##CN
+word is special argument
+special argument: CN
+looping through each character of word
+character is not a digit
+checking word: bar_get_to_cn
+checking word: ##2
+word is special argument
+special argument: 2
+looping through each character of word
+character is a digit
+number: 2
+replacing argument with proper value
+command: bar_answer_drink 128 (bar_get_drink beer 1) 1 ##CN (bar_get_to_cn me ##CN)
+checking word: ##CN
+word is special argument
+special argument: CN
+looping through each character of word
+character is not a digit
+putting cn into command
+command: bar_answer_drink 128 (bar_get_drink beer 1) 1 0 (bar_get_to_cn me 0)
+running command
+loop for: [Bud {{givestrings !!STR !!INT {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##4 ##3) ##3 ##CN (bar_get_to_cn ##2 ##CN)]
+string: Bud {{givestrings !!STR !!INT {{drinks_all
+command: bar_answer_drink 128 (bar_get_drink ##4 ##3) ##3 ##CN (bar_get_to_cn ##2 ##CN)
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{givestrings
+assuming text matches
+required word is inside a list
+list: givestrings
+list exists: "give" "offer"
+looping through every word of list
+checking word: give
+word matches
+adding word to command arguments
+command_args:  give
+checking word: offer
+word: !!STR
+assuming text matches
+required word is either an integer or a string
+required word is a string, adding it to command arguments whatever it is
+command_args:  give me
+word: !!INT
+assuming text matches
+required word is either an integer or a string
+required word is an integer
+taking word: a
+looping through word to check each character
+first chech, adding + and - to digits
+character is not an integer as required, failing
+loop done
+word: {{drinks_all
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{givestrings
+word: !!STR
+word: !!INT
+word: {{drinks_all
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{givestrings
+word: !!STR
+word: !!INT
+word: {{drinks_all
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{givestrings
+word: !!STR
+word: !!INT
+word: {{drinks_all
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{givestrings
+word: !!STR
+word: !!INT
+word: {{drinks_all
+attempts done: 5
+loop for: [Bud {{menustrings] [bar_answer_menu 128 ##CN]
+string: Bud {{menustrings
+command: bar_answer_menu 128 ##CN
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{menustrings
+assuming text matches
+required word is inside a list
+list: menustrings
+list exists: "menu" "list"
+looping through every word of list
+checking word: menu
+checking word: list
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{menustrings
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{menustrings
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{menustrings
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{menustrings
+attempts done: 5
+parsing bar
+cn: 0
+text: bud give me a beer
+generating barstrings_this for Bud (128)...
+barstrings_this is:
+
+[[Bud {{histrings] [bar_answer_hi 128 ##CN]]
+[[{{histrings Bud] [bar_answer_hi 128 ##CN]]
+[[Bud {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##1 1) 1 ##CN ##CN]]
+[[Bud {{astrings {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##2 1) 1 ##CN ##CN]]
+[[Bud !!INT {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##2 ##1) ##1 ##CN ##CN]]
+[[Bud {{givestrings {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##2 1) 1 ##CN ##CN]]
+[[Bud {{givestrings {{drinks_all {{tostrings !!STR] [bar_answer_drink 128 (bar_get_drink ##2 1) 1 ##CN (bar_get_to_cn ##4 ##CN)]]
+[[Bud {{givestrings {{astrings {{drinks_all }}tostrings] [bar_answer_drink 128 (bar_get_drink ##3 1) 1 ##CN ##CN]]
+[[Bud {{givestrings {{astrings {{drinks_all {{tostrings !!STR] [bar_answer_drink 128 (bar_get_drink ##3 1) 1 ##CN (bar_get_to_cn ##5 ##CN)]]
+[[Bud {{givestrings !!INT {{drinks_all }}tostrings] [bar_answer_drink 128 (bar_get_drink ##3 ##2) ##2 ##CN ##CN]]
+[[Bud {{givestrings !!INT {{drinks_all {{tostrings !!STR] [bar_answer_drink 128 (bar_get_drink ##3 ##2) ##2 ##CN (bar_get_to_cn ##5 ##CN)]]
+[[Bud {{givestrings ~~astrings {{drinks_all }}tostrings] [bar_answer_drink 128 (bar_get_drink ##3 1) ##1 ##CN (bar_get_to_cn ##2 ##CN)]]
+[[Bud {{givestrings !!STR {{astrings {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##4 1) 1 ##CN (bar_get_to_cn ##2 ##CN)]]
+[[Bud {{givestrings !!STR !!INT {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##4 ##3) ##3 ##CN (bar_get_to_cn ##2 ##CN)]]
+[[Bud {{menustrings] [bar_answer_menu 128 ##CN]]
+looping strings
+loop for: [Bud {{histrings] [bar_answer_hi 128 ##CN]
+string: Bud {{histrings
+command: bar_answer_hi 128 ##CN
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{histrings
+assuming text matches
+required word is inside a list
+list: histrings
+list exists: "hi" "hey" "hello"
+looping through every word of list
+checking word: hi
+checking word: hey
+checking word: hello
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{histrings
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{histrings
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{histrings
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{histrings
+attempts done: 5
+loop for: [{{histrings Bud] [bar_answer_hi 128 ##CN]
+string: {{histrings Bud
+command: bar_answer_hi 128 ##CN
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: {{histrings
+assuming text matches
+required word is inside a list
+list: histrings
+list exists: "hi" "hey" "hello"
+looping through every word of list
+checking word: hi
+checking word: hey
+checking word: hello
+word: Bud
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: {{histrings
+assuming text matches
+required word is inside a list
+list: histrings
+list exists: "hi" "hey" "hello"
+looping through every word of list
+checking word: hi
+checking word: hey
+checking word: hello
+word: Bud
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: {{histrings
+assuming text matches
+required word is inside a list
+list: histrings
+list exists: "hi" "hey" "hello"
+looping through every word of list
+checking word: hi
+checking word: hey
+checking word: hello
+word: Bud
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: {{histrings
+assuming text matches
+required word is inside a list
+list: histrings
+list exists: "hi" "hey" "hello"
+looping through every word of list
+checking word: hi
+checking word: hey
+checking word: hello
+word: Bud
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: {{histrings
+assuming text matches
+required word is inside a list
+list: histrings
+list exists: "hi" "hey" "hello"
+looping through every word of list
+checking word: hi
+checking word: hey
+checking word: hello
+word: Bud
+attempts done: 5
+loop for: [Bud {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##1 1) 1 ##CN ##CN]
+string: Bud {{drinks_all
+command: bar_answer_drink 128 (bar_get_drink ##1 1) 1 ##CN ##CN
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{drinks_all
+assuming text matches
+required word is inside a list
+list: drinks_all
+list exists: 
+[beer] [beers]
+looping through every word of list
+checking word: beer
+checking word: beers
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{drinks_all
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{drinks_all
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{drinks_all
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{drinks_all
+attempts done: 5
+loop for: [Bud {{astrings {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##2 1) 1 ##CN ##CN]
+string: Bud {{astrings {{drinks_all
+command: bar_answer_drink 128 (bar_get_drink ##2 1) 1 ##CN ##CN
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{astrings
+assuming text matches
+required word is inside a list
+list: astrings
+list exists: "a" "an"
+looping through every word of list
+checking word: a
+checking word: an
+word: {{drinks_all
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{astrings
+word: {{drinks_all
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{astrings
+word: {{drinks_all
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{astrings
+word: {{drinks_all
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{astrings
+word: {{drinks_all
+attempts done: 5
+loop for: [Bud !!INT {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##2 ##1) ##1 ##CN ##CN]
+string: Bud !!INT {{drinks_all
+command: bar_answer_drink 128 (bar_get_drink ##2 ##1) ##1 ##CN ##CN
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: !!INT
+assuming text matches
+required word is either an integer or a string
+required word is an integer
+taking word: give
+looping through word to check each character
+first chech, adding + and - to digits
+character is not an integer as required, failing
+not first check, only using 0-9 digits
+character is not an integer as required, failing
+not first check, only using 0-9 digits
+character is not an integer as required, failing
+not first check, only using 0-9 digits
+character is not an integer as required, failing
+loop done
+word: {{drinks_all
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: !!INT
+word: {{drinks_all
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: !!INT
+word: {{drinks_all
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: !!INT
+word: {{drinks_all
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: !!INT
+word: {{drinks_all
+attempts done: 5
+loop for: [Bud {{givestrings {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##2 1) 1 ##CN ##CN]
+string: Bud {{givestrings {{drinks_all
+command: bar_answer_drink 128 (bar_get_drink ##2 1) 1 ##CN ##CN
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{givestrings
+assuming text matches
+required word is inside a list
+list: givestrings
+list exists: "give" "offer"
+looping through every word of list
+checking word: give
+word matches
+adding word to command arguments
+command_args:  give
+checking word: offer
+word: {{drinks_all
+assuming text matches
+required word is inside a list
+list: drinks_all
+list exists: 
+[beer] [beers]
+looping through every word of list
+checking word: beer
+checking word: beers
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{givestrings
+word: {{drinks_all
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{givestrings
+word: {{drinks_all
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{givestrings
+word: {{drinks_all
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{givestrings
+word: {{drinks_all
+attempts done: 5
+loop for: [Bud {{givestrings {{drinks_all {{tostrings !!STR] [bar_answer_drink 128 (bar_get_drink ##2 1) 1 ##CN (bar_get_to_cn ##4 ##CN)]
+string: Bud {{givestrings {{drinks_all {{tostrings !!STR
+command: bar_answer_drink 128 (bar_get_drink ##2 1) 1 ##CN (bar_get_to_cn ##4 ##CN)
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{givestrings
+assuming text matches
+required word is inside a list
+list: givestrings
+list exists: "give" "offer"
+looping through every word of list
+checking word: give
+word matches
+adding word to command arguments
+command_args:  give
+checking word: offer
+word: {{drinks_all
+assuming text matches
+required word is inside a list
+list: drinks_all
+list exists: 
+[beer] [beers]
+looping through every word of list
+checking word: beer
+checking word: beers
+word: {{tostrings
+word: !!STR
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{givestrings
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{givestrings
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{givestrings
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{givestrings
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 5
+loop for: [Bud {{givestrings {{astrings {{drinks_all }}tostrings] [bar_answer_drink 128 (bar_get_drink ##3 1) 1 ##CN ##CN]
+string: Bud {{givestrings {{astrings {{drinks_all }}tostrings
+command: bar_answer_drink 128 (bar_get_drink ##3 1) 1 ##CN ##CN
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{givestrings
+assuming text matches
+required word is inside a list
+list: givestrings
+list exists: "give" "offer"
+looping through every word of list
+checking word: give
+word matches
+adding word to command arguments
+command_args:  give
+checking word: offer
+word: {{astrings
+assuming text matches
+required word is inside a list
+list: astrings
+list exists: "a" "an"
+looping through every word of list
+checking word: a
+checking word: an
+word: {{drinks_all
+word: }}tostrings
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{givestrings
+word: {{astrings
+word: {{drinks_all
+word: }}tostrings
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{givestrings
+word: {{astrings
+word: {{drinks_all
+word: }}tostrings
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{givestrings
+word: {{astrings
+word: {{drinks_all
+word: }}tostrings
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{givestrings
+word: {{astrings
+word: {{drinks_all
+word: }}tostrings
+attempts done: 5
+loop for: [Bud {{givestrings {{astrings {{drinks_all {{tostrings !!STR] [bar_answer_drink 128 (bar_get_drink ##3 1) 1 ##CN (bar_get_to_cn ##5 ##CN)]
+string: Bud {{givestrings {{astrings {{drinks_all {{tostrings !!STR
+command: bar_answer_drink 128 (bar_get_drink ##3 1) 1 ##CN (bar_get_to_cn ##5 ##CN)
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{givestrings
+assuming text matches
+required word is inside a list
+list: givestrings
+list exists: "give" "offer"
+looping through every word of list
+checking word: give
+word matches
+adding word to command arguments
+command_args:  give
+checking word: offer
+word: {{astrings
+assuming text matches
+required word is inside a list
+list: astrings
+list exists: "a" "an"
+looping through every word of list
+checking word: a
+checking word: an
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{givestrings
+word: {{astrings
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{givestrings
+word: {{astrings
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{givestrings
+word: {{astrings
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{givestrings
+word: {{astrings
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 5
+loop for: [Bud {{givestrings !!INT {{drinks_all }}tostrings] [bar_answer_drink 128 (bar_get_drink ##3 ##2) ##2 ##CN ##CN]
+string: Bud {{givestrings !!INT {{drinks_all }}tostrings
+command: bar_answer_drink 128 (bar_get_drink ##3 ##2) ##2 ##CN ##CN
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{givestrings
+assuming text matches
+required word is inside a list
+list: givestrings
+list exists: "give" "offer"
+looping through every word of list
+checking word: give
+word matches
+adding word to command arguments
+command_args:  give
+checking word: offer
+word: !!INT
+assuming text matches
+required word is either an integer or a string
+required word is an integer
+taking word: me
+looping through word to check each character
+first chech, adding + and - to digits
+character is not an integer as required, failing
+not first check, only using 0-9 digits
+character is not an integer as required, failing
+loop done
+word: {{drinks_all
+word: }}tostrings
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{givestrings
+word: !!INT
+word: {{drinks_all
+word: }}tostrings
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{givestrings
+word: !!INT
+word: {{drinks_all
+word: }}tostrings
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{givestrings
+word: !!INT
+word: {{drinks_all
+word: }}tostrings
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{givestrings
+word: !!INT
+word: {{drinks_all
+word: }}tostrings
+attempts done: 5
+loop for: [Bud {{givestrings !!INT {{drinks_all {{tostrings !!STR] [bar_answer_drink 128 (bar_get_drink ##3 ##2) ##2 ##CN (bar_get_to_cn ##5 ##CN)]
+string: Bud {{givestrings !!INT {{drinks_all {{tostrings !!STR
+command: bar_answer_drink 128 (bar_get_drink ##3 ##2) ##2 ##CN (bar_get_to_cn ##5 ##CN)
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{givestrings
+assuming text matches
+required word is inside a list
+list: givestrings
+list exists: "give" "offer"
+looping through every word of list
+checking word: give
+word matches
+adding word to command arguments
+command_args:  give
+checking word: offer
+word: !!INT
+assuming text matches
+required word is either an integer or a string
+required word is an integer
+taking word: me
+looping through word to check each character
+first chech, adding + and - to digits
+character is not an integer as required, failing
+not first check, only using 0-9 digits
+character is not an integer as required, failing
+loop done
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{givestrings
+word: !!INT
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{givestrings
+word: !!INT
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{givestrings
+word: !!INT
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{givestrings
+word: !!INT
+word: {{drinks_all
+word: {{tostrings
+word: !!STR
+attempts done: 5
+loop for: [Bud {{givestrings ~~astrings {{drinks_all }}tostrings] [bar_answer_drink 128 (bar_get_drink ##3 1) ##1 ##CN (bar_get_to_cn ##2 ##CN)]
+string: Bud {{givestrings ~~astrings {{drinks_all }}tostrings
+command: bar_answer_drink 128 (bar_get_drink ##3 1) ##1 ##CN (bar_get_to_cn ##2 ##CN)
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{givestrings
+assuming text matches
+required word is inside a list
+list: givestrings
+list exists: "give" "offer"
+looping through every word of list
+checking word: give
+word matches
+adding word to command arguments
+command_args:  give
+checking word: offer
+word: ~~astrings
+assuming text matches
+required word is outside a list
+list: astrings
+list exists: "a" "an"
+looping through every word of list
+checking word: a
+checking word: an
+word is not in list, checking if it's not integer
+first chech, adding + and - to digits
+character is not an integer
+not first check, only using 0-9 digits
+character is an integer
+adding word to command arguments
+command_args:  give me
+word: {{drinks_all
+assuming text matches
+required word is inside a list
+list: drinks_all
+list exists: 
+[beer] [beers]
+looping through every word of list
+checking word: beer
+checking word: beers
+word: }}tostrings
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{givestrings
+word: ~~astrings
+word: {{drinks_all
+word: }}tostrings
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{givestrings
+word: ~~astrings
+word: {{drinks_all
+word: }}tostrings
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{givestrings
+word: ~~astrings
+word: {{drinks_all
+word: }}tostrings
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{givestrings
+word: ~~astrings
+word: {{drinks_all
+word: }}tostrings
+attempts done: 5
+loop for: [Bud {{givestrings !!STR {{astrings {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##4 1) 1 ##CN (bar_get_to_cn ##2 ##CN)]
+string: Bud {{givestrings !!STR {{astrings {{drinks_all
+command: bar_answer_drink 128 (bar_get_drink ##4 1) 1 ##CN (bar_get_to_cn ##2 ##CN)
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{givestrings
+assuming text matches
+required word is inside a list
+list: givestrings
+list exists: "give" "offer"
+looping through every word of list
+checking word: give
+word matches
+adding word to command arguments
+command_args:  give
+checking word: offer
+word: !!STR
+assuming text matches
+required word is either an integer or a string
+required word is a string, adding it to command arguments whatever it is
+command_args:  give me
+word: {{astrings
+assuming text matches
+required word is inside a list
+list: astrings
+list exists: "a" "an"
+looping through every word of list
+checking word: a
+word matches
+adding word to command arguments
+command_args:  give me a
+checking word: an
+word: {{drinks_all
+assuming text matches
+required word is inside a list
+list: drinks_all
+list exists: 
+[beer] [beers]
+looping through every word of list
+checking word: beer
+word matches
+adding word to command arguments
+command_args:  give me a beer
+checking word: beers
+text matches string: adding arguments
+args:  give me a beer
+attempts done: 1
+text matches string: looping through command
+separating words
+words:  bar_answer_drink 128 bar_get_drink ##4 1 1 ##CN bar_get_to_cn ##2 ##CN
+checking word: bar_answer_drink
+checking word: 128
+checking word: bar_get_drink
+checking word: ##4
+word is special argument
+special argument: 4
+looping through each character of word
+character is a digit
+number: 4
+replacing argument with proper value
+command: bar_answer_drink 128 (bar_get_drink beer 1) 1 ##CN (bar_get_to_cn ##2 ##CN)
+checking word: 1
+checking word: 1
+checking word: ##CN
+word is special argument
+special argument: CN
+looping through each character of word
+character is not a digit
+checking word: bar_get_to_cn
+checking word: ##2
+word is special argument
+special argument: 2
+looping through each character of word
+character is a digit
+number: 2
+replacing argument with proper value
+command: bar_answer_drink 128 (bar_get_drink beer 1) 1 ##CN (bar_get_to_cn me ##CN)
+checking word: ##CN
+word is special argument
+special argument: CN
+looping through each character of word
+character is not a digit
+putting cn into command
+command: bar_answer_drink 128 (bar_get_drink beer 1) 1 0 (bar_get_to_cn me 0)
+running command
+loop for: [Bud {{givestrings !!STR !!INT {{drinks_all] [bar_answer_drink 128 (bar_get_drink ##4 ##3) ##3 ##CN (bar_get_to_cn ##2 ##CN)]
+string: Bud {{givestrings !!STR !!INT {{drinks_all
+command: bar_answer_drink 128 (bar_get_drink ##4 ##3) ##3 ##CN (bar_get_to_cn ##2 ##CN)
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{givestrings
+assuming text matches
+required word is inside a list
+list: givestrings
+list exists: "give" "offer"
+looping through every word of list
+checking word: give
+word matches
+adding word to command arguments
+command_args:  give
+checking word: offer
+word: !!STR
+assuming text matches
+required word is either an integer or a string
+required word is a string, adding it to command arguments whatever it is
+command_args:  give me
+word: !!INT
+assuming text matches
+required word is either an integer or a string
+required word is an integer
+taking word: a
+looping through word to check each character
+first chech, adding + and - to digits
+character is not an integer as required, failing
+loop done
+word: {{drinks_all
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{givestrings
+word: !!STR
+word: !!INT
+word: {{drinks_all
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{givestrings
+word: !!STR
+word: !!INT
+word: {{drinks_all
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{givestrings
+word: !!STR
+word: !!INT
+word: {{drinks_all
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{givestrings
+word: !!STR
+word: !!INT
+word: {{drinks_all
+attempts done: 5
+loop for: [Bud {{menustrings] [bar_answer_menu 128 ##CN]
+string: Bud {{menustrings
+command: bar_answer_menu 128 ##CN
+text: bud give me a beer
+whiling the string to check if it matches..
+attempt #0
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+word: {{menustrings
+assuming text matches
+required word is inside a list
+list: menustrings
+list exists: "menu" "list"
+looping through every word of list
+checking word: menu
+checking word: list
+attempts done: 1
+attempt #1
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: give
+word: {{menustrings
+attempts done: 2
+attempt #2
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: me
+word: {{menustrings
+attempts done: 3
+attempt #3
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: a
+word: {{menustrings
+attempts done: 4
+attempt #4
+looping through string to take every word
+word: Bud
+assuming text matches
+required word is exact word
+required: Bud, given: beer
+word: {{menustrings
+attempts done: 5
