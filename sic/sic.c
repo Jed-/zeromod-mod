@@ -70,7 +70,7 @@ parsein(char *s) {
 		return;
 	}
 	c = *++s;
-	if(c != '\0' && isspace(s[1])) {
+	if(c != '\0' && isspace(s[1])) { 
 		p = s + 2;
 		switch(c) {
 		case 'j':

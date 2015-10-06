@@ -3646,7 +3646,8 @@ namespace server
     ICOMMAND(vectopitch, "fff", (float *x, float *y, float *z), { vec v(*x, *y, *z); floatret(asin(v.z/v.magnitude())/RAD); });
     ICOMMAND(getclientcolorname, "i", (int *cn), { clientinfo *ci = getinfo(*cn); result(ci ? colorname(ci) : ""); });
     ICOMMAND(toclient, "is", (int *cn, const char *msg), { clientinfo *ci = (clientinfo *)getclientinfo(*cn); if(ci) sendf(ci->clientnum, 1, "ris", N_SERVMSG, msg); });
-    ICOMMAND(getclientpriv, "i", (int *cn), { clientinfo *ci = getinfo(*cn); intret(ci ? ci->privilege : PRIV_NONE); })
+    ICOMMAND(getclientpriv, "i", (int *cn), { clientinfo *ci = getinfo(*cn); intret(ci ? ci->privilege : PRIV_NONE); });
+    ICOMMAND(getmastermode, "", (), intret(mastermode));
 
     void pickupevent::process(clientinfo *ci)
     {
