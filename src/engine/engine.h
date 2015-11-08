@@ -6,6 +6,7 @@
 
 // command
 extern void checksleep(int millis);
+extern void checkasleep(int millis);
 extern void clearsleep(bool clearoverrides = true);
 
 extern hashset<ident> idents;

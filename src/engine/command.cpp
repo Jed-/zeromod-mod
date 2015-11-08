@@ -3075,6 +3075,7 @@ struct sleepcmd
     char *command;
 };
 vector<sleepcmd> sleepcmds;
+vector<sleepcmd> asleepcmds;
 
 void addsleep(int *msec, char *cmd)
 {
@@ -3084,8 +3085,17 @@ void addsleep(int *msec, char *cmd)
     s.command = newstring(cmd);
     s.flags = identflags;
 }
+void addasleep(int *msec, char *cmd)
+{
+    sleepcmd &s = asleepcmds.add();
+    s.delay = max(*msec, 1);
+    s.millis = totalmillis;
+    s.command = newstring(cmd);
+    s.flags = identflags;
+}
 
 COMMANDN(sleep, addsleep, "is");
+COMMANDN(asleep, addasleep, "is");
 
 void checksleep(int millis)
 {
@@ -3105,6 +3115,24 @@ void checksleep(int millis)
         }
     }
 }
+void checkasleep(int millis)
+{
+    loopv(asleepcmds)
+    {
+        sleepcmd &s = asleepcmds[i];
+        if(millis - s.millis >= s.delay)
+        {
+            char *cmd = s.command; // execute might create more asleep commands
+            s.command = NULL;
+            int oldflags = identflags;
+            identflags = s.flags;
+            execute(cmd);
+            identflags = oldflags;
+            delete[] cmd;
+            if(asleepcmds.inrange(i) && !asleepcmds[i].command) asleepcmds.remove(i--);
+        }
+    }
+}
 
 void clearsleep(bool clearoverrides)
 {
@@ -3116,12 +3144,27 @@ void clearsleep(bool clearoverrides)
     }
     sleepcmds.shrink(len);
 }
+void clearasleep(bool clearoverrides)
+{
+    int len = 0;
+    loopv(asleepcmds) if(asleepcmds[i].command)
+    {
+        if(clearoverrides && !(asleepcmds[i].flags&IDF_OVERRIDDEN)) asleepcmds[len++] = asleepcmds[i];
+        else delete[] asleepcmds[i].command;
+    }
+    asleepcmds.shrink(len);
+}
 
 void clearsleep_(int *clearoverrides)
 {
     clearsleep(*clearoverrides!=0 || identflags&IDF_OVERRIDDEN);
 }
+void clearasleep_(int *clearoverrides)
+{
+    clearasleep(*clearoverrides!=0 || identflags&IDF_OVERRIDDEN);
+}
 
 COMMANDN(clearsleep, clearsleep_, "i");
+COMMANDN(clearasleep, clearasleep_, "i");
 
 #endif
