@@ -320,8 +320,9 @@ namespace server
         vector<_authdomain *> authdomains;
         int lastauthdomain;
         string loginname, logindesc;
+        bool teamkilled;
 
-        clientinfo() : getdemo(NULL), getmap(NULL), clipboard(NULL), authchallenge(NULL), authkickreason(NULL), loaded(false), lastloaded(0), gender(0), logged(false), wpchosen(false), compatible(false), beerversion(0), connmillis(0), yaw(0), pitch(0), lastauthdomain(0) { reset(); }
+        clientinfo() : getdemo(NULL), getmap(NULL), clipboard(NULL), authchallenge(NULL), authkickreason(NULL), loaded(false), lastloaded(0), gender(0), logged(false), wpchosen(false), compatible(false), beerversion(0), connmillis(0), yaw(0), pitch(0), lastauthdomain(0), teamkilled(false) { reset(); }
         ~clientinfo() { events.deletecontents(); cleanclipboard(); cleanauth(); }
 
         void addevent(gameevent *e)
@@ -447,6 +448,7 @@ namespace server
             connmillis = 0;
             mapchange();
             lastauthdomain = totalmillis;
+            teamkilled = false;
         }
 
         int geteventmillis(int servmillis, int clientmillis)
@@ -3457,12 +3459,14 @@ namespace server
             }
             ////
             target->position.setsize(0);
+            target->teamkilled = false;
             if(smode) smode->died(target, actor);
             ts.state = CS_DEAD;
             ts.lastdeath = gamemillis;
             if(actor!=target && isteam(actor->team, target->team))
             {
                 actor->state.teamkills++;
+                actor->teamkilled = true;
                 sendteamkillmessage(actor);
                 target->_xi.tkiller = actor;
                 addteamkill(actor, target, 1);
