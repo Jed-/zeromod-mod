@@ -137,6 +137,7 @@ parsesrv(char *cmd) {
 
 int
 main(int argc, char *argv[]) {
+	fprintf(stdout, "IRC_STARTED\n");
 	int i, c;
 	struct timeval tv;
 	const char *user = getenv("USER");
